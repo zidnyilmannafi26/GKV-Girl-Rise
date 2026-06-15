@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Scenario2Screen extends StatefulWidget {
-  const Scenario2Screen({super.key});
+class Scenario2IntroScreen extends StatefulWidget {
+  const Scenario2IntroScreen({super.key});
 
   @override
-  State<Scenario2Screen> createState() => _Scenario2ScreenState();
+  State<Scenario2IntroScreen> createState() => _Scenario2IntroScreenState();
 }
 
-class _Scenario2ScreenState extends State<Scenario2Screen> {
+class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
   int _currentStep = 0;
 
   void _nextStep() {
@@ -336,7 +336,7 @@ class _Scenario2ScreenState extends State<Scenario2Screen> {
             SizedBox(height: 14.0 * scale),
             _buildDialogueLine('Ayah', '"Ayah juga lagi bingung. Pendapatan sekarang makin nggak cukup."', scale),
             SizedBox(height: 14.0 * scale),
-            _buildDialogueLine('Ibu', '"Kasihan dia... sebenernya pengen terus sekolah. Tapi kasihan juga adik-adiknya"', scale),
+            _buildDialogueLine('Ibu', '"Kasihan dia... sebenernya pengen terus sekolah. Tapi kasihan juga adik-adipnya"', scale),
             SizedBox(height: 14.0 * scale),
             _buildDialogueLine('Ayah', '"Kadang Ayah kepikiran... kalau ada yang mau serius sama dia, mungkin hidupnya bisa lebih terjamin."', scale),
           ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../scenario_1/scenario_1_screen.dart';
-import '../scenario_2/scenario_2_screen.dart';
+import '../scenario_2/intro/scenario_2_intro_screen.dart';
 
 class ScenarioSelectionScreen extends StatelessWidget {
   const ScenarioSelectionScreen({super.key});
@@ -125,7 +125,7 @@ class ScenarioSelectionScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => const Scenario2Screen(),
+                        builder: (context) => const Scenario2IntroScreen(),
                       ),
                     );
                   },
