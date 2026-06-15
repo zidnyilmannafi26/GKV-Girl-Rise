@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'scenario_selection_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -107,7 +108,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 // Tap to Start Button
                 GestureDetector(
                   onTap: () {
-                    // TODO: Navigate to Story Screen
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const ScenarioSelectionScreen(),
+                      ),
+                    );
                   },
                   child: FadeTransition(
                     opacity: _animation,
