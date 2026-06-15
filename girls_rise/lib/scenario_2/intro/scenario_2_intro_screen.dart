@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../case_1/part_1/part_1_screen.dart';
 
 class Scenario2IntroScreen extends StatefulWidget {
   const Scenario2IntroScreen({super.key});
@@ -18,38 +19,9 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
         _currentStep++;
       });
     } else {
-      // TODO: Skenario 2 Gameplay / Next scene
-      // Show coming soon dialog and return to scenario selection
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          backgroundColor: const Color(0xFFFDF7F0),
-          title: Text(
-            'Skenario 2',
-            style: GoogleFonts.playfairDisplay(
-              fontWeight: FontWeight.bold,
-              color: const Color(0xFF765E54),
-            ),
-          ),
-          content: Text(
-            'Cerita Skenario 2 akan segera berlanjut!',
-            style: GoogleFonts.poppins(color: const Color(0xFF765E54)),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // dismiss dialog
-                Navigator.of(context).pop(); // return to scenario selection
-              },
-              child: Text(
-                'OK',
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFFB59D93),
-                ),
-              ),
-            ),
-          ],
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const Part1Screen(),
         ),
       );
     }
@@ -137,7 +109,7 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
               left: _currentStep == 0
                   ? offsetX + 40.0 * scale
                   : (_currentStep == 1 ? offsetX + 15.0 * scale : -350.0 * scale),
-              bottom: offsetY,
+              bottom: -50.0 * scale,
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 500),
                 opacity: _currentStep == 2 ? 0.0 : 1.0,
@@ -164,7 +136,7 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
               left: _currentStep == 0
                   ? offsetX + 130.0 * scale
                   : (_currentStep == 1 ? offsetX + (designWidth - 200.0) * scale : screenWidth + 100.0 * scale),
-              bottom: offsetY,
+              bottom: -50.0 * scale,
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 500),
                 opacity: _currentStep == 2 ? 0.0 : 1.0,

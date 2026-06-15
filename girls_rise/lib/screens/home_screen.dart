@@ -110,6 +110,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
+                        settings: const RouteSettings(name: '/selection'),
                         builder: (context) => const ScenarioSelectionScreen(),
                       ),
                     );
