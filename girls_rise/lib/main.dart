@@ -5,11 +5,13 @@ import 'screens/home_screen.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Enforce landscape orientation
+  // Enforce landscape orientation and enable fullscreen immersive mode
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
-  ]).then((_) {
+  ]);
+  
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky).then((_) {
     runApp(const GirlRiseApp());
   });
 }
