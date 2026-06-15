@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:girls_rise/widgets/reflection_text_box.dart';
 
 class Part4Choose1Screen extends StatefulWidget {
   const Part4Choose1Screen({super.key});
@@ -50,57 +50,6 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
     );
   }
 
-  Widget _buildTextContent(double scale) {
-    return SizedBox(
-      width: double.infinity,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Small Dialogue Quote Box (form 4.svg)
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              SvgPicture.asset(
-                'assets/text_Box/form 4.svg',
-                width: 273.0 * scale,
-                height: 61.0 * scale,
-                fit: BoxFit.fill,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0 * scale, vertical: 8.0 * scale),
-                child: Text(
-                  '“Aku masih pengen sekolah dan ngejar cita-cita.”',
-                  style: GoogleFonts.lora(
-                    fontSize: 11.5 * scale,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF765E54),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 12.0 * scale),
-          // Reflection Text
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0 * scale),
-            child: Text(
-              'Orangtuamu mungkin merasa bingung dan makin khawatir soal kondisi ekonomi, tapi kamu masih mencoba mempertahankan mimpimu sendiri.',
-              style: GoogleFonts.lora(
-                fontSize: 12.0 * scale,
-                height: 1.4,
-                color: const Color(0xFF765E54),
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -119,9 +68,6 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
     final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 
-    final double textboxWidth = 303.5 * scale;
-    final double textboxHeight = 225.9 * scale;
-
     return Scaffold(
       body: GestureDetector(
         onTap: _nextStep,
@@ -136,7 +82,7 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
               ),
             ),
 
-             // Character (Right side - Enlarged and anchored to bottom-right edge)
+            // Character (Right side - Enlarged and anchored to bottom-right edge)
             Positioned(
               right: offsetX - 20.0 * scale,
               bottom: -70.0 * scale,
@@ -148,58 +94,17 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
               ),
             ),
 
-            // Textbox (Left side)
+            // Reflection Text Box (Left side)
             Positioned(
               left: offsetX + 100.0 * scale,
               top: offsetY + 126.9 * scale,
-              width: textboxWidth,
-              height: textboxHeight,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  // Textbox SVG with offset
-                  Positioned(
-                    left: -textboxWidth * (99.25 / 478.40),
-                    top: -textboxHeight * (103.62 / 229.59),
-                    width: textboxWidth * (628.0 / 478.40),
-                    height: textboxHeight * (372.0 / 229.59),
-                    child: IgnorePointer(
-                      child: SvgPicture.asset(
-                        'assets/text_Box/form 3.svg',
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-
-                  // Text Content
-                  Positioned.fill(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                        15.0 * scale,
-                        35.0 * scale,
-                        15.0 * scale,
-                        20.0 * scale,
-                      ),
-                      child: SingleChildScrollView(
-                        child: _buildTextContent(scale),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Dialogue Header Tab SVG (Placed after Textbox so it renders on top)
-            Positioned(
-              left: offsetX + 118.0 * scale,
-              top: offsetY + 79.9 * scale,
-              width: 255.0 * scale,
-              height: 52.0 * scale,
-              child: IgnorePointer(
-                child: SvgPicture.asset(
-                  'assets/text_Box/REFLECTION.svg',
-                  fit: BoxFit.contain,
-                ),
+              width: 303.5 * scale,
+              height: 225.9 * scale,
+              child: ReflectionTextBox(
+                scale: scale,
+                headerTabAsset: 'assets/text_Box/REFLECTION.svg',
+                quoteText: '“Aku masih pengen sekolah dan ngejar cita-cita.”',
+                reflectionText: 'Orangtuamu mungkin merasa bingung dan makin khawatir soal kondisi ekonomi, tapi kamu masih mencoba mempertahankan mimpimu sendiri.',
               ),
             ),
 

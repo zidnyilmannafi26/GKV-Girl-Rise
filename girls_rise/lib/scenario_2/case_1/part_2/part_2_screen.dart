@@ -78,7 +78,7 @@ class _Part2ScreenState extends State<Part2Screen> {
     final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 
     final double boxWidth = 700.0 * scale;
-    final double boxHeight = 132.0 * scale;
+    final double boxHeight = 141.0 * scale;
 
     return Scaffold(
       body: GestureDetector(
@@ -94,11 +94,10 @@ class _Part2ScreenState extends State<Part2Screen> {
               ),
             ),
 
-            // Characters
             // Bapak Marah (Angry Father)
             Positioned(
               left: offsetX + 284.0 * scale,
-              bottom: offsetY + 50.0 * scale,
+              bottom: offsetY + 59.0 * scale,
               height: 318.0 * scale,
               child: Image.asset(
                 'assets/images/bapak.marah.png',
@@ -109,7 +108,7 @@ class _Part2ScreenState extends State<Part2Screen> {
             // Ibu Marah Bawah (Angry Mother Lower)
             Positioned(
               left: offsetX + 425.662 * scale,
-              bottom: offsetY + 50.0 * scale,
+              bottom: offsetY + 59.0 * scale,
               height: 318.0 * scale,
               child: Image.asset(
                 'assets/images/ibu.marah.bawah.png',
@@ -120,7 +119,7 @@ class _Part2ScreenState extends State<Part2Screen> {
             // Textbox Container
             Positioned(
               left: offsetX + 87.0 * scale,
-              top: offsetY + 270.0 * scale,
+              top: offsetY + 261.0 * scale,
               width: boxWidth,
               height: boxHeight,
               child: Stack(
@@ -170,7 +169,7 @@ class _Part2ScreenState extends State<Part2Screen> {
             // Overlapping "Obrolan tak terduga" Header Tab SVG (Placed after Textbox so it renders on top)
             Positioned(
               left: offsetX + 111.0 * scale,
-              top: offsetY + 226.0 * scale,
+              top: offsetY + 217.0 * scale,
               width: 327.0 * scale,
               height: 49.0 * scale,
               child: IgnorePointer(
