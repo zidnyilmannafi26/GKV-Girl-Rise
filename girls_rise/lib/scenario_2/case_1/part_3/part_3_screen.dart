@@ -41,10 +41,10 @@ class Part3Screen extends StatelessWidget {
 
           // Character (Center)
           Positioned(
-            left: offsetX + 287.0 * scale,
-            bottom: offsetY + 50.0 * scale,
-            width: 300.0 * scale,
-            height: 350.0 * scale,
+            left: 0,
+            right: 0,
+            bottom: offsetY + 40.0 * scale,
+            height: 380.0 * scale,
             child: Image.asset(
               'assets/images/extracted_intro3.png',
               fit: BoxFit.contain,
