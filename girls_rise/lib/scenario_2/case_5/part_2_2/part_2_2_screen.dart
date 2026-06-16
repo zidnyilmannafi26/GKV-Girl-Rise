@@ -4,14 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import '../part_3/part_3_screen.dart';
 
-class Part2Screen extends StatefulWidget {
-  const Part2Screen({super.key});
+class Part22Screen extends StatefulWidget {
+  const Part22Screen({super.key});
 
   @override
-  State<Part2Screen> createState() => _Part2ScreenState();
+  State<Part22Screen> createState() => _Part22ScreenState();
 }
 
-class _Part2ScreenState extends State<Part2Screen> {
+class _Part22ScreenState extends State<Part22Screen> {
   void _handleTap() {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -28,7 +28,7 @@ class _Part2ScreenState extends State<Part2Screen> {
           height: 1.5,
           color: const Color(0xFF765E54),
         ),
-        text: 'Salah satu temanmu akhirnya menyadari sikapmu yang diam saja bahkan sejak beberapa hari yang lalu. Ia bertanya apakah kamu sedang ada masalah dan berkata siap mendengarkan bila kamu ingin cerita. Kamu bingung dengan kondisi yang serba salah ini. Bagaimana sikap yang kamu ambil?',
+        text: 'Mendengar percakapan, atau lebih tepatnya permintaan mereka, kamu dilanda kebingungan. Di satu sisi, kamu tahu keluargamu sedang kesulitan. Namun di sisi lain, rasanya mimpimu diminta berhenti sebelum benar-benar dimulai. Di titik ini, akhirnya kamu harus memutuskan pilihan yang cukup besar dalam hidupmu.',
       ),
     );
   }
@@ -60,7 +60,7 @@ class _Part2ScreenState extends State<Part2Screen> {
             // Background image
             Positioned.fill(
               child: Image.asset(
-                'assets/images/bg2.2.png',
+                'assets/images/bg2.5.png',
                 fit: BoxFit.cover,
               ),
             ),
@@ -69,10 +69,10 @@ class _Part2ScreenState extends State<Part2Screen> {
             Positioned(
               left: 0,
               right: 0,
-              bottom: offsetY + 90.0 * scale,
-              height: 320.0 * scale,
+              bottom: offsetY + 45.0 * scale,
+              height: 330.0 * scale,
               child: Image.asset(
-                'assets/images/cewe.marah.png',
+                'assets/images/cewe.nangis.png',
                 fit: BoxFit.contain,
               ),
             ),
@@ -87,7 +87,7 @@ class _Part2ScreenState extends State<Part2Screen> {
                 scale: scale,
                 width: 700.0,
                 height: 141.0,
-                headerTabAsset: 'assets/text_Box/Tempat Untuk didengar.svg',
+                headerTabAsset: 'assets/text_Box/Persimpangan masa depan.svg',
                 headerTabWidth: 327.0,
                 headerTabHeight: 49.0,
                 headerTabLeft: 24.0,

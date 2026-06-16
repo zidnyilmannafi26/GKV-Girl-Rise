@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/reflection_text_box.dart';
-import '../../case_5/part_1/part_1_screen.dart';
 
 class Part4Choose1Screen extends StatefulWidget {
   const Part4Choose1Screen({super.key});
@@ -13,9 +12,40 @@ class Part4Choose1Screen extends StatefulWidget {
 
 class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
   void _nextStep() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const Part1Screen(),
+    _showCompletionDialog();
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFFFDF7F0),
+        title: Text(
+          'Skenario 2 Selesai',
+          style: GoogleFonts.playfairDisplay(
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF765E54),
+          ),
+        ),
+        content: Text(
+          'Cerita Skenario 2 bagian ini telah selesai. Pilihlah skenario lain untuk melihat akhir cerita yang berbeda!',
+          style: GoogleFonts.poppins(color: const Color(0xFF765E54)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).popUntil((route) => route.settings.name == '/selection');
+            },
+            child: Text(
+              'OK',
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFFB59D93),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -47,12 +77,12 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
             // Background Image
             Positioned.fill(
               child: Image.asset(
-                'assets/images/bg2.2.png',
+                'assets/images/bg2.5.png',
                 fit: BoxFit.cover,
               ),
             ),
 
-            // Character (Right side - Enlarged and anchored to bottom edge)
+            // Character (Right side)
             Positioned(
               right: offsetX + 75.0 * scale,
               bottom: -40.0 * scale,
@@ -72,8 +102,8 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
               child: ReflectionTextBox(
                 scale: scale,
                 headerTabAsset: 'assets/text_Box/REFLECTION.svg',
-                quoteText: 'Mulai bercerita kepada teman tentang keadaan di rumah.',
-                reflectionText: 'Kamu akhirnya menceritakan sebagian kecil dari apa yang selama ini kamu pendam. Meski belum ada solusi yang pasti, setidaknya beban pikiranmu jadi sedikit lebih ringan.',
+                quoteText: 'Mengiyakan keputusan keluarga.',
+                reflectionText: 'Dengan berat hati, kamu menerima keputusan orang tuamu demi meringankan beban mereka. Langkah ini terasa sangat berat, karena kamu sadar bahwa impianmu untuk bersekolah harus dikesampingkan demi kelangsungan hidup keluarga.',
               ),
             ),
 

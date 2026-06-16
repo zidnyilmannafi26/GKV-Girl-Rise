@@ -2,20 +2,20 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
-import '../part_3/part_3_screen.dart';
+import '../part_2/part_2_screen.dart';
 
-class Part2Screen extends StatefulWidget {
-  const Part2Screen({super.key});
+class Part1Screen extends StatefulWidget {
+  const Part1Screen({super.key});
 
   @override
-  State<Part2Screen> createState() => _Part2ScreenState();
+  State<Part1Screen> createState() => _Part1ScreenState();
 }
 
-class _Part2ScreenState extends State<Part2Screen> {
+class _Part1ScreenState extends State<Part1Screen> {
   void _handleTap() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const Part3Screen(),
+        builder: (context) => const Part2Screen(),
       ),
     );
   }
@@ -28,7 +28,7 @@ class _Part2ScreenState extends State<Part2Screen> {
           height: 1.5,
           color: const Color(0xFF765E54),
         ),
-        text: 'Salah satu temanmu akhirnya menyadari sikapmu yang diam saja bahkan sejak beberapa hari yang lalu. Ia bertanya apakah kamu sedang ada masalah dan berkata siap mendengarkan bila kamu ingin cerita. Kamu bingung dengan kondisi yang serba salah ini. Bagaimana sikap yang kamu ambil?',
+        text: 'Dua bulan berlalu, keadaan di rumah semakin sulit. Ayahmu mulai jarang bekerja sejak kondisi kesehatannya menurun. Sementara itu, biaya hidup terus berjalan, dan adikmu akan segera masuk sekolah dalam waktu dekat. Malam itu, setelah makan malam selesai, ayah memanggilmu untuk duduk di ruang tengah. Wajah kedua orang tuamu terlihat lebih lelah dari biasanya.',
       ),
     );
   }
@@ -60,24 +60,34 @@ class _Part2ScreenState extends State<Part2Screen> {
             // Background image
             Positioned.fill(
               child: Image.asset(
-                'assets/images/bg2.2.png',
+                'assets/images/bg2.5.png',
                 fit: BoxFit.cover,
               ),
             ),
 
-            // Character
+            // Bapak (Father)
             Positioned(
-              left: 0,
-              right: 0,
-              bottom: offsetY + 90.0 * scale,
-              height: 320.0 * scale,
+              left: offsetX + 293.0 * scale,
+              bottom: offsetY + 59.0 * scale,
+              height: 318.0 * scale,
               child: Image.asset(
-                'assets/images/cewe.marah.png',
+                'assets/images/bapak.png',
                 fit: BoxFit.contain,
               ),
             ),
 
-            // Dialogue Text Box
+            // Ibu (Mother)
+            Positioned(
+              left: offsetX + 438.99 * scale,
+              bottom: offsetY + 59.0 * scale,
+              height: 318.0 * scale,
+              child: Image.asset(
+                'assets/images/ibu.png',
+                fit: BoxFit.contain,
+              ),
+            ),
+
+            // Dialogue Text Box (includes background framing and header tab overlay)
             Positioned(
               left: offsetX + 87.0 * scale,
               top: offsetY + 261.0 * scale,
@@ -87,7 +97,7 @@ class _Part2ScreenState extends State<Part2Screen> {
                 scale: scale,
                 width: 700.0,
                 height: 141.0,
-                headerTabAsset: 'assets/text_Box/Tempat Untuk didengar.svg',
+                headerTabAsset: 'assets/text_Box/Persimpangan masa depan.svg',
                 headerTabWidth: 327.0,
                 headerTabHeight: 49.0,
                 headerTabLeft: 24.0,

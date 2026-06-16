@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
-import '../part_3/part_3_screen.dart';
+import '../part_2_1/part_2_1_screen.dart';
 
 class Part2Screen extends StatefulWidget {
   const Part2Screen({super.key});
@@ -15,12 +15,12 @@ class _Part2ScreenState extends State<Part2Screen> {
   void _handleTap() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const Part3Screen(),
+        builder: (context) => const Part21Screen(),
       ),
     );
   }
 
-  Widget _buildDialogueContent(double scale) {
+  Widget _buildDialogueLine(String speaker, String text, double scale) {
     return RichText(
       text: TextSpan(
         style: GoogleFonts.lora(
@@ -28,8 +28,34 @@ class _Part2ScreenState extends State<Part2Screen> {
           height: 1.5,
           color: const Color(0xFF765E54),
         ),
-        text: 'Salah satu temanmu akhirnya menyadari sikapmu yang diam saja bahkan sejak beberapa hari yang lalu. Ia bertanya apakah kamu sedang ada masalah dan berkata siap mendengarkan bila kamu ingin cerita. Kamu bingung dengan kondisi yang serba salah ini. Bagaimana sikap yang kamu ambil?',
+        children: [
+          TextSpan(
+            text: '$speaker: ',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(text: text),
+        ],
       ),
+    );
+  }
+
+  Widget _buildDialogueContent(double scale) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildDialogueLine(
+          'Ayah',
+          'Ayah udah nggak sekuat dulu… Sebentar lagi adikmu juga mulai masuk sekolah. Biayanya pasti tambah banyak. Ayah cuma mikir… mungkin kamu bisa mulai ngalah sedikit demi keluarga.',
+          scale,
+        ),
+        SizedBox(height: 12.0 * scale),
+        _buildDialogueLine(
+          'Ibu',
+          'Kami cuma nggak mau kamu ikut susah terus.',
+          scale,
+        ),
+      ],
     );
   }
 
@@ -60,19 +86,29 @@ class _Part2ScreenState extends State<Part2Screen> {
             // Background image
             Positioned.fill(
               child: Image.asset(
-                'assets/images/bg2.2.png',
+                'assets/images/bg2.5.png',
                 fit: BoxFit.cover,
               ),
             ),
 
-            // Character
+            // Bapak Marah
             Positioned(
-              left: 0,
-              right: 0,
-              bottom: offsetY + 90.0 * scale,
-              height: 320.0 * scale,
+              left: offsetX + 284.0 * scale,
+              bottom: offsetY + 59.0 * scale,
+              height: 318.0 * scale,
               child: Image.asset(
-                'assets/images/cewe.marah.png',
+                'assets/images/bapak.marah.png',
+                fit: BoxFit.contain,
+              ),
+            ),
+
+            // Ibu Marah Bawah
+            Positioned(
+              left: offsetX + 425.662 * scale,
+              bottom: offsetY + 59.0 * scale,
+              height: 318.0 * scale,
+              child: Image.asset(
+                'assets/images/ibu.marah.bawah.png',
                 fit: BoxFit.contain,
               ),
             ),
@@ -87,7 +123,7 @@ class _Part2ScreenState extends State<Part2Screen> {
                 scale: scale,
                 width: 700.0,
                 height: 141.0,
-                headerTabAsset: 'assets/text_Box/Tempat Untuk didengar.svg',
+                headerTabAsset: 'assets/text_Box/Persimpangan masa depan.svg',
                 headerTabWidth: 327.0,
                 headerTabHeight: 49.0,
                 headerTabLeft: 24.0,

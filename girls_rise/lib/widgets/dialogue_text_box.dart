@@ -14,6 +14,7 @@ class DialogueTextBox extends StatefulWidget {
   final double headerTabHeight;
   final double headerTabLeft;
   final double headerTabTop;
+  final String? bgSvgAsset;
 
   const DialogueTextBox({
     required this.scale,
@@ -26,6 +27,7 @@ class DialogueTextBox extends StatefulWidget {
     this.headerTabHeight = 49.0,
     this.headerTabLeft = 24.0,
     this.headerTabTop = -44.0,
+    this.bgSvgAsset,
     super.key,
   });
 
@@ -77,18 +79,30 @@ class _DialogueTextBoxState extends State<DialogueTextBox> with SingleTickerProv
     final double boxWidth = widget.width * widget.scale;
     final double boxHeight = widget.height * widget.scale;
 
+    final String selectedBgSvg = widget.bgSvgAsset ??
+        ((widget.width / widget.height > 3.0)
+            ? 'assets/text_Box/form 5.svg'
+            : 'assets/text_Box/form 3.svg');
+
+    final bool isForm5 = selectedBgSvg == 'assets/text_Box/form 5.svg';
+
+    final double bgLeft = isForm5 ? 0.0 : -boxWidth * (99.25 / 478.40);
+    final double bgTop = isForm5 ? -boxHeight * (37.0 / 132.0) : -boxHeight * (103.62 / 229.59);
+    final double bgWidth = isForm5 ? boxWidth : boxWidth * (628.0 / 478.40);
+    final double bgHeight = isForm5 ? boxHeight * (169.0 / 132.0) : boxHeight * (372.0 / 229.59);
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        // Background Framing SVG (form 3.svg)
+        // Background Framing SVG
         Positioned(
-          left: -boxWidth * (99.25 / 478.40),
-          top: -boxHeight * (103.62 / 229.59),
-          width: boxWidth * (628.0 / 478.40),
-          height: boxHeight * (372.0 / 229.59),
+          left: bgLeft,
+          top: bgTop,
+          width: bgWidth,
+          height: bgHeight,
           child: IgnorePointer(
             child: SvgPicture.asset(
-              'assets/text_Box/form 3.svg',
+              selectedBgSvg,
               fit: BoxFit.fill,
             ),
           ),

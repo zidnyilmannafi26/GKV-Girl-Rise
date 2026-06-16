@@ -7,26 +7,29 @@ class ChoiceTextBox extends StatelessWidget {
   final double scale;
   final String headerTabAsset;
   final String choice1Text;
-  final String choice2Text;
-  final String choice3Text;
+  final String? choice2Text;
+  final String? choice3Text;
   final VoidCallback onChoice1Tap;
-  final VoidCallback onChoice2Tap;
-  final VoidCallback onChoice3Tap;
+  final VoidCallback? onChoice2Tap;
+  final VoidCallback? onChoice3Tap;
 
   const ChoiceTextBox({
     required this.scale,
     required this.headerTabAsset,
     required this.choice1Text,
-    required this.choice2Text,
-    required this.choice3Text,
+    this.choice2Text,
+    this.choice3Text,
     required this.onChoice1Tap,
-    required this.onChoice2Tap,
-    required this.onChoice3Tap,
+    this.onChoice2Tap,
+    this.onChoice3Tap,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    final showChoice2 = choice2Text != null && onChoice2Tap != null && choice2Text!.isNotEmpty;
+    final showChoice3 = choice3Text != null && onChoice3Tap != null && choice3Text!.isNotEmpty;
+
     return DialogueTextBox(
       scale: scale,
       width: 700.0,
@@ -53,20 +56,24 @@ class ChoiceTextBox extends StatelessWidget {
                 scale: scale,
                 onTap: onChoice1Tap,
               ),
-              SizedBox(width: 16.0 * scale),
-              ChoiceButton(
-                text: choice3Text,
-                scale: scale,
-                onTap: onChoice3Tap,
-              ),
+              if (showChoice3) ...[
+                SizedBox(width: 16.0 * scale),
+                ChoiceButton(
+                  text: choice3Text!,
+                  scale: scale,
+                  onTap: onChoice3Tap!,
+                ),
+              ],
             ],
           ),
-          SizedBox(height: 10.0 * scale),
-          ChoiceButton(
-            text: choice2Text,
-            scale: scale,
-            onTap: onChoice2Tap,
-          ),
+          if (showChoice2) ...[
+            SizedBox(height: 10.0 * scale),
+            ChoiceButton(
+              text: choice2Text!,
+              scale: scale,
+              onTap: onChoice2Tap!,
+            ),
+          ],
         ],
       ),
     );
