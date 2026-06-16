@@ -110,7 +110,7 @@ class ScenarioSelectionScreen extends StatelessWidget {
               children: [
                 // Scenario 1 Card
                 InteractiveScenarioCard(
-                  imagePath: 'assets/images/scenario1.svg',
+                  imagePath: 'assets/images/Scenario_1.png',
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -122,7 +122,7 @@ class ScenarioSelectionScreen extends StatelessWidget {
                 const SizedBox(width: 30),
                 // Scenario 2 Card
                 InteractiveScenarioCard(
-                  imagePath: 'assets/images/scenario2.svg',
+                  imagePath: 'assets/images/Scenario_2.png',
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(

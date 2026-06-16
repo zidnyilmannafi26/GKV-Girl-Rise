@@ -36,6 +36,7 @@ class DialogueTextBox extends StatefulWidget {
 class _DialogueTextBoxState extends State<DialogueTextBox> with SingleTickerProviderStateMixin {
   late final AnimationController _animController;
   late final Animation<double> _bounceAnim;
+  bool _canScroll = false;
 
   @override
   void initState() {
@@ -54,6 +55,21 @@ class _DialogueTextBoxState extends State<DialogueTextBox> with SingleTickerProv
   void dispose() {
     _animController.dispose();
     super.dispose();
+  }
+
+  bool _handleScrollNotification(ScrollMetrics metrics) {
+    // Show the indicator if we can scroll and haven't reached the bottom
+    final canScroll = metrics.maxScrollExtent > 0 && metrics.pixels < metrics.maxScrollExtent - 2.0;
+    if (_canScroll != canScroll) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            _canScroll = canScroll;
+          });
+        }
+      });
+    }
+    return false;
   }
 
   @override
@@ -87,30 +103,43 @@ class _DialogueTextBoxState extends State<DialogueTextBox> with SingleTickerProv
               35.0 * widget.scale,
               25.0 * widget.scale, // increased bottom padding to avoid overlapping the indicator
             ),
-            child: widget.child,
+            child: NotificationListener<ScrollMetricsNotification>(
+              onNotification: (notification) {
+                _handleScrollNotification(notification.metrics);
+                return false;
+              },
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (notification) {
+                  _handleScrollNotification(notification.metrics);
+                  return false;
+                },
+                child: widget.child,
+              ),
+            ),
           ),
         ),
 
         // Scroll/Continue Indicator (Bouncing Triangle)
-        Positioned(
-          bottom: 10.0 * widget.scale,
-          right: 35.0 * widget.scale,
-          child: IgnorePointer(
-            child: AnimatedBuilder(
-              animation: _bounceAnim,
-              builder: (context, child) {
-                return Transform.translate(
-                  offset: Offset(0, _bounceAnim.value),
-                  child: Icon(
-                    Icons.arrow_drop_down,
-                    color: const Color(0xFF765E54),
-                    size: 26.0 * widget.scale,
-                  ),
-                );
-              },
+        if (_canScroll)
+          Positioned(
+            bottom: 10.0 * widget.scale,
+            right: 35.0 * widget.scale,
+            child: IgnorePointer(
+              child: AnimatedBuilder(
+                animation: _bounceAnim,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(0, _bounceAnim.value),
+                    child: Icon(
+                      Icons.arrow_drop_down,
+                      color: const Color(0xFF765E54),
+                      size: 26.0 * widget.scale,
+                    ),
+                  );
+                },
+              ),
             ),
           ),
-        ),
 
         // Optional Dialogue Header Tab SVG
         if (widget.headerTabAsset != null)
