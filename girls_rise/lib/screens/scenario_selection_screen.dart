@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../scenario_1/scenario_1_screen.dart';
 import '../scenario_2/intro/scenario_2_intro_screen.dart';
 
@@ -109,7 +110,7 @@ class ScenarioSelectionScreen extends StatelessWidget {
               children: [
                 // Scenario 1 Card
                 InteractiveScenarioCard(
-                  imagePath: 'assets/images/Scenario_1.png',
+                  imagePath: 'assets/images/scenario1.svg',
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -121,7 +122,7 @@ class ScenarioSelectionScreen extends StatelessWidget {
                 const SizedBox(width: 30),
                 // Scenario 2 Card
                 InteractiveScenarioCard(
-                  imagePath: 'assets/images/Scenario_2.png',
+                  imagePath: 'assets/images/scenario2.svg',
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -167,6 +168,8 @@ class _InteractiveScenarioCardState extends State<InteractiveScenarioCard> {
       scale = 1.05;
     }
 
+    final isSvg = widget.imagePath.toLowerCase().endsWith('.svg');
+
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
@@ -181,10 +184,15 @@ class _InteractiveScenarioCardState extends State<InteractiveScenarioCard> {
           curve: Curves.easeOutCubic,
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.72,
-            child: Image.asset(
-              widget.imagePath,
-              fit: BoxFit.contain,
-            ),
+            child: isSvg
+                ? SvgPicture.asset(
+                    widget.imagePath,
+                    fit: BoxFit.contain,
+                  )
+                : Image.asset(
+                    widget.imagePath,
+                    fit: BoxFit.contain,
+                  ),
           ),
         ),
       ),
