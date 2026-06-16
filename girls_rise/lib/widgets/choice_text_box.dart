@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:girls_rise/widgets/dialogue_text_box.dart';
 
 class ChoiceTextBox extends StatelessWidget {
   final double scale;
@@ -26,76 +27,48 @@ class ChoiceTextBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        // Background Framing SVG (form 3.svg)
-        Positioned(
-          left: -700.0 * scale * (99.25 / 478.40),
-          top: -141.0 * scale * (103.62 / 229.59),
-          width: 700.0 * scale * (628.0 / 478.40),
-          height: 141.0 * scale * (372.0 / 229.59),
-          child: IgnorePointer(
-            child: SvgPicture.asset(
-              'assets/text_Box/form 3.svg',
-              fit: BoxFit.fill,
-            ),
+    return DialogueTextBox(
+      scale: scale,
+      width: 700.0,
+      height: 141.0,
+      headerTabAsset: headerTabAsset,
+      headerTabWidth: 184.0,
+      headerTabHeight: 49.0,
+      headerTabLeft: 24.0,
+      headerTabTop: -44.0,
+      contentPadding: EdgeInsets.fromLTRB(
+        15.0 * scale,
+        4.0 * scale,
+        15.0 * scale,
+        4.0 * scale,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ChoiceButton(
+                text: choice1Text,
+                scale: scale,
+                onTap: onChoice1Tap,
+              ),
+              SizedBox(width: 16.0 * scale),
+              ChoiceButton(
+                text: choice3Text,
+                scale: scale,
+                onTap: onChoice3Tap,
+              ),
+            ],
           ),
-        ),
-
-        // Interactive Choices arranged in 2 rows
-        Positioned.fill(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-              15.0 * scale,
-              4.0 * scale,
-              15.0 * scale,
-              4.0 * scale,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ChoiceButton(
-                      text: choice1Text,
-                      scale: scale,
-                      onTap: onChoice1Tap,
-                    ),
-                    SizedBox(width: 16.0 * scale),
-                    ChoiceButton(
-                      text: choice3Text,
-                      scale: scale,
-                      onTap: onChoice3Tap,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10.0 * scale),
-                ChoiceButton(
-                  text: choice2Text,
-                  scale: scale,
-                  onTap: onChoice2Tap,
-                ),
-              ],
-            ),
+          SizedBox(height: 10.0 * scale),
+          ChoiceButton(
+            text: choice2Text,
+            scale: scale,
+            onTap: onChoice2Tap,
           ),
-        ),
-
-        // Dialogue Header Tab SVG (Positioned on top of the textbox relative to its top-left corner)
-        Positioned(
-          left: 24.0 * scale,
-          top: -44.0 * scale,
-          width: 184.0 * scale,
-          height: 49.0 * scale,
-          child: IgnorePointer(
-            child: SvgPicture.asset(
-              headerTabAsset,
-              fit: BoxFit.contain,
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

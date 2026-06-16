@@ -57,13 +57,24 @@ final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 ### 3. Stack Ordering for SVGs
 - **Rule**: SVG header tabs (such as `OUTCOME.svg`, `REFLECTION.svg`, `Obrolan tak terduga.svg`) must be declared **after** the textbox containers in the Stack list. Otherwise, the textbox borders will overlap and cover them.
 
+### 4. Header Tab ("Kepala") Selection Rule
+- **Rule (CRITICAL FOR AI)**: Whenever creating or editing screens that use `DialogueTextBox` or its variants (`ChoiceTextBox`, `ReflectionTextBox`), the AI **MUST ALWAYS ASK the user** which header tab SVG (referred to as the "kepala" of the dialogue box, e.g., `STORY.svg`, `Obrolan tak terduga.svg`, `OUTCOME.svg`, `REFLECTION.svg`, custom titles, or none) should be used. Do not assume or pick one automatically.
+
 ---
 
 ## 3. Reusable Modular Components
 
-We extracted the core layout boxes into standalone widgets under `lib/widgets/` to avoid boilerplate and maintain layout consistency.
+We extracted the core layout boxes into standalone widgets under `lib/widgets/` to avoid boilerplate and maintain layout consistency. All dialogue components build on top of a common base dialogue widget.
 
-### 1. ChoiceTextBox
+### 1. DialogueTextBox (Base Widget)
+Located at [dialogue_text_box.dart](file:///c:/Project/GKV-Girl-Rise/girls_rise/lib/widgets/dialogue_text_box.dart).
+- **Purpose**: A generic base container that wraps the cream `form 3.svg` layout and handles its sizing, alignment, padding, and optional header tab SVG position.
+- **Features**:
+  - Handles the background framing offset math internally so the active content matches Figma design specs.
+  - Places the dialogue header tab (`headerTabAsset`) on top with custom positioning.
+  - Sizing is scaled dynamically by passing the `scale` value.
+
+### 2. ChoiceTextBox
 Located at [choice_text_box.dart](file:///c:/Project/GKV-Girl-Rise/girls_rise/lib/widgets/choice_text_box.dart).
 - **Purpose**: Displays the outcome choice boxes in branching screens (e.g. Part 3).
 - **Features**: 
@@ -73,14 +84,14 @@ Located at [choice_text_box.dart](file:///c:/Project/GKV-Girl-Rise/girls_rise/li
   - Handles scale-down hover/press animation on choice buttons.
   - Padding (horizontal `12.0 * scale`) and font size (`10.5 * scale`, Lora) are optimized to wrap long dialogue texts beautifully on two lines.
 
-### 2. ReflectionTextBox
+### 3. ReflectionTextBox
 Located at [reflection_text_box.dart](file:///c:/Project/GKV-Girl-Rise/girls_rise/lib/widgets/reflection_text_box.dart).
 - **Purpose**: Displays the selected choice quote box and reflection narrative text in Choose outcomes screens (Part 4).
 - **Features**:
   - Standardized float width (`303.5 * scale`) and height (`225.9 * scale`).
   - Automatically loads the header tab SVG (like `REFLECTION.svg`) on top.
   - High-aligns the content (top padding: `22.0 * scale`) to keep the small `form 4.svg` quote box close to the header tab.
-  - Enlarges quote text to `fontSize: 13.5 * scale` and narrative reflection text to `fontSize: 14.5 * scale` (Lora) to fill the dialogue box area cleanly.
+  - Color-themed dialogue text uses Lora (`fontSize: 13.5 * scale` for quote text, `14.5 * scale` for narrative reflection text).
 
 ---
 

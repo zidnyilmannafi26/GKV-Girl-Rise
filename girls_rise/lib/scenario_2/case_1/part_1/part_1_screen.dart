@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import '../part_2/part_2_screen.dart';
 
 class Part1Screen extends StatefulWidget {
@@ -81,8 +81,6 @@ class _Part1ScreenState extends State<Part1Screen> {
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
     final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 
-    final double boxWidth = 700.0 * scale;
-    final double boxHeight = 141.0 * scale;
 
     return Scaffold(
       body: GestureDetector(
@@ -120,66 +118,38 @@ class _Part1ScreenState extends State<Part1Screen> {
               ),
             ),
 
-            // Textbox Container
+            // Dialogue Text Box (includes background framing and header tab overlay)
             Positioned(
               left: offsetX + 87.0 * scale,
               top: offsetY + 261.0 * scale,
-              width: boxWidth,
-              height: boxHeight,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  // Cream SVG Background inside textbox
-                  Positioned(
-                    left: -boxWidth * (99.25 / 478.40),
-                    top: -boxHeight * (103.62 / 229.59),
-                    width: boxWidth * (628.0 / 478.40),
-                    height: boxHeight * (372.0 / 229.59),
-                    child: IgnorePointer(
-                      child: SvgPicture.asset(
-                        'assets/text_Box/form 3.svg',
-                        fit: BoxFit.fill,
+              width: 700.0 * scale,
+              height: 141.0 * scale,
+              child: DialogueTextBox(
+                scale: scale,
+                width: 700.0,
+                height: 141.0,
+                headerTabAsset: 'assets/text_Box/Obrolan tak terduga.svg',
+                headerTabWidth: 327.0,
+                headerTabHeight: 49.0,
+                headerTabLeft: 24.0,
+                headerTabTop: -44.0,
+                contentPadding: EdgeInsets.fromLTRB(
+                  41.0 * scale,
+                  30.0 * scale,
+                  35.0 * scale,
+                  20.0 * scale,
+                ),
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: SizedBox(
+                        key: ValueKey<int>(_currentStep),
+                        width: double.infinity,
+                        child: _buildDialogueContent(scale),
                       ),
                     ),
                   ),
-
-                  // Dialogue padding and scrolling content
-                  Positioned.fill(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                        41.0 * scale,
-                        30.0 * scale,
-                        35.0 * scale,
-                        20.0 * scale,
-                      ),
-                      child: Center(
-                        child: SingleChildScrollView(
-                          child: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 300),
-                            child: SizedBox(
-                              key: ValueKey<int>(_currentStep),
-                              width: double.infinity,
-                              child: _buildDialogueContent(scale),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Overlapping "Obrolan tak terduga" Header Tab SVG (Placed after Textbox so it renders on top)
-            Positioned(
-              left: offsetX + 111.0 * scale,
-              top: offsetY + 217.0 * scale,
-              width: 327.0 * scale,
-              height: 49.0 * scale,
-              child: IgnorePointer(
-                child: SvgPicture.asset(
-                  'assets/text_Box/Obrolan tak terduga.svg',
-                  fit: BoxFit.contain,
                 ),
               ),
             ),
