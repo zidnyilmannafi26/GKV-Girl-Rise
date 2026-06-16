@@ -1,21 +1,34 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:girls_rise/widgets/reflection_text_box.dart';
-import '../../case_4/part_1/part_1_screen.dart';
+import 'package:girls_rise/widgets/dialogue_text_box.dart';
+import '../part_3/part_3_screen.dart';
 
-class Part4Choose1Screen extends StatefulWidget {
-  const Part4Choose1Screen({super.key});
+class Part2Screen extends StatefulWidget {
+  const Part2Screen({super.key});
 
   @override
-  State<Part4Choose1Screen> createState() => _Part4Choose1ScreenState();
+  State<Part2Screen> createState() => _Part2ScreenState();
 }
 
-class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
-  void _nextStep() {
+class _Part2ScreenState extends State<Part2Screen> {
+  void _handleTap() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const Part1Screen(),
+        builder: (context) => const Part3Screen(),
+      ),
+    );
+  }
+
+  Widget _buildDialogueContent(double scale) {
+    return RichText(
+      text: TextSpan(
+        style: GoogleFonts.lora(
+          fontSize: 15.0 * scale,
+          height: 1.5,
+          color: const Color(0xFF765E54),
+        ),
+        text: 'Salah satu temanmu akhirnya menyadari sikapmu yang diam saja bahkan sejak beberapa hari yang lalu. Ia bertanya apakah kamu sedang ada masalah dan berkata siap mendengarkan bila kamu ingin cerita. Kamu bingung dengan kondisi yang serba salah ini. Bagaimana sikap yang kamu ambil?',
       ),
     );
   }
@@ -29,10 +42,10 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
     const double designWidth = 874.0;
     const double designHeight = 402.0;
 
-    // Aspect-ratio locked containment scaling
     final double scaleX = screenWidth / designWidth;
     final double scaleY = screenHeight / designHeight;
     final double scale = min(scaleX, scaleY);
+
     final double activeCanvasWidth = designWidth * scale;
     final double activeCanvasHeight = designHeight * scale;
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
@@ -40,40 +53,59 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
 
     return Scaffold(
       body: GestureDetector(
-        onTap: _nextStep,
+        onTap: _handleTap,
         behavior: HitTestBehavior.translucent,
         child: Stack(
           children: [
-            // Background Image
+            // Background image
             Positioned.fill(
               child: Image.asset(
-                'assets/images/bg2.1.png',
+                'assets/images/bg2.2.png',
                 fit: BoxFit.cover,
               ),
             ),
 
-            // Character (Right side - Enlarged and anchored to bottom edge)
+            // Character
             Positioned(
-              right: offsetX + 80.0 * scale,
-              bottom: -70.0 * scale,
-              height: 440.0 * scale,
+              left: 0,
+              right: 0,
+              bottom: offsetY + 40.0 * scale,
+              height: 330.0 * scale,
               child: Image.asset(
                 'assets/images/cewe.marah.png',
                 fit: BoxFit.contain,
               ),
             ),
 
-            // Reflection Text Box (Left side)
+            // Dialogue Text Box
             Positioned(
-              left: offsetX + 100.0 * scale,
-              top: offsetY + 126.9 * scale,
-              width: 303.5 * scale,
-              height: 225.9 * scale,
-              child: ReflectionTextBox(
+              left: offsetX + 87.0 * scale,
+              top: offsetY + 261.0 * scale,
+              width: 700.0 * scale,
+              height: 141.0 * scale,
+              child: DialogueTextBox(
                 scale: scale,
-                headerTabAsset: 'assets/text_Box/REFLECTION.svg',
-                quoteText: 'Menceritakan tentang program beasiswa di sekolah.',
-                reflectionText: 'Kamu mencoba menjelaskan harapanmu dengan hati-hati. Meski suasana menjadi berat, kamu berusaha memperjuangkan masa depanmu di depan keluarga.',
+                width: 700.0,
+                height: 141.0,
+                headerTabAsset: 'assets/text_Box/Tempat Untuk didengar.svg',
+                headerTabWidth: 327.0,
+                headerTabHeight: 49.0,
+                headerTabLeft: 24.0,
+                headerTabTop: -44.0,
+                contentPadding: EdgeInsets.fromLTRB(
+                  41.0 * scale,
+                  15.0 * scale,
+                  35.0 * scale,
+                  35.0 * scale,
+                ),
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: _buildDialogueContent(scale),
+                    ),
+                  ),
+                ),
               ),
             ),
 
@@ -89,6 +121,13 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
                     color: const Color(0xFFFDF7F0),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: const Color(0xFFB59D93), width: 1.5),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.08),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
                   child: Text(
                     '← BACK',

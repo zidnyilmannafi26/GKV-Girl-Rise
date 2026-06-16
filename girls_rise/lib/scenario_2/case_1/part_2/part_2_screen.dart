@@ -132,9 +132,9 @@ class _Part2ScreenState extends State<Part2Screen> {
                 headerTabTop: -44.0,
                 contentPadding: EdgeInsets.fromLTRB(
                   41.0 * scale,
-                  30.0 * scale,
+                  15.0 * scale,
                   35.0 * scale,
-                  20.0 * scale,
+                  35.0 * scale,
                 ),
                 child: Center(
                   child: SingleChildScrollView(

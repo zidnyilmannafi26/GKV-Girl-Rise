@@ -134,20 +134,23 @@ class _ChoiceButtonState extends State<ChoiceButton> {
                 height: 61.0 * widget.scale,
                 fit: BoxFit.fill,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 12.0 * widget.scale,
-                  vertical: 6.0 * widget.scale,
-                ),
-                child: Text(
-                  widget.text,
-                  style: GoogleFonts.lora(
-                    fontSize: 10.5 * widget.scale,
-                    color: const Color(0xFF765E54),
-                    fontWeight: FontWeight.w500,
-                    height: 1.3,
+              SizedBox(
+                width: 273.0 * widget.scale,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.0 * widget.scale,
+                    vertical: 6.0 * widget.scale,
                   ),
-                  textAlign: TextAlign.center,
+                  child: Text(
+                    widget.text,
+                    style: GoogleFonts.lora(
+                      fontSize: 10.5 * widget.scale,
+                      color: const Color(0xFF765E54),
+                      fontWeight: FontWeight.w500,
+                      height: 1.3,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ],

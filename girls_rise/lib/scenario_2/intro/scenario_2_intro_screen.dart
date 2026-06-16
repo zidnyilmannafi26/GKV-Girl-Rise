@@ -205,9 +205,9 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(
                         41.0 * scale,
-                        54.0 * scale,
+                        30.0 * scale,
                         35.0 * scale,
-                        46.0 * scale,
+                        70.0 * scale,
                       ),
                       child: Center(
                         child: SingleChildScrollView(

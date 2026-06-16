@@ -28,7 +28,7 @@ class _Part1ScreenState extends State<Part1Screen> {
           height: 1.5,
           color: const Color(0xFF765E54),
         ),
-        text: 'Beberapa hari setelah percakapan itu, sekolahmu mengadakan sosialisasi program beasiswa untuk siswa kelas 11. Banyak siswa terlihat antusias mengambil brosur dan bertanya tentang syarat pendaftaran. Di depan kelas, guru BK menjelaskan bahwa beasiswa tersebut bisa membantu biaya pendidikan hingga lulus kuliah.',
+        text: 'Beberapa minggu berlalu, tetapi tekanan di rumah tidak benar-benar hilang. Di sekolah, pikiranmu mulai sulit fokus. Penjelasan guru terasa samar, sementara tugas dan ujian terus berdatangan. Di sela jam istirahat, kamu melihat beberapa temanmu sibuk membahas kelas bimbingan belajar dan target kampus impian mereka.',
       ),
     );
   }
@@ -72,12 +72,12 @@ class _Part1ScreenState extends State<Part1Screen> {
               bottom: offsetY + 40.0 * scale,
               height: 380.0 * scale,
               child: Image.asset(
-                'assets/images/cewe.senang.png',
+                'assets/images/extracted_intro3.png',
                 fit: BoxFit.contain,
               ),
             ),
 
-            // Dialogue Text Box (includes background framing and header tab overlay)
+            // Dialogue Text Box
             Positioned(
               left: offsetX + 87.0 * scale,
               top: offsetY + 261.0 * scale,
@@ -87,7 +87,7 @@ class _Part1ScreenState extends State<Part1Screen> {
                 scale: scale,
                 width: 700.0,
                 height: 141.0,
-                headerTabAsset: 'assets/text_Box/Mimpi vs Realitas.svg',
+                headerTabAsset: 'assets/text_Box/Tempat Untuk didengar.svg',
                 headerTabWidth: 327.0,
                 headerTabHeight: 49.0,
                 headerTabLeft: 24.0,
