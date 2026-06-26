@@ -184,15 +184,16 @@ class _OutcomeStatPanelState extends State<OutcomeStatPanel>
           for (var item in orderedStats)
             Padding(
               padding: EdgeInsets.only(bottom: 8.0 * s),
-              child: GameParameterBar(item: item, scale: s),
+              child: GameParameterBar(
+                item: item,
+                scale: s,
+                customWidth: 223.34 * s,
+              ),
             ),
           SizedBox(height: 12.0 * s),
-          SizedBox(
-            width: 141.0 * s,
-            child: Divider(
-              color: const Color(0xFFB59D93).withValues(alpha: 0.5),
-              thickness: 1,
-            ),
+          Divider(
+            color: const Color(0xFFB59D93).withValues(alpha: 0.5),
+            thickness: 1,
           ),
           SizedBox(height: 14.0 * s),
           Expanded(

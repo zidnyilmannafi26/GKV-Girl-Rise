@@ -7,10 +7,12 @@ import '../models/game_stats.dart';
 class GameParameterBar extends StatefulWidget {
   final StatItem item;
   final double scale;
+  final double? customWidth;
 
   const GameParameterBar({
     required this.item,
     required this.scale,
+    this.customWidth,
     super.key,
   });
 
@@ -77,7 +79,9 @@ class _GameParameterBarState extends State<GameParameterBar>
     final int val = widget.item.value;
     final Color activeColor = _getActiveColor(val);
     final double clampedPercent = val.clamp(0, 100).toDouble();
-    final double maxBarWidth = 72.0 * widget.scale;
+    
+    final double totalWidth = widget.customWidth ?? (141.0 * widget.scale);
+    final double maxBarWidth = max(10.0, totalWidth - (69.0 * widget.scale));
     final double targetBarWidth = (clampedPercent / 100.0) * maxBarWidth;
 
     return AnimatedBuilder(
@@ -90,7 +94,7 @@ class _GameParameterBarState extends State<GameParameterBar>
         return Transform.scale(
           scale: pulseScale,
           child: Container(
-            width: 141.0 * widget.scale,
+            width: totalWidth,
             height: 26.0 * widget.scale,
             decoration: BoxDecoration(
               color: const Color(0xFFFAF1E9),
@@ -113,10 +117,16 @@ class _GameParameterBarState extends State<GameParameterBar>
       },
       child: Stack(
         children: [
-          // Stat Icon
-          Positioned.fill(
+          // Stat Icon (kept at 141 aspect width to prevent stretching)
+          Positioned(
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: 141.0 * widget.scale,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(13.0 * widget.scale),
+              borderRadius: BorderRadius.horizontal(
+                left: Radius.circular(13.0 * widget.scale),
+              ),
               child: SvgPicture.string(
                 widget.item.type.iconSvg,
                 fit: BoxFit.fill,
