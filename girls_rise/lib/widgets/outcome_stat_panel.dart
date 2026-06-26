@@ -85,17 +85,17 @@ class _OutcomeStatPanelState extends State<OutcomeStatPanel>
   static String _getRelationText(int val, bool capitalize) {
     String str;
     if (val <= 0) {
-      str = "hubungan sosialmu menjadi toxic";
+      str = "hubungan mu dan Arga sudah berakhir";
     } else if (val <= 25) {
-      str = "kamu merasa kesepian";
+      str = "hubungan mu dan Arga semakin menjauh";
     } else if (val <= 50) {
-      str = "ikatan pertemananmu mulai merenggang";
+      str = "Arga masih terus menghubungimu dan berharap kau kembali kepadanya";
     } else if (val <= 75) {
-      str = "lingkungan sekitarmu cukup suportif";
+      str = "kamu dan Arga masih terus menjalin hubungan";
     } else if (val <= 100) {
-      str = "hubungan dengan orang sekitarmu sangat sehat";
+      str = "hubungan dengan Arga sangat baik";
     } else {
-      str = "relasimu sangat luas dan positif";
+      str = "hubunganmu dengan Arga tetap berlanjut selamanya";
     }
     return capitalize ? _cap(str) : str;
   }
