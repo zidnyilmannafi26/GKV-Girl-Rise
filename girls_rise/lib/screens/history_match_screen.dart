@@ -177,17 +177,19 @@ class _HistoryMatchScreenState extends State<HistoryMatchScreen> {
 
               // Main Window Canvas
               Positioned(
-                left: offsetX + 60 * scale,
-                top: offsetY + 30 * scale,
-                width: 754 * scale,
-                height: 342 * scale,
+                left: offsetX + 40 * scale,
+                right: offsetX + 40 * scale,
+                top: offsetY + 25 * scale,
+                bottom: offsetY,
                 child: Column(
                   children: [
-                    // Header Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // Header Title Centered & Delete Button on Right
+                    Stack(
+                      alignment: Alignment.center,
                       children: [
                         Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
                               Icons.history_edu_rounded,
@@ -201,26 +203,29 @@ class _HistoryMatchScreenState extends State<HistoryMatchScreen> {
                                 fontSize: 18 * scale,
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFFFAF1E9),
-                                letterSpacing: 1.5,
+                                letterSpacing: 2.0,
                               ),
                             ),
                           ],
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.delete_outline_rounded,
-                            color: const Color(0xFFFFB4B4),
-                            size: 24 * scale,
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.delete_outline_rounded,
+                              color: const Color(0xFFFFB4B4),
+                              size: 26 * scale,
+                            ),
+                            tooltip: 'Reset History',
+                            onPressed: _confirmReset,
                           ),
-                          tooltip: 'Reset History',
-                          onPressed: _confirmReset,
                         ),
                       ],
                     ),
 
                     SizedBox(height: 16 * scale),
 
-                    // List View
+                    // List View flush to bottom
                     Expanded(
                       child: FutureBuilder<List<MatchRecord>>(
                         future: _historyFuture,
@@ -263,9 +268,9 @@ class _HistoryMatchScreenState extends State<HistoryMatchScreen> {
 
                           return ListView.separated(
                             physics: const BouncingScrollPhysics(),
-                            padding: EdgeInsets.only(bottom: 20 * scale),
+                            padding: EdgeInsets.zero,
                             itemCount: reversedRecords.length,
-                            separatorBuilder: (_, __) =>
+                            separatorBuilder: (_, _) =>
                                 SizedBox(height: 12 * scale),
                             itemBuilder: (context, index) {
                               final record = reversedRecords[index];
