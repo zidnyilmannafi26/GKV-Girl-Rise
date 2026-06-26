@@ -21,10 +21,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Animation<double>? _screenZoomAnim;
   Animation<double>? _buttonTapScaleAnim;
 
+  AnimationController? _ribbonController;
+  Animation<double>? _ribbonPullAnim;
+
   bool _isStarting = false;
 
   void _ensureControllers() {
-    if (_idleController != null && _startController != null) return;
+    if (_idleController != null && _startController != null && _ribbonController != null) return;
 
     _idleController = AnimationController(
       vsync: this,
@@ -63,6 +66,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _screenZoomAnim = Tween<double>(begin: 1.0, end: 1.15).animate(
       CurvedAnimation(parent: _startController!, curve: Curves.easeInQuad),
     );
+
+    _ribbonController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 320),
+    );
+    _ribbonPullAnim = Tween<double>(begin: 0.0, end: 28.0).animate(
+      CurvedAnimation(parent: _ribbonController!, curve: Curves.easeOutBack),
+    );
   }
 
   @override
@@ -75,7 +86,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void dispose() {
     _idleController?.dispose();
     _startController?.dispose();
+    _ribbonController?.dispose();
     super.dispose();
+  }
+
+  void _onHistoryTapped() async {
+    _ensureControllers();
+    await _ribbonController?.forward();
+    if (!mounted) return;
+    await Navigator.of(context).push(
+      FadePageRoute(page: const HistoryMatchScreen()),
+    );
+    if (mounted) {
+      _ribbonController?.reverse();
+    }
   }
 
   void _onStartTapped() {
@@ -175,32 +199,68 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             ),
 
-            // History Button (top right)
-            Positioned(
-              top: 25,
-              right: 25,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFAF1E9).withValues(alpha: 0.85),
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color(0xFF9C6C69),
-                    width: 1.5,
+            // Classic Hanging Bookmark Ribbon (top right)
+            AnimatedBuilder(
+              animation: Listenable.merge([_idleController!, _ribbonController!]),
+              builder: (context, child) {
+                final double pullY = _ribbonPullAnim!.value;
+                final double hoverY = sin(_idleController!.value * 2 * pi) * 4;
+
+                return Positioned(
+                  top: pullY + hoverY - 6,
+                  right: screenWidth * 0.07,
+                  child: GestureDetector(
+                    onTap: _onHistoryTapped,
+                    child: ClipPath(
+                      clipper: _RibbonNotchClipper(),
+                      child: Container(
+                        width: 52,
+                        height: 124,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color(0xFF9C6C69), // Girl Rise Mauve Brown
+                              Color(0xFF5A3831), // Deep Chocolate
+                            ],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF5A3831).withValues(alpha: 0.55),
+                              blurRadius: 12,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 22),
+                            const Icon(
+                              Icons.history_edu_rounded,
+                              color: Color(0xFFFAF1E9),
+                              size: 26,
+                            ),
+                            const SizedBox(height: 8),
+                            RotatedBox(
+                              quarterTurns: 1,
+                              child: Text(
+                                'RIWAYAT',
+                                style: GoogleFonts.poppins(
+                                  color: const Color(0xFFFAF1E9),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                  letterSpacing: 3.5,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.history,
-                    color: Color(0xFF5A3831),
-                    size: 28,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      FadePageRoute(page: const HistoryMatchScreen()),
-                    );
-                  },
-                ),
-              ),
+                );
+              },
             ),
 
             // Center Content (Title & Signature Girl Rise Tap to Start Button)
@@ -311,4 +371,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
     );
   }
+}
+
+class _RibbonNotchClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    path.lineTo(0, size.height);
+    path.lineTo(size.width / 2, size.height - 14);
+    path.lineTo(size.width, size.height);
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(_RibbonNotchClipper oldClipper) => false;
 }
