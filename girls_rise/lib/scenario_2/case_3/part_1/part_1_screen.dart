@@ -1,3 +1,4 @@
+import 'package:girls_rise/utils/fade_page_route.dart';
 import 'package:girls_rise/widgets/game_back_button.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -15,9 +16,7 @@ class Part1Screen extends StatefulWidget {
 class _Part1ScreenState extends State<Part1Screen> {
   void _handleTap() {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const Part2Screen(),
-      ),
+      FadePageRoute(page: const Part2Screen()),
     );
   }
 
@@ -66,13 +65,15 @@ class _Part1ScreenState extends State<Part1Screen> {
               ),
             ),
 
-            // TODO: Masukkan karakter di sini
+            // Character
             Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: 380.0 * scale,
-              child: const SizedBox.shrink(),
+              left: offsetX + 350.0 * scale,
+              bottom: 55.0 * scale,
+              height: 318.0 * scale,
+              child: Image.asset(
+                'assets/images/cewe.bingung.png',
+                fit: BoxFit.contain,
+              ),
             ),
 
             // Dialogue Text Box

@@ -1,4 +1,6 @@
+import 'package:girls_rise/utils/fade_page_route.dart';
 import 'package:girls_rise/widgets/game_back_button.dart';
+import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,9 +32,7 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
       });
     } else {
       Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const Part1Screen(),
-        ),
+        FadePageRoute(page: const Part1Screen()),
       );
     }
   }
@@ -41,7 +41,7 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
     return RichText(
       text: TextSpan(
         style: GoogleFonts.lora(
-          fontSize: 16.0 * scale,
+          fontSize: 14.5 * scale,
           height: 1.5,
           color: const Color(0xFF765E54),
         ),
@@ -70,30 +70,12 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
     final double scaleY = screenHeight / designHeight;
     final double scale = scaleX < scaleY ? scaleX : scaleY;
 
-    // Actual dimensions of the textbox relative to the design
-    final double boxWidth = 488.0 * scale;
-    final double boxHeight = 255.0 * scale;
-
     // Active canvas offsets to center the game canvas on the screen
     final double activeCanvasWidth = designWidth * scale;
     final double activeCanvasHeight = designHeight * scale;
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
     final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 
-    // Determine horizontal box position based on current step
-    final double boxLeft = _currentStep == 0
-        ? offsetX + 297.0 * scale
-        : (_currentStep == 1 ? offsetX + ((designWidth - 488.0) / 2) * scale : offsetX + 297.0 * scale);
-
-    final double boxTop = offsetY + 83.0 * scale;
-
-    // STORY header tab dimensions and positions
-    final double tabWidth = 140.0 * scale;
-    final double tabHeight = 44.0 * scale;
-    final double tabLeft = boxLeft + 24.0 * scale;
-    final double tabTop = boxTop - 28.0 * scale;
-
-    // Character heights based on design proportions
     final double charHeight = 318.0 * scale;
 
     return Scaffold(
@@ -110,15 +92,11 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
               ),
             ),
 
-            // Characters
-
             // 1. Bapak (Father)
             AnimatedPositioned(
               duration: const Duration(milliseconds: 600),
               curve: Curves.easeInOutCubic,
-              left: _currentStep == 0
-                  ? offsetX + 40.0 * scale
-                  : (_currentStep == 1 ? offsetX + 15.0 * scale : -350.0 * scale),
+              left: _currentStep == 2 ? -350.0 * scale : offsetX + 270.0 * scale,
               bottom: 55.0 * scale,
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 500),
@@ -143,9 +121,7 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
             AnimatedPositioned(
               duration: const Duration(milliseconds: 600),
               curve: Curves.easeInOutCubic,
-              left: _currentStep == 0
-                  ? offsetX + 130.0 * scale
-                  : (_currentStep == 1 ? offsetX + (designWidth - 200.0) * scale : screenWidth + 100.0 * scale),
+              left: _currentStep == 2 ? screenWidth + 100.0 * scale : offsetX + 430.0 * scale,
               bottom: 55.0 * scale,
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 500),
@@ -170,7 +146,7 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
             AnimatedPositioned(
               duration: const Duration(milliseconds: 600),
               curve: Curves.easeInOutCubic,
-              left: _currentStep == 2 ? offsetX + 96.0 * scale : -350.0 * scale,
+              left: _currentStep == 2 ? offsetX + 350.0 * scale : -350.0 * scale,
               bottom: 55.0 * scale,
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 500),
@@ -185,106 +161,52 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
               ),
             ),
 
-            // Story Box Container
-            AnimatedPositioned(
-              duration: const Duration(milliseconds: 600),
-              curve: Curves.easeInOutCubic,
-              left: boxLeft,
-              top: boxTop,
-              width: boxWidth,
-              height: boxHeight,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  // Background Native Box (Replaces heavy SVG)
-                  Positioned(
-                    left: 0,
-                    top: 0,
-                    width: boxWidth,
-                    height: boxHeight,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFDF7F0).withValues(alpha: 0.95),
-                        borderRadius: BorderRadius.circular(16.0 * scale),
-                        border: Border.all(
-                          color: const Color(0xFF765E54).withValues(alpha: 0.5),
-                          width: 2.0 * scale,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.2),
-                            blurRadius: 8.0,
-                            offset: const Offset(2.0, 4.0),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // Content Padding and Scroll View
-                  Positioned.fill(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                        41.0 * scale,
-                        30.0 * scale,
-                        35.0 * scale,
-                        70.0 * scale,
-                      ),
-                      child: Center(
-                        child: SingleChildScrollView(
-                          child: AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 400),
-                            transitionBuilder: (Widget child, Animation<double> animation) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              );
-                            },
-                            child: _buildStoryContent(scale, key: ValueKey<int>(_currentStep)),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Overlapping "STORY" Header Tab (Native text instead of SVG)
-            AnimatedPositioned(
-              duration: const Duration(milliseconds: 600),
-              curve: Curves.easeInOutCubic,
-              left: tabLeft,
-              top: tabTop,
-              width: tabWidth,
-              height: tabHeight,
-              child: Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF765E54),
-                  borderRadius: BorderRadius.circular(12.0 * scale),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2),
-                      blurRadius: 4.0,
-                      offset: const Offset(0, 2.0),
-                    )
-                  ],
+            // Dialogue Text Box (includes background framing and header tab overlay)
+            Positioned(
+              left: offsetX + 87.0 * scale,
+              bottom: 0,
+              width: 700.0 * scale,
+              height: 141.0 * scale,
+              child: DialogueTextBox(
+                scale: scale,
+                width: 700.0,
+                height: 141.0,
+                headerTabAsset: 'assets/text_Box/STORY.svg',
+                headerTabWidth: 140.0,
+                headerTabHeight: 49.0,
+                headerTabLeft: 24.0,
+                headerTabTop: -44.0,
+                contentPadding: EdgeInsets.fromLTRB(
+                  41.0 * scale,
+                  15.0 * scale,
+                  35.0 * scale,
+                  35.0 * scale,
                 ),
-                child: Text(
-                  'STORY',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 14.0 * scale,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFFFDF7F0),
-                    letterSpacing: 1.2,
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: SizedBox(
+                        key: ValueKey<int>(_currentStep),
+                        width: double.infinity,
+                        child: _buildStoryContent(scale, key: ValueKey<int>(_currentStep)),
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
 
-            const GameBackButton(type: BackButtonType.scenarioRoot),
+            _currentStep == 0
+                ? const GameBackButton(type: BackButtonType.scenarioRoot)
+                : GameBackButton(
+                    type: BackButtonType.normalBack,
+                    customOnBack: () {
+                      setState(() {
+                        _currentStep--;
+                      });
+                    },
+                  ),
           ],
         ),
       ),

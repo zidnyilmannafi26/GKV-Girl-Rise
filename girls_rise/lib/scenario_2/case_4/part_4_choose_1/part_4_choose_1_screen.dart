@@ -1,3 +1,4 @@
+import 'package:girls_rise/utils/fade_page_route.dart';
 import 'package:girls_rise/widgets/game_back_button.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -16,9 +17,7 @@ class Part4Choose1Screen extends StatefulWidget {
 class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
   void _nextStep() {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const Part1Screen(),
-      ),
+      FadePageRoute(page: const Part1Screen()),
     );
   }
 
@@ -56,7 +55,7 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
 
             // Character (Right side - Enlarged and anchored to bottom edge)
             Positioned(
-              right: offsetX + 75.0 * scale,
+              left: offsetX + 450.0 * scale,
               bottom: 0,
               height: 318.0 * scale,
               child: Image.asset(

@@ -1,3 +1,4 @@
+import 'package:girls_rise/utils/fade_page_route.dart';
 import 'package:girls_rise/widgets/game_back_button.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -66,23 +67,17 @@ class Part3Screen extends StatelessWidget {
               choice3Text: 'Keluar kelas sebelum sosialisasi selesai.',
               onChoice1Tap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const Part4Choose1Screen(),
-                  ),
+                  FadePageRoute(page: const Part4Choose1Screen()),
                 );
               },
               onChoice2Tap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const Part4Choose2Screen(),
-                  ),
+                  FadePageRoute(page: const Part4Choose2Screen()),
                 );
               },
               onChoice3Tap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const Part4Choose3Screen(),
-                  ),
+                  FadePageRoute(page: const Part4Choose3Screen()),
                 );
               },
             ),
