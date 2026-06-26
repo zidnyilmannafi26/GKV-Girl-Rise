@@ -17,25 +17,85 @@ class OutcomeNikahMuda2Screen extends StatefulWidget {
 class _OutcomeNikahMuda2ScreenState extends State<OutcomeNikahMuda2Screen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _bgCharAnim;
-  late Animation<double> _textAnim;
+  late Animation<double> _bgFadeAnim;
+  late Animation<double> _bgScaleAnim;
+  late Animation<double> _charFadeAnim;
+  late Animation<Offset> _charSlideAnim;
+  late Animation<double> _panelFadeAnim;
+  late Animation<Offset> _panelSlideAnim;
+  late Animation<double> _boxFadeAnim;
+  late Animation<Offset> _boxSlideAnim;
+  late Animation<double> _textFadeAnim;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 3200),
+      duration: const Duration(milliseconds: 3600),
     );
 
-    _bgCharAnim = CurvedAnimation(
+    // 1. Background Cinematic Zoom (0.0 .. 0.35)
+    _bgFadeAnim = CurvedAnimation(
       parent: _controller,
-      curve: const Interval(0.0, 0.45, curve: Curves.easeOutQuart),
+      curve: const Interval(0.0, 0.35, curve: Curves.easeOut),
+    );
+    _bgScaleAnim = Tween<double>(begin: 1.08, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 0.45, curve: Curves.easeOutCubic),
+      ),
     );
 
-    _textAnim = CurvedAnimation(
+    // 2. Character Rise (0.15 .. 0.55)
+    _charFadeAnim = CurvedAnimation(
       parent: _controller,
-      curve: const Interval(0.30, 1.0, curve: Curves.easeOutQuart),
+      curve: const Interval(0.15, 0.55, curve: Curves.easeOut),
+    );
+    _charSlideAnim = Tween<Offset>(
+      begin: const Offset(0, 0.08),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.15, 0.55, curve: Curves.easeOutQuart),
+      ),
+    );
+
+    // 3. Right Stat Panel Slide-In (0.25 .. 0.65)
+    _panelFadeAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.25, 0.65, curve: Curves.easeOut),
+    );
+    _panelSlideAnim = Tween<Offset>(
+      begin: const Offset(0.08, 0),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.25, 0.65, curve: Curves.easeOutQuart),
+      ),
+    );
+
+    // 4. Dialogue Box Spring-Up (0.35 .. 0.75)
+    _boxFadeAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.35, 0.75, curve: Curves.easeOut),
+    );
+    _boxSlideAnim = Tween<Offset>(
+      begin: const Offset(0, 0.12),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.35, 0.75, curve: Curves.easeOutBack),
+      ),
+    );
+
+    // 5. Narrative Text Soft Fade (0.50 .. 1.0)
+    _textFadeAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.50, 1.0, curve: Curves.easeOutQuart),
     );
 
     _controller.forward();
@@ -82,11 +142,14 @@ class _OutcomeNikahMuda2ScreenState extends State<OutcomeNikahMuda2Screen>
                   width: leftSectionWidth,
                   height: 402.0 * scale,
                   child: FadeTransition(
-                    opacity: _bgCharAnim,
-                    child: ClipRect(
-                      child: Image.asset(
-                        'assets/images/bg.sc2.ot1.png',
-                        fit: BoxFit.cover,
+                    opacity: _bgFadeAnim,
+                    child: ScaleTransition(
+                      scale: _bgScaleAnim,
+                      child: ClipRect(
+                        child: Image.asset(
+                          'assets/images/bg.sc2.ot1.png',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -99,12 +162,15 @@ class _OutcomeNikahMuda2ScreenState extends State<OutcomeNikahMuda2Screen>
                   width: leftSectionWidth,
                   height: 360.0 * scale,
                   child: FadeTransition(
-                    opacity: _bgCharAnim,
-                    child: IgnorePointer(
-                      child: Center(
-                        child: Image.asset(
-                          'assets/images/cewe.nangis.mataterbuka.png',
-                          fit: BoxFit.contain,
+                    opacity: _charFadeAnim,
+                    child: SlideTransition(
+                      position: _charSlideAnim,
+                      child: IgnorePointer(
+                        child: Center(
+                          child: Image.asset(
+                            'assets/images/cewe.nangis.mataterbuka.png',
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
                     ),
@@ -118,26 +184,29 @@ class _OutcomeNikahMuda2ScreenState extends State<OutcomeNikahMuda2Screen>
                   width: 540.0 * scale,
                   height: 141.0 * scale,
                   child: FadeTransition(
-                    opacity: _bgCharAnim,
-                    child: DialogueTextBox(
-                      scale: scale,
-                      width: 540.0,
-                      height: 141.0,
-                      headerTabAsset: 'assets/text_Box/OUTCOME.svg',
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: GestureDetector(
-                          onTap: () => _nextStep(context),
-                          behavior: HitTestBehavior.translucent,
-                          child: FadeTransition(
-                            opacity: _textAnim,
-                            child: Text(
-                              'Beberapa minggu kemudian, kamu terlambat datang bulan dan dinyatakan positif hamil. Impian besarmu terhenti seketika. Kamu harus keluar dari sekolah akibat sanksi, menahan cemoohan lingkungan, dan terjebak dalam lingkaran pernikahan dini tanpa kesiapan mental serta ekonomi yang matang.',
-                              style: TextStyle(
-                                fontFamily: 'Lora',
-                                color: const Color(0xFF765E54),
-                                fontSize: 13.5 * scale,
-                                height: 1.5,
+                    opacity: _boxFadeAnim,
+                    child: SlideTransition(
+                      position: _boxSlideAnim,
+                      child: DialogueTextBox(
+                        scale: scale,
+                        width: 540.0,
+                        height: 141.0,
+                        headerTabAsset: 'assets/text_Box/OUTCOME.svg',
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          child: GestureDetector(
+                            onTap: () => _nextStep(context),
+                            behavior: HitTestBehavior.translucent,
+                            child: FadeTransition(
+                              opacity: _textFadeAnim,
+                              child: Text(
+                                'Beberapa minggu kemudian, kamu terlambat datang bulan dan dinyatakan positif hamil. Impian besarmu terhenti seketika. Kamu harus keluar dari sekolah akibat sanksi, menahan cemoohan lingkungan, dan terjebak dalam lingkaran pernikahan dini tanpa kesiapan mental serta ekonomi yang matang.',
+                                style: TextStyle(
+                                  fontFamily: 'Lora',
+                                  color: const Color(0xFF765E54),
+                                  fontSize: 13.5 * scale,
+                                  height: 1.5,
+                                ),
                               ),
                             ),
                           ),
@@ -154,12 +223,15 @@ class _OutcomeNikahMuda2ScreenState extends State<OutcomeNikahMuda2Screen>
                   width: rightSectionWidth,
                   height: 402.0 * scale,
                   child: FadeTransition(
-                    opacity: _bgCharAnim,
-                    child: OutcomeStatPanel(
-                      isNikahMuda: true,
-                      stats: GameStateManager.instance.stats,
-                      scale: scale,
-                      scenarioNumber: 2,
+                    opacity: _panelFadeAnim,
+                    child: SlideTransition(
+                      position: _panelSlideAnim,
+                      child: OutcomeStatPanel(
+                        isNikahMuda: true,
+                        stats: GameStateManager.instance.stats,
+                        scale: scale,
+                        scenarioNumber: 2,
+                      ),
                     ),
                   ),
                 ),
