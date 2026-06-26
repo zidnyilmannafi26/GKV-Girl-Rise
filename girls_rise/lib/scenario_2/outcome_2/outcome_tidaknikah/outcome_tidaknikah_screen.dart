@@ -7,8 +7,45 @@ import 'package:girls_rise/widgets/game_back_button.dart';
 import 'package:girls_rise/widgets/outcome_stat_panel.dart';
 import 'final_reflection_tidaknikah_screen.dart';
 
-class OutcomeTidakNikahScreen extends StatelessWidget {
+class OutcomeTidakNikahScreen extends StatefulWidget {
   const OutcomeTidakNikahScreen({super.key});
+
+  @override
+  State<OutcomeTidakNikahScreen> createState() => _OutcomeTidakNikahScreenState();
+}
+
+class _OutcomeTidakNikahScreenState extends State<OutcomeTidakNikahScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _bgCharAnim;
+  late Animation<double> _textAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 3200),
+    );
+
+    _bgCharAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.0, 0.45, curve: Curves.easeOutQuart),
+    );
+
+    _textAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.30, 1.0, curve: Curves.easeOutQuart),
+    );
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   void _nextStep(BuildContext context) {
     Navigator.of(context).push(
@@ -44,10 +81,13 @@ class OutcomeTidakNikahScreen extends StatelessWidget {
                   top: offsetY,
                   width: leftSectionWidth,
                   height: 402.0 * scale,
-                  child: ClipRect(
-                    child: Image.asset(
-                      'assets/images/bg.sc2.ot2.png',
-                      fit: BoxFit.cover,
+                  child: FadeTransition(
+                    opacity: _bgCharAnim,
+                    child: ClipRect(
+                      child: Image.asset(
+                        'assets/images/bg.sc2.ot2.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -58,11 +98,14 @@ class OutcomeTidakNikahScreen extends StatelessWidget {
                   bottom: offsetY - 10.0 * scale,
                   width: leftSectionWidth,
                   height: 360.0 * scale,
-                  child: IgnorePointer(
-                    child: Center(
-                      child: Image.asset(
-                        'assets/images/cewe.nangis.mataterbuka.png',
-                        fit: BoxFit.contain,
+                  child: FadeTransition(
+                    opacity: _bgCharAnim,
+                    child: IgnorePointer(
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/cewe.nangis.mataterbuka.png',
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
@@ -74,23 +117,29 @@ class OutcomeTidakNikahScreen extends StatelessWidget {
                   bottom: offsetY,
                   width: 540.0 * scale,
                   height: 141.0 * scale,
-                  child: DialogueTextBox(
-                    scale: scale,
-                    width: 540.0,
-                    height: 141.0,
-                    headerTabAsset: 'assets/text_Box/OUTCOME.svg',
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: GestureDetector(
-                        onTap: () => _nextStep(context),
-                        behavior: HitTestBehavior.translucent,
-                        child: Text(
-                          'Kamu berhasil mempertahankan pendidikan dan membangun karier impianmu. Kamu mendapat beasiswa untuk melanjutkan pendidikan tinggi di kampus yang sedari dulu kamu inginkan. Kini, adik-adikmu juga dapat bersekolah dengan lebih baik karena ekonomi keluarga perlahan mulai stabil. Kamu sangat bersyukur atas apa yang kamu pilih, meskipun perjuangannya sangat berat, kamu dapat melewati semuanya dengan baik.',
-                          style: TextStyle(
-                            fontFamily: 'Lora',
-                            color: const Color(0xFF765E54),
-                            fontSize: 13.5 * scale,
-                            height: 1.5,
+                  child: FadeTransition(
+                    opacity: _bgCharAnim,
+                    child: DialogueTextBox(
+                      scale: scale,
+                      width: 540.0,
+                      height: 141.0,
+                      headerTabAsset: 'assets/text_Box/OUTCOME.svg',
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: GestureDetector(
+                          onTap: () => _nextStep(context),
+                          behavior: HitTestBehavior.translucent,
+                          child: FadeTransition(
+                            opacity: _textAnim,
+                            child: Text(
+                              'Kamu berhasil mempertahankan pendidikan dan membangun karier impianmu. Kamu mendapat beasiswa untuk melanjutkan pendidikan tinggi di kampus yang sedari dulu kamu inginkan. Kini, adik-adikmu juga dapat bersekolah dengan lebih baik karena ekonomi keluarga perlahan mulai stabil. Kamu sangat bersyukur atas apa yang kamu pilih, meskipun perjuangannya sangat berat, kamu dapat melewati semuanya dengan baik.',
+                              style: TextStyle(
+                                fontFamily: 'Lora',
+                                color: const Color(0xFF765E54),
+                                fontSize: 13.5 * scale,
+                                height: 1.5,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -104,11 +153,14 @@ class OutcomeTidakNikahScreen extends StatelessWidget {
                   top: offsetY,
                   width: rightSectionWidth,
                   height: 402.0 * scale,
-                  child: OutcomeStatPanel(
-                    isNikahMuda: false,
-                    stats: GameStateManager.instance.stats,
-                    scale: scale,
-                    scenarioNumber: 2,
+                  child: FadeTransition(
+                    opacity: _bgCharAnim,
+                    child: OutcomeStatPanel(
+                      isNikahMuda: false,
+                      stats: GameStateManager.instance.stats,
+                      scale: scale,
+                      scenarioNumber: 2,
+                    ),
                   ),
                 ),
 

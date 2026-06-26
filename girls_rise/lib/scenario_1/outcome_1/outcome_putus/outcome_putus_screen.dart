@@ -7,8 +7,45 @@ import 'package:girls_rise/widgets/game_back_button.dart';
 import 'package:girls_rise/widgets/outcome_stat_panel.dart';
 import 'final_reflection_putus_screen.dart';
 
-class OutcomePutusScreen extends StatelessWidget {
+class OutcomePutusScreen extends StatefulWidget {
   const OutcomePutusScreen({super.key});
+
+  @override
+  State<OutcomePutusScreen> createState() => _OutcomePutusScreenState();
+}
+
+class _OutcomePutusScreenState extends State<OutcomePutusScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _bgCharAnim;
+  late Animation<double> _textAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 3200),
+    );
+
+    _bgCharAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.0, 0.45, curve: Curves.easeOutQuart),
+    );
+
+    _textAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.30, 1.0, curve: Curves.easeOutQuart),
+    );
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   void _nextStep(BuildContext context) {
     Navigator.of(context).push(
@@ -44,10 +81,13 @@ class OutcomePutusScreen extends StatelessWidget {
                   top: offsetY,
                   width: leftSectionWidth,
                   height: 402.0 * scale,
-                  child: ClipRect(
-                    child: Image.asset(
-                      'assets/images/bg.sc1.ot2.png',
-                      fit: BoxFit.cover,
+                  child: FadeTransition(
+                    opacity: _bgCharAnim,
+                    child: ClipRect(
+                      child: Image.asset(
+                        'assets/images/bg.sc1.ot2.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -58,11 +98,14 @@ class OutcomePutusScreen extends StatelessWidget {
                   bottom: offsetY + 18.0 * scale,
                   width: leftSectionWidth,
                   height: 318.0 * scale,
-                  child: IgnorePointer(
-                    child: Center(
-                      child: Image.asset(
-                        'assets/images/cewe.senang.png',
-                        fit: BoxFit.contain,
+                  child: FadeTransition(
+                    opacity: _bgCharAnim,
+                    child: IgnorePointer(
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/cewe.senang.png',
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
@@ -74,23 +117,29 @@ class OutcomePutusScreen extends StatelessWidget {
                   bottom: offsetY,
                   width: 540.0 * scale,
                   height: 141.0 * scale,
-                  child: DialogueTextBox(
-                    scale: scale,
-                    width: 540.0,
-                    height: 141.0,
-                    headerTabAsset: 'assets/text_Box/OUTCOME.svg',
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: GestureDetector(
-                        onTap: () => _nextStep(context),
-                        behavior: HitTestBehavior.translucent,
-                        child: Text(
-                          'Hubungan 4 tahun kalian berakhir dengan sangat menyakitkan malam itu juga. Namun, kamu sadar bahwa ini adalah hubungan yang toxic, keberanianmu menolak berhasil menyelamatkan masa depanmu. Lima tahun kemudian, kamu sukses menyelesaikan pendidikan tinggi di universitas terbaik dengan predikat Cum Laude. Kamu menjelma menjadi wanita karir mandiri yang sukses dan berdaya penuh atas kehidupannya sendiri.',
-                          style: TextStyle(
-                            fontFamily: 'Lora',
-                            color: const Color(0xFF765E54),
-                            fontSize: 13.5 * scale,
-                            height: 1.5,
+                  child: FadeTransition(
+                    opacity: _bgCharAnim,
+                    child: DialogueTextBox(
+                      scale: scale,
+                      width: 540.0,
+                      height: 141.0,
+                      headerTabAsset: 'assets/text_Box/OUTCOME.svg',
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: GestureDetector(
+                          onTap: () => _nextStep(context),
+                          behavior: HitTestBehavior.translucent,
+                          child: FadeTransition(
+                            opacity: _textAnim,
+                            child: Text(
+                              'Hubungan 4 tahun kalian berakhir dengan sangat menyakitkan malam itu juga. Namun, kamu sadar bahwa ini adalah hubungan yang toxic, keberanianmu menolak berhasil menyelamatkan masa depanmu. Lima tahun kemudian, kamu sukses menyelesaikan pendidikan tinggi di universitas terbaik dengan predikat Cum Laude. Kamu menjelma menjadi wanita karir mandiri yang sukses dan berdaya penuh atas kehidupannya sendiri.',
+                              style: TextStyle(
+                                fontFamily: 'Lora',
+                                color: const Color(0xFF765E54),
+                                fontSize: 13.5 * scale,
+                                height: 1.5,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -104,10 +153,13 @@ class OutcomePutusScreen extends StatelessWidget {
                   top: offsetY,
                   width: rightSectionWidth,
                   height: 402.0 * scale,
-                  child: OutcomeStatPanel(
-                    isNikahMuda: false,
-                    stats: GameStateManager.instance.stats,
-                    scale: scale,
+                  child: FadeTransition(
+                    opacity: _bgCharAnim,
+                    child: OutcomeStatPanel(
+                      isNikahMuda: false,
+                      stats: GameStateManager.instance.stats,
+                      scale: scale,
+                    ),
                   ),
                 ),
 

@@ -7,8 +7,45 @@ import 'package:girls_rise/widgets/game_back_button.dart';
 import 'package:girls_rise/widgets/outcome_stat_panel.dart';
 import 'final_reflection_nikahmuda_screen.dart';
 
-class OutcomeNikahMudaScreen extends StatelessWidget {
+class OutcomeNikahMudaScreen extends StatefulWidget {
   const OutcomeNikahMudaScreen({super.key});
+
+  @override
+  State<OutcomeNikahMudaScreen> createState() => _OutcomeNikahMudaScreenState();
+}
+
+class _OutcomeNikahMudaScreenState extends State<OutcomeNikahMudaScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _bgCharAnim;
+  late Animation<double> _textAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 3200),
+    );
+
+    _bgCharAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.0, 0.45, curve: Curves.easeOutQuart),
+    );
+
+    _textAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.30, 1.0, curve: Curves.easeOutQuart),
+    );
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   void _nextStep(BuildContext context) {
     Navigator.of(context).push(
@@ -44,10 +81,13 @@ class OutcomeNikahMudaScreen extends StatelessWidget {
                   top: offsetY,
                   width: leftSectionWidth,
                   height: 402.0 * scale,
-                  child: ClipRect(
-                    child: Image.asset(
-                      'assets/images/bg.sc1.ot1.png',
-                      fit: BoxFit.cover,
+                  child: FadeTransition(
+                    opacity: _bgCharAnim,
+                    child: ClipRect(
+                      child: Image.asset(
+                        'assets/images/bg.sc1.ot1.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -58,11 +98,14 @@ class OutcomeNikahMudaScreen extends StatelessWidget {
                   bottom: offsetY - 10.0 * scale,
                   width: leftSectionWidth,
                   height: 360.0 * scale,
-                  child: IgnorePointer(
-                    child: Center(
-                      child: Image.asset(
-                        'assets/images/cewe.nangis.mataterbuka.png',
-                        fit: BoxFit.contain,
+                  child: FadeTransition(
+                    opacity: _bgCharAnim,
+                    child: IgnorePointer(
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/cewe.nangis.mataterbuka.png',
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
@@ -74,23 +117,29 @@ class OutcomeNikahMudaScreen extends StatelessWidget {
                   bottom: offsetY,
                   width: 540.0 * scale,
                   height: 141.0 * scale,
-                  child: DialogueTextBox(
-                    scale: scale,
-                    width: 540.0,
-                    height: 141.0,
-                    headerTabAsset: 'assets/text_Box/OUTCOME.svg',
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: GestureDetector(
-                        onTap: () => _nextStep(context),
-                        behavior: HitTestBehavior.translucent,
-                        child: Text(
-                          'Beberapa minggu kemudian, kamu terlambat datang bulan dan dinyatakan positif hamil. Impian besarmu terhenti seketika. Kamu harus keluar dari sekolah akibat sanksi, menahan cemoohan lingkungan, dan terjebak dalam lingkaran pernikahan dini tanpa kesiapan mental serta ekonomi yang matang.',
-                          style: TextStyle(
-                            fontFamily: 'Lora',
-                            color: const Color(0xFF765E54),
-                            fontSize: 13.5 * scale,
-                            height: 1.5,
+                  child: FadeTransition(
+                    opacity: _bgCharAnim,
+                    child: DialogueTextBox(
+                      scale: scale,
+                      width: 540.0,
+                      height: 141.0,
+                      headerTabAsset: 'assets/text_Box/OUTCOME.svg',
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: GestureDetector(
+                          onTap: () => _nextStep(context),
+                          behavior: HitTestBehavior.translucent,
+                          child: FadeTransition(
+                            opacity: _textAnim,
+                            child: Text(
+                              'Beberapa minggu kemudian, kamu terlambat datang bulan dan dinyatakan positif hamil. Impian besarmu terhenti seketika. Kamu harus keluar dari sekolah akibat sanksi, menahan cemoohan lingkungan, dan terjebak dalam lingkaran pernikahan dini tanpa kesiapan mental serta ekonomi yang matang.',
+                              style: TextStyle(
+                                fontFamily: 'Lora',
+                                color: const Color(0xFF765E54),
+                                fontSize: 13.5 * scale,
+                                height: 1.5,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -104,10 +153,13 @@ class OutcomeNikahMudaScreen extends StatelessWidget {
                   top: offsetY,
                   width: rightSectionWidth,
                   height: 402.0 * scale,
-                  child: OutcomeStatPanel(
-                    isNikahMuda: true,
-                    stats: GameStateManager.instance.stats,
-                    scale: scale,
+                  child: FadeTransition(
+                    opacity: _bgCharAnim,
+                    child: OutcomeStatPanel(
+                      isNikahMuda: true,
+                      stats: GameStateManager.instance.stats,
+                      scale: scale,
+                    ),
                   ),
                 ),
 
