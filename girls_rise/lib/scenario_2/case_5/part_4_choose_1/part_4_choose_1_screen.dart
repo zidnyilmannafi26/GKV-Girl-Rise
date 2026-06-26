@@ -92,8 +92,8 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
             // Character (Right side)
             Positioned(
               left: offsetX + 450.0 * scale,
-              bottom: 0,
-              height: 318.0 * scale,
+              bottom: -45.0 * scale,
+              height: 360.0 * scale,
               child: Image.asset(
                 'assets/images/cewe.nangis.mataterbuka.png',
                 fit: BoxFit.contain,

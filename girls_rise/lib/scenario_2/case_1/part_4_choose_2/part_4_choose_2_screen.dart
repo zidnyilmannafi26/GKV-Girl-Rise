@@ -55,9 +55,10 @@ class _Part4Choose2ScreenState extends State<Part4Choose2Screen> {
 
             // Character (Right side - Enlarged and anchored to bottom-right edge)
             Positioned(
-              left: offsetX + 450.0 * scale,
-              bottom: 0,
-                            height: 318.0 * scale,
+              left: offsetX + 430.0 * scale,
+              bottom: -65.0 * scale,
+              width: 440.0 * scale,
+              height: 440.0 * scale,
               child: Image.asset(
                 'assets/images/ibu.bapak.biasa.png',
                 fit: BoxFit.contain,

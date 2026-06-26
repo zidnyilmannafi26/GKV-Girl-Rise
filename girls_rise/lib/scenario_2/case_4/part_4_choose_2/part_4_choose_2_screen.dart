@@ -56,8 +56,8 @@ class _Part4Choose2ScreenState extends State<Part4Choose2Screen> {
             // Character (Right side - Enlarged and anchored to bottom edge)
             Positioned(
               left: offsetX + 450.0 * scale,
-              bottom: 0,
-              height: 318.0 * scale,
+              bottom: -45.0 * scale,
+              height: 360.0 * scale,
               child: Image.asset(
                 'assets/images/extracted_intro3.png',
                 fit: BoxFit.contain,
