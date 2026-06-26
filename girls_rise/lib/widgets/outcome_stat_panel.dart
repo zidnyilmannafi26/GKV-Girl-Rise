@@ -187,9 +187,12 @@ class _OutcomeStatPanelState extends State<OutcomeStatPanel>
               child: GameParameterBar(item: item, scale: s),
             ),
           SizedBox(height: 12.0 * s),
-          Divider(
-            color: const Color(0xFFB59D93).withValues(alpha: 0.5),
-            thickness: 1,
+          SizedBox(
+            width: 141.0 * s,
+            child: Divider(
+              color: const Color(0xFFB59D93).withValues(alpha: 0.5),
+              thickness: 1,
+            ),
           ),
           SizedBox(height: 14.0 * s),
           Expanded(
