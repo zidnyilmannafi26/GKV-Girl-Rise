@@ -38,7 +38,7 @@ class GameStatsOverlay extends StatelessWidget {
 
         return Positioned(
           top: offsetY + 18.0 * scale,
-          right: offsetX + 18.0 * scale,
+          right: offsetX + 48.0 * scale,
           width: itemWidth,
           height: totalHeight,
           child: IgnorePointer(
