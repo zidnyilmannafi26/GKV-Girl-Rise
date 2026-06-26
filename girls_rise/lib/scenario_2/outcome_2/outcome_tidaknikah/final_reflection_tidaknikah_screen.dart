@@ -2,7 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:girls_rise/scenario_2/case_1/part_1/part_1_screen.dart' as sc2_part1;
+import 'package:girls_rise/scenario_2/intro/scenario_2_intro_screen.dart';
 import 'package:girls_rise/screens/home_screen.dart';
 import 'package:girls_rise/services/game_state_manager.dart';
 import 'package:girls_rise/utils/fade_page_route.dart';
@@ -56,7 +56,7 @@ class _FinalReflectionTidakNikahScreenState extends State<FinalReflectionTidakNi
   void _restartScenario() {
     GameStateManager.instance.startScenario(2);
     Navigator.of(context).pushAndRemoveUntil(
-      FadePageRoute(page: const sc2_part1.Part1Screen()),
+      FadePageRoute(page: const Scenario2IntroScreen()),
       (route) => route.isFirst,
     );
   }
