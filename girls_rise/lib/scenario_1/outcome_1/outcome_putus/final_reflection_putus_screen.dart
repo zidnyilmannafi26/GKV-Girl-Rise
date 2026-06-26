@@ -28,20 +28,20 @@ class _FinalReflectionPutusScreenState extends State<FinalReflectionPutusScreen>
     super.initState();
     _mainController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 3200),
+      duration: const Duration(milliseconds: 6500),
     );
 
     _step1Anim = CurvedAnimation(
       parent: _mainController,
-      curve: const Interval(0.0, 0.4, curve: Curves.easeOutQuart),
+      curve: const Interval(0.0, 0.25, curve: Curves.easeOutQuart),
     );
     _step2Anim = CurvedAnimation(
       parent: _mainController,
-      curve: const Interval(0.35, 0.75, curve: Curves.easeOutQuart),
+      curve: const Interval(0.40, 0.65, curve: Curves.easeOutQuart),
     );
     _step3Anim = CurvedAnimation(
       parent: _mainController,
-      curve: const Interval(0.7, 1.0, curve: Curves.easeOutQuart),
+      curve: const Interval(0.80, 1.0, curve: Curves.easeOutQuart),
     );
 
     _mainController.forward();

@@ -16,6 +16,12 @@ class GameStateManager extends ChangeNotifier {
   final List<List<StatItem>> _historyStack = [];
 
   bool get isScenarioActive => activeScenarioId != null;
+  bool isEndingMode = false;
+
+  void setEndingMode(bool val) {
+    isEndingMode = val;
+    notifyListeners();
+  }
 
   void startScenario(int scenarioId) {
     activeScenarioId = scenarioId;
@@ -33,6 +39,7 @@ class GameStateManager extends ChangeNotifier {
   }
 
   void reset() {
+    isEndingMode = false;
     _stats = [
       const StatItem(type: StatType.pendidikan, value: 50, initialRank: 0),
       const StatItem(type: StatType.ekonomi, value: 50, initialRank: 1),

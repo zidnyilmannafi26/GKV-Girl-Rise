@@ -12,7 +12,8 @@ class GameStatsOverlay extends StatelessWidget {
     return ListenableBuilder(
       listenable: GameStateManager.instance,
       builder: (context, _) {
-        if (!GameStateManager.instance.isScenarioActive) {
+        if (!GameStateManager.instance.isScenarioActive ||
+            GameStateManager.instance.isEndingMode) {
           return const SizedBox.shrink();
         }
 

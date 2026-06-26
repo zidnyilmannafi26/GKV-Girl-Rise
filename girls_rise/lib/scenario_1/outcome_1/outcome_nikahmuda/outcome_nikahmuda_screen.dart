@@ -52,10 +52,10 @@ class OutcomeNikahMudaScreen extends StatelessWidget {
                   ),
                 ),
 
-                // Character (Thigh cropped anatomy - grounded at bottom -45)
+                // Character (Thigh cropped anatomy - lifted slightly for better split-screen proportion)
                 Positioned(
                   left: offsetX,
-                  bottom: offsetY - 45.0 * scale,
+                  bottom: offsetY - 10.0 * scale,
                   width: leftSectionWidth,
                   height: 360.0 * scale,
                   child: IgnorePointer(
@@ -68,25 +68,30 @@ class OutcomeNikahMudaScreen extends StatelessWidget {
                   ),
                 ),
 
-                // Dialogue Text Box (bottom of left section)
+                // Dialogue Text Box (bottom of left section - scrollable text)
                 Positioned(
                   left: offsetX + 21.33 * scale,
                   bottom: offsetY,
                   width: 540.0 * scale,
                   height: 141.0 * scale,
-                  child: IgnorePointer(
-                    child: DialogueTextBox(
-                      scale: scale,
-                      width: 540.0,
-                      height: 141.0,
-                      headerTabAsset: 'assets/text_Box/OUTCOME.svg',
-                      child: Text(
-                        'Beberapa minggu kemudian, kamu terlambat datang bulan dan dinyatakan positif hamil. Impian besarmu terhenti seketika. Kamu harus keluar dari sekolah akibat sanksi, menahan cemoohan lingkungan, dan terjebak dalam lingkaran pernikahan dini tanpa kesiapan mental serta ekonomi yang matang.',
-                        style: TextStyle(
-                          fontFamily: 'Lora',
-                          color: const Color(0xFF765E54),
-                          fontSize: 13.5 * scale,
-                          height: 1.5,
+                  child: DialogueTextBox(
+                    scale: scale,
+                    width: 540.0,
+                    height: 141.0,
+                    headerTabAsset: 'assets/text_Box/OUTCOME.svg',
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: GestureDetector(
+                        onTap: () => _nextStep(context),
+                        behavior: HitTestBehavior.translucent,
+                        child: Text(
+                          'Beberapa minggu kemudian, kamu terlambat datang bulan dan dinyatakan positif hamil. Impian besarmu terhenti seketika. Kamu harus keluar dari sekolah akibat sanksi, menahan cemoohan lingkungan, dan terjebak dalam lingkaran pernikahan dini tanpa kesiapan mental serta ekonomi yang matang.',
+                          style: TextStyle(
+                            fontFamily: 'Lora',
+                            color: const Color(0xFF765E54),
+                            fontSize: 13.5 * scale,
+                            height: 1.5,
+                          ),
                         ),
                       ),
                     ),
@@ -99,12 +104,10 @@ class OutcomeNikahMudaScreen extends StatelessWidget {
                   top: offsetY,
                   width: rightSectionWidth,
                   height: 402.0 * scale,
-                  child: IgnorePointer(
-                    child: OutcomeStatPanel(
-                      isNikahMuda: true,
-                      stats: GameStateManager.instance.stats,
-                      scale: scale,
-                    ),
+                  child: OutcomeStatPanel(
+                    isNikahMuda: true,
+                    stats: GameStateManager.instance.stats,
+                    scale: scale,
                   ),
                 ),
 

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/reflection_text_box.dart';
 import 'package:girls_rise/models/game_stats.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
 import '../../outcome_1/outcome_nikahmuda/outcome_nikahmuda_screen.dart';
 
 class Part3Choose1Screen extends StatefulWidget {
@@ -16,6 +17,7 @@ class Part3Choose1Screen extends StatefulWidget {
 
 class _Part3Choose1ScreenState extends State<Part3Choose1Screen> {
   void _nextStep() {
+    GameStateManager.instance.setEndingMode(true);
     Navigator.of(context).push(
       FadePageRoute(page: const OutcomeNikahMudaScreen()),
     );

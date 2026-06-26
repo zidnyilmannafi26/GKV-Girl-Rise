@@ -52,10 +52,10 @@ class OutcomePutusScreen extends StatelessWidget {
                   ),
                 ),
 
-                // Character (Full body anatomy - grounded at bottom 0)
+                // Character (Full body anatomy - lifted slightly for better split proportion)
                 Positioned(
                   left: offsetX,
-                  bottom: offsetY,
+                  bottom: offsetY + 18.0 * scale,
                   width: leftSectionWidth,
                   height: 318.0 * scale,
                   child: IgnorePointer(
@@ -68,25 +68,30 @@ class OutcomePutusScreen extends StatelessWidget {
                   ),
                 ),
 
-                // Dialogue Text Box (bottom of left section)
+                // Dialogue Text Box (bottom of left section - scrollable text)
                 Positioned(
                   left: offsetX + 21.33 * scale,
                   bottom: offsetY,
                   width: 540.0 * scale,
                   height: 141.0 * scale,
-                  child: IgnorePointer(
-                    child: DialogueTextBox(
-                      scale: scale,
-                      width: 540.0,
-                      height: 141.0,
-                      headerTabAsset: 'assets/text_Box/OUTCOME.svg',
-                      child: Text(
-                        'Hubungan 4 tahun kalian berakhir dengan sangat menyakitkan malam itu juga. Namun, kamu sadar bahwa ini adalah hubungan yang toxic, keberanianmu menolak berhasil menyelamatkan masa depanmu. Lima tahun kemudian, kamu sukses menyelesaikan pendidikan tinggi di universitas terbaik dengan predikat Cum Laude. Kamu menjelma menjadi wanita karir mandiri yang sukses dan berdaya penuh atas kehidupannya sendiri.',
-                        style: TextStyle(
-                          fontFamily: 'Lora',
-                          color: const Color(0xFF765E54),
-                          fontSize: 13.5 * scale,
-                          height: 1.5,
+                  child: DialogueTextBox(
+                    scale: scale,
+                    width: 540.0,
+                    height: 141.0,
+                    headerTabAsset: 'assets/text_Box/OUTCOME.svg',
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: GestureDetector(
+                        onTap: () => _nextStep(context),
+                        behavior: HitTestBehavior.translucent,
+                        child: Text(
+                          'Hubungan 4 tahun kalian berakhir dengan sangat menyakitkan malam itu juga. Namun, kamu sadar bahwa ini adalah hubungan yang toxic, keberanianmu menolak berhasil menyelamatkan masa depanmu. Lima tahun kemudian, kamu sukses menyelesaikan pendidikan tinggi di universitas terbaik dengan predikat Cum Laude. Kamu menjelma menjadi wanita karir mandiri yang sukses dan berdaya penuh atas kehidupannya sendiri.',
+                          style: TextStyle(
+                            fontFamily: 'Lora',
+                            color: const Color(0xFF765E54),
+                            fontSize: 13.5 * scale,
+                            height: 1.5,
+                          ),
                         ),
                       ),
                     ),
@@ -99,12 +104,10 @@ class OutcomePutusScreen extends StatelessWidget {
                   top: offsetY,
                   width: rightSectionWidth,
                   height: 402.0 * scale,
-                  child: IgnorePointer(
-                    child: OutcomeStatPanel(
-                      isNikahMuda: false,
-                      stats: GameStateManager.instance.stats,
-                      scale: scale,
-                    ),
+                  child: OutcomeStatPanel(
+                    isNikahMuda: false,
+                    stats: GameStateManager.instance.stats,
+                    scale: scale,
                   ),
                 ),
 
