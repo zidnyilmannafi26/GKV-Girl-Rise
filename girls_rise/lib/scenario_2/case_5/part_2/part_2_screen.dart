@@ -6,6 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import '../part_2_1/part_2_1_screen.dart';
 
+import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/story_controller.dart';
+
 class Part2Screen extends StatefulWidget {
   const Part2Screen({super.key});
 
@@ -15,6 +18,7 @@ class Part2Screen extends StatefulWidget {
 
 class _Part2ScreenState extends State<Part2Screen> {
   void _handleTap() {
+    if (StoryController.instance.interceptTap()) return;
     Navigator.of(context).push(
       FadePageRoute(page: const Part21Screen()),
     );
@@ -73,9 +77,7 @@ class _Part2ScreenState extends State<Part2Screen> {
     final double scale = min(scaleX, scaleY);
 
     final double activeCanvasWidth = designWidth * scale;
-    final double activeCanvasHeight = designHeight * scale;
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
-    final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 
     return Scaffold(
       body: GestureDetector(
@@ -96,7 +98,7 @@ class _Part2ScreenState extends State<Part2Screen> {
               left: offsetX + 284.0 * scale,
               bottom: 55.0 * scale,
               height: 318.0 * scale,
-              child: Image.asset(
+              child: DynamicCharacter(
                 'assets/images/bapak.marah.png',
                 fit: BoxFit.contain,
               ),
@@ -107,7 +109,7 @@ class _Part2ScreenState extends State<Part2Screen> {
               left: offsetX + 425.662 * scale,
               bottom: 55.0 * scale,
               height: 318.0 * scale,
-              child: Image.asset(
+              child: DynamicCharacter(
                 'assets/images/ibu.marah.bawah.png',
                 fit: BoxFit.contain,
               ),

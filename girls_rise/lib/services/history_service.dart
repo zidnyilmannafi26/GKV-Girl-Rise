@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/game_stats.dart';
 import '../models/match_record.dart';
+import 'audio_service.dart';
 
 class HistoryService {
   static final HistoryService instance = HistoryService._internal();
@@ -31,6 +32,7 @@ class HistoryService {
     required String outcomeId,
     required List<StatItem> stats,
   }) async {
+    AudioService.instance.playOutcomeChimeSfx();
     final history = await getHistory();
     final int newMatchNo = history.isEmpty ? 1 : history.last.matchNumber + 1;
 

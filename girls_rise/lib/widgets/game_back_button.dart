@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../services/audio_service.dart';
 import '../services/game_state_manager.dart';
 import '../screens/scenario_selection_screen.dart';
 import '../utils/fade_page_route.dart';
@@ -87,7 +88,10 @@ class GameBackButton extends StatelessWidget {
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: () => Navigator.of(dialogContext).pop(false),
+                        onPressed: () {
+                          AudioService.instance.playImportantClickSfx();
+                          Navigator.of(dialogContext).pop(false);
+                        },
                         style: OutlinedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 13.0 * scale),
                           side: const BorderSide(color: Color(0xFF9C6C69), width: 1.5),
@@ -108,7 +112,10 @@ class GameBackButton extends StatelessWidget {
                     SizedBox(width: 14.0 * scale),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () => Navigator.of(dialogContext).pop(true),
+                        onPressed: () {
+                          AudioService.instance.playImportantClickSfx();
+                          Navigator.of(dialogContext).pop(true);
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFDB2B2C),
                           padding: EdgeInsets.symmetric(vertical: 13.0 * scale),
@@ -140,7 +147,7 @@ class GameBackButton extends StatelessWidget {
       GameStateManager.instance.resetScenario();
       Navigator.of(context).pushAndRemoveUntil(
         FadePageRoute(page: const ScenarioSelectionScreen()),
-        (route) => false,
+        (route) => route.isFirst,
       );
     }
   }
@@ -170,7 +177,10 @@ class GameBackButton extends StatelessWidget {
             _showExitConfirmDialog(context);
           },
           child: GestureDetector(
-            onTap: () => _showExitConfirmDialog(context),
+            onTap: () {
+              AudioService.instance.playImportantClickSfx();
+              _showExitConfirmDialog(context);
+            },
             child: Container(
               width: 42,
               height: 42,
@@ -205,7 +215,14 @@ class GameBackButton extends StatelessWidget {
       child: PopScope(
         canPop: true,
         child: GestureDetector(
-          onTap: customOnBack ?? () => Navigator.of(context).pop(),
+          onTap: () {
+            AudioService.instance.playImportantClickSfx();
+            if (customOnBack != null) {
+              customOnBack!();
+            } else {
+              Navigator.of(context).pop();
+            }
+          },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             decoration: BoxDecoration(

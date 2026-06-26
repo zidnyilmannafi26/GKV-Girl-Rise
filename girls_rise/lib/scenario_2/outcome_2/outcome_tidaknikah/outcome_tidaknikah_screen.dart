@@ -8,6 +8,8 @@ import 'package:girls_rise/widgets/game_back_button.dart';
 import 'package:girls_rise/widgets/outcome_stat_panel.dart';
 import 'final_reflection_tidaknikah_screen.dart';
 
+import 'package:girls_rise/widgets/dynamic_character.dart';
+
 class OutcomeTidakNikahScreen extends StatefulWidget {
   const OutcomeTidakNikahScreen({super.key});
 
@@ -170,7 +172,7 @@ class _OutcomeTidakNikahScreenState extends State<OutcomeTidakNikahScreen>
                       position: _charSlideAnim,
                       child: IgnorePointer(
                         child: Center(
-                          child: Image.asset(
+                          child: DynamicCharacter(
                             'assets/images/cewe.senang.png',
                             fit: BoxFit.contain,
                           ),

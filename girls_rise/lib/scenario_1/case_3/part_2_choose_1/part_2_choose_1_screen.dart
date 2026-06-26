@@ -2,10 +2,12 @@ import 'package:girls_rise/widgets/game_back_button.dart';
 import 'package:girls_rise/utils/fade_page_route.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/reflection_text_box.dart';
 import 'package:girls_rise/models/game_stats.dart';
 import '../../case_4/part_1/part_1_screen.dart';
+
+import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/story_controller.dart';
 
 class Part2Choose1Screen extends StatefulWidget {
   const Part2Choose1Screen({super.key});
@@ -16,6 +18,7 @@ class Part2Choose1Screen extends StatefulWidget {
 
 class _Part2Choose1ScreenState extends State<Part2Choose1Screen> {
   void _nextStep() {
+    if (StoryController.instance.interceptTap()) return;
     Navigator.of(context).push(
       FadePageRoute(page: const Part1Screen())
     );
@@ -55,9 +58,9 @@ class _Part2Choose1ScreenState extends State<Part2Choose1Screen> {
             // Karakter di kanan reflection frame digeser agak ke kiri
             Positioned(
               left: offsetX + 530.0 * scale,
-              bottom: 0,
-              height: 318.0 * scale,
-              child: Image.asset(
+              bottom: -40.0 * scale,
+              height: 358.0 * scale,
+              child: DynamicCharacter(
                 'assets/images/cewe.senang.png',
                 fit: BoxFit.contain,
               ),

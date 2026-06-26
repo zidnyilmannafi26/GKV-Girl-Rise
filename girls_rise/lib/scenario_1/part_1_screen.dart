@@ -7,6 +7,9 @@ import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import '../services/game_state_manager.dart';
 import 'part_2_screen.dart';
 
+import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/story_controller.dart';
+
 class Part1Screen extends StatefulWidget {
   const Part1Screen({super.key});
 
@@ -37,13 +40,12 @@ class _Part1ScreenState extends State<Part1Screen> {
     final double scale = min(scaleX, scaleY);
 
     final double activeCanvasWidth = designWidth * scale;
-    final double activeCanvasHeight = designHeight * scale;
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
-    final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 
     return Scaffold(
       body: GestureDetector(
         onTap: () {
+          if (StoryController.instance.interceptTap()) return;
           Navigator.of(context).push(
             FadePageRoute(page: const Part2Screen())
           );
@@ -64,7 +66,7 @@ class _Part1ScreenState extends State<Part1Screen> {
               left: offsetX + 150.0 * scale,
               bottom: 55.0 * scale,
               height: 318.0 * scale,
-              child: Image.asset(
+              child: DynamicCharacter(
                 'assets/images/cewe.cowo.sedih.png',
                 fit: BoxFit.contain,
               ),

@@ -2,7 +2,6 @@ import 'package:girls_rise/utils/fade_page_route.dart';
 import 'package:girls_rise/widgets/game_back_button.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/choice_text_box.dart';
 
 import '../part_4_choose_1/part_4_choose_1_screen.dart';
@@ -26,9 +25,7 @@ class Part3Screen extends StatelessWidget {
     final double scaleY = screenHeight / designHeight;
     final double scale = min(scaleX, scaleY);
     final double activeCanvasWidth = designWidth * scale;
-    final double activeCanvasHeight = designHeight * scale;
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
-    final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 
     return Scaffold(
       body: Stack(

@@ -2,10 +2,13 @@ import 'package:girls_rise/utils/fade_page_route.dart';
 import 'package:girls_rise/widgets/game_back_button.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../services/game_state_manager.dart';
+import '../../services/audio_service.dart';
 import '../case_1/part_1/part_1_screen.dart';
+
+import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/story_controller.dart';
 
 class Scenario2IntroScreen extends StatefulWidget {
   const Scenario2IntroScreen({super.key});
@@ -26,6 +29,8 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
   }
 
   void _nextStep() {
+    if (StoryController.instance.interceptTap()) return;
+    AudioService.instance.playTransitionSfx();
     if (_currentStep < 2) {
       setState(() {
         _currentStep++;
@@ -72,9 +77,7 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
 
     // Active canvas offsets to center the game canvas on the screen
     final double activeCanvasWidth = designWidth * scale;
-    final double activeCanvasHeight = designHeight * scale;
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
-    final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 
     final double charHeight = 318.0 * scale;
 
@@ -94,24 +97,32 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
 
             // 1. Bapak (Father)
             AnimatedPositioned(
-              duration: const Duration(milliseconds: 600),
-              curve: Curves.easeInOutCubic,
-              left: _currentStep == 2 ? -350.0 * scale : offsetX + 270.0 * scale,
+              duration: const Duration(milliseconds: 550),
+              curve: Curves.easeOutCubic,
+              left: _currentStep == 2
+                  ? offsetX - 350.0 * scale
+                  : (_currentStep == 1 ? offsetX + 250.0 * scale : offsetX + 230.0 * scale),
               bottom: 55.0 * scale,
               child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 450),
                 opacity: _currentStep == 2 ? 0.0 : 1.0,
                 child: SizedBox(
+                  width: 250.0 * scale,
                   height: charHeight,
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 350),
-                    child: Image.asset(
-                      _currentStep == 0
-                          ? 'assets/images/bapak.png'
-                          : 'assets/images/bapak.marah.png',
-                      key: ValueKey<String>(_currentStep == 0 ? 'bapak_normal' : 'bapak_marah'),
-                      fit: BoxFit.contain,
-                    ),
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      AnimatedOpacity(
+                        duration: const Duration(milliseconds: 350),
+                        opacity: _currentStep == 0 ? 1.0 : 0.0,
+                        child: DynamicCharacter('assets/images/bapak.png', fit: BoxFit.contain),
+                      ),
+                      AnimatedOpacity(
+                        duration: const Duration(milliseconds: 350),
+                        opacity: (_currentStep == 1 || _currentStep == 2) ? 1.0 : 0.0,
+                        child: DynamicCharacter('assets/images/bapak.marah.png', fit: BoxFit.contain),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -119,24 +130,32 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
 
             // 2. Ibu (Mother)
             AnimatedPositioned(
-              duration: const Duration(milliseconds: 600),
-              curve: Curves.easeInOutCubic,
-              left: _currentStep == 2 ? screenWidth + 100.0 * scale : offsetX + 430.0 * scale,
+              duration: const Duration(milliseconds: 550),
+              curve: Curves.easeOutCubic,
+              left: _currentStep == 2
+                  ? offsetX + 950.0 * scale
+                  : (_currentStep == 1 ? offsetX + 430.0 * scale : offsetX + 450.0 * scale),
               bottom: 55.0 * scale,
               child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 450),
                 opacity: _currentStep == 2 ? 0.0 : 1.0,
                 child: SizedBox(
+                  width: 250.0 * scale,
                   height: charHeight,
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 350),
-                    child: Image.asset(
-                      _currentStep == 0
-                          ? 'assets/images/ibu.png'
-                          : 'assets/images/ibu.marah.png',
-                      key: ValueKey<String>(_currentStep == 0 ? 'ibu_normal' : 'ibu_marah'),
-                      fit: BoxFit.contain,
-                    ),
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      AnimatedOpacity(
+                        duration: const Duration(milliseconds: 350),
+                        opacity: _currentStep == 0 ? 1.0 : 0.0,
+                        child: DynamicCharacter('assets/images/ibu.png', fit: BoxFit.contain),
+                      ),
+                      AnimatedOpacity(
+                        duration: const Duration(milliseconds: 350),
+                        opacity: (_currentStep == 1 || _currentStep == 2) ? 1.0 : 0.0,
+                        child: DynamicCharacter('assets/images/ibu.marah.png', fit: BoxFit.contain),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -144,16 +163,17 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
 
             // 3. Cewe (Daughter)
             AnimatedPositioned(
-              duration: const Duration(milliseconds: 600),
-              curve: Curves.easeInOutCubic,
-              left: _currentStep == 2 ? offsetX + 350.0 * scale : -350.0 * scale,
-              bottom: 55.0 * scale,
+              duration: const Duration(milliseconds: 650),
+              curve: Curves.easeOutCubic,
+              left: offsetX + 340.0 * scale,
+              bottom: _currentStep == 2 ? 55.0 * scale : 35.0 * scale,
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 500),
                 opacity: _currentStep == 2 ? 1.0 : 0.0,
                 child: SizedBox(
+                  width: 250.0 * scale,
                   height: charHeight,
-                  child: Image.asset(
+                  child: DynamicCharacter(
                     'assets/images/cewe.bingung.png',
                     fit: BoxFit.contain,
                   ),
@@ -202,6 +222,7 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
                 : GameBackButton(
                     type: BackButtonType.normalBack,
                     customOnBack: () {
+                      AudioService.instance.playTransitionSfx();
                       setState(() {
                         _currentStep--;
                       });

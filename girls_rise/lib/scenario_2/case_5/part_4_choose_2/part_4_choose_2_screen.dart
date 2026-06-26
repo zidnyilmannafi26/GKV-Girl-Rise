@@ -7,6 +7,9 @@ import 'package:girls_rise/models/game_stats.dart';
 import 'package:girls_rise/services/game_state_manager.dart';
 import 'package:girls_rise/scenario_2/outcome_2/outcome_tidaknikah/outcome_tidaknikah_screen.dart';
 
+import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/story_controller.dart';
+
 class Part4Choose2Screen extends StatefulWidget {
   const Part4Choose2Screen({super.key});
 
@@ -16,6 +19,7 @@ class Part4Choose2Screen extends StatefulWidget {
 
 class _Part4Choose2ScreenState extends State<Part4Choose2Screen> {
   void _nextStep() {
+    if (StoryController.instance.interceptTap()) return;
     GameStateManager.instance.setEndingMode(true);
     Navigator.of(context).push(
       FadePageRoute(page: const OutcomeTidakNikahScreen()),
@@ -57,9 +61,9 @@ class _Part4Choose2ScreenState extends State<Part4Choose2Screen> {
             // Character (Right side)
             Positioned(
               left: offsetX + 450.0 * scale,
-              bottom: 0,
-              height: 318.0 * scale,
-              child: Image.asset(
+              bottom: -40.0 * scale,
+              height: 358.0 * scale,
+              child: DynamicCharacter(
                 'assets/images/cewe.senang.png',
                 fit: BoxFit.contain,
               ),

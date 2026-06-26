@@ -6,6 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import 'case_1/part_1/part_1_screen.dart';
 
+import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/story_controller.dart';
+
 class Part3Screen extends StatelessWidget {
   const Part3Screen({super.key});
 
@@ -23,13 +26,12 @@ class Part3Screen extends StatelessWidget {
     final double scale = min(scaleX, scaleY);
 
     final double activeCanvasWidth = designWidth * scale;
-    final double activeCanvasHeight = designHeight * scale;
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
-    final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 
     return Scaffold(
       body: GestureDetector(
         onTap: () {
+          if (StoryController.instance.interceptTap()) return;
           Navigator.of(context).push(
             FadePageRoute(page: const Part1Screen())
           );
@@ -50,7 +52,7 @@ class Part3Screen extends StatelessWidget {
               left: offsetX + 150.0 * scale,
               bottom: 55.0 * scale,
               height: 318.0 * scale,
-              child: Image.asset(
+              child: DynamicCharacter(
                 'assets/images/cewe.bingung.png',
                 fit: BoxFit.contain,
               ),

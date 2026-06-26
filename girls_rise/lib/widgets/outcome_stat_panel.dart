@@ -234,3 +234,4 @@ class _OutcomeStatPanelState extends State<OutcomeStatPanel>
     );
   }
 }
+// End OutcomeStatPanel

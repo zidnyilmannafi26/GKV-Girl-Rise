@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../services/audio_service.dart';
+import '../widgets/dynamic_character.dart';
 import 'scenario_selection_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -67,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _ensureControllers();
+    AudioService.instance.init();
   }
 
   @override
@@ -79,6 +82,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _onStartTapped() {
     _ensureControllers();
     if (_isStarting) return;
+    AudioService.instance.playImportantClickSfx();
+    AudioService.instance.startBgm();
     setState(() => _isStarting = true);
 
     _startController!.forward().then((_) {
@@ -156,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               left: screenWidth * 0.04,
               bottom: -15,
               height: screenHeight * 0.85,
-              child: Image.asset(
+              child: const DynamicCharacter(
                 'assets/images/cewe.bingung.png',
                 fit: BoxFit.contain,
               ),
@@ -167,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               right: screenWidth * 0.04,
               bottom: -15,
               height: screenHeight * 0.85,
-              child: Image.asset(
+              child: const DynamicCharacter(
                 'assets/images/cowo.natap.kiri.png',
                 fit: BoxFit.contain,
               ),
@@ -274,6 +279,42 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   const Spacer(flex: 2),
                 ],
+              ),
+            ),
+
+            // Mute / Unmute Audio Button (top right, proporsional dan tidak mencolok)
+            Positioned(
+              top: 25,
+              right: 25,
+              child: AnimatedBuilder(
+                animation: AudioService.instance,
+                builder: (context, _) {
+                  final isMuted = AudioService.instance.isMuted;
+                  return GestureDetector(
+                    onTap: () => AudioService.instance.toggleMute(),
+                    child: Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFAF1E9).withValues(alpha: 0.85),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: const Color(0xFF9C6C69), width: 1.5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.1),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        isMuted ? Icons.volume_off_rounded : Icons.volume_up_rounded,
+                        color: const Color(0xFF765E54),
+                        size: 22,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],

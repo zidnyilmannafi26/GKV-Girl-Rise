@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import '../part_2/part_2_screen.dart';
+import 'package:girls_rise/services/story_controller.dart';
 
 class Part1Screen extends StatefulWidget {
   const Part1Screen({super.key});
@@ -15,6 +16,7 @@ class Part1Screen extends StatefulWidget {
 
 class _Part1ScreenState extends State<Part1Screen> {
   void _handleTap() {
+    if (StoryController.instance.interceptTap()) return;
     Navigator.of(context).push(
       FadePageRoute(page: const Part2Screen()),
     );
@@ -47,9 +49,7 @@ class _Part1ScreenState extends State<Part1Screen> {
     final double scale = min(scaleX, scaleY);
 
     final double activeCanvasWidth = designWidth * scale;
-    final double activeCanvasHeight = designHeight * scale;
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
-    final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 
     return Scaffold(
       body: GestureDetector(

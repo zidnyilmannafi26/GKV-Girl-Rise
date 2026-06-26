@@ -43,8 +43,17 @@ class GameStateManager extends ChangeNotifier {
   }
 
   void resetScenario() {
-    endScenario();
-    reset();
+    activeScenarioId = null;
+    isPreviewingHistory = false;
+    isEndingMode = false;
+    _stats = [
+      const StatItem(type: StatType.pendidikan, value: 50, initialRank: 0),
+      const StatItem(type: StatType.ekonomi, value: 50, initialRank: 1),
+      const StatItem(type: StatType.relasi, value: 50, initialRank: 2),
+      const StatItem(type: StatType.mental, value: 50, initialRank: 3),
+    ];
+    _historyStack.clear();
+    notifyListeners();
   }
 
   void reset() {

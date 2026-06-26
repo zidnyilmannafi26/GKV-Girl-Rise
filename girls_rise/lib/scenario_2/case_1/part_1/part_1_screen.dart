@@ -6,6 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import '../part_2/part_2_screen.dart';
 
+import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/story_controller.dart';
+
 class Part1Screen extends StatefulWidget {
   const Part1Screen({super.key});
 
@@ -17,6 +20,7 @@ class _Part1ScreenState extends State<Part1Screen> {
   int _currentStep = 0;
 
   void _handleTap() {
+    if (StoryController.instance.interceptTap()) return;
     if (_currentStep < 1) {
       setState(() {
         _currentStep++;
@@ -77,9 +81,7 @@ class _Part1ScreenState extends State<Part1Screen> {
     final double scale = min(scaleX, scaleY);
 
     final double activeCanvasWidth = designWidth * scale;
-    final double activeCanvasHeight = designHeight * scale;
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
-    final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 
 
     return Scaffold(
@@ -101,7 +103,7 @@ class _Part1ScreenState extends State<Part1Screen> {
               left: offsetX + 293.0 * scale,
               bottom: 55.0 * scale,
               height: 318.0 * scale,
-              child: Image.asset(
+              child: DynamicCharacter(
                 'assets/images/bapak.png',
                 fit: BoxFit.contain,
               ),
@@ -112,7 +114,7 @@ class _Part1ScreenState extends State<Part1Screen> {
               left: offsetX + 438.99 * scale,
               bottom: 55.0 * scale,
               height: 318.0 * scale,
-              child: Image.asset(
+              child: DynamicCharacter(
                 'assets/images/ibu.png',
                 fit: BoxFit.contain,
               ),

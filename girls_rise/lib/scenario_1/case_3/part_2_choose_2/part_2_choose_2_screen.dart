@@ -2,10 +2,12 @@ import 'package:girls_rise/widgets/game_back_button.dart';
 import 'package:girls_rise/utils/fade_page_route.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/reflection_text_box.dart';
 import 'package:girls_rise/models/game_stats.dart';
 import '../../case_4/part_1/part_1_screen.dart';
+
+import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/story_controller.dart';
 
 class Part2Choose2Screen extends StatefulWidget {
   const Part2Choose2Screen({super.key});
@@ -16,6 +18,7 @@ class Part2Choose2Screen extends StatefulWidget {
 
 class _Part2Choose2ScreenState extends State<Part2Choose2Screen> {
   void _nextStep() {
+    if (StoryController.instance.interceptTap()) return;
     Navigator.of(context).push(
       FadePageRoute(page: const Part1Screen())
     );
@@ -55,9 +58,9 @@ class _Part2Choose2ScreenState extends State<Part2Choose2Screen> {
             // Karakter utama (cewe.senyum)
             Positioned(
               left: offsetX + 480.0 * scale,
-              bottom: 0,
-              height: 318.0 * scale,
-              child: Image.asset(
+              bottom: -40.0 * scale,
+              height: 358.0 * scale,
+              child: DynamicCharacter(
                 'assets/images/cewe.senyum.png',
                 fit: BoxFit.contain,
               ),
@@ -66,11 +69,11 @@ class _Part2Choose2ScreenState extends State<Part2Choose2Screen> {
             // Karakter bayangan cewe.bingung dengan Opacity 60% persis di samping kanan menempel sedikit
             Positioned(
               left: offsetX + 590.0 * scale,
-              bottom: 0,
-              height: 318.0 * scale,
+              bottom: -40.0 * scale,
+              height: 358.0 * scale,
               child: Opacity(
                 opacity: 0.6,
-                child: Image.asset(
+                child: DynamicCharacter(
                   'assets/images/cewe.bingung.png',
                   fit: BoxFit.contain,
                 ),

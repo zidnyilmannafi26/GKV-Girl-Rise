@@ -7,6 +7,9 @@ import 'package:girls_rise/models/game_stats.dart';
 import 'package:girls_rise/services/game_state_manager.dart';
 import 'package:girls_rise/scenario_2/outcome_2/outcome_nikahmuda2/outcome_nikahmuda2_screen.dart';
 
+import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/story_controller.dart';
+
 class Part4Choose1Screen extends StatefulWidget {
   const Part4Choose1Screen({super.key});
 
@@ -16,6 +19,7 @@ class Part4Choose1Screen extends StatefulWidget {
 
 class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
   void _nextStep() {
+    if (StoryController.instance.interceptTap()) return;
     GameStateManager.instance.setEndingMode(true);
     Navigator.of(context).push(
       FadePageRoute(page: const OutcomeNikahMuda2Screen()),
@@ -59,7 +63,7 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
               left: offsetX + 450.0 * scale,
               bottom: -45.0 * scale,
               height: 360.0 * scale,
-              child: Image.asset(
+              child: DynamicCharacter(
                 'assets/images/cewe.nangis.mataterbuka.png',
                 fit: BoxFit.contain,
               ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
+import '../services/audio_service.dart';
 
 class ChoiceTextBox extends StatelessWidget {
   final double scale;
@@ -140,6 +140,7 @@ class _ChoiceButtonState extends State<ChoiceButton> {
         onTapUp: (_) => setState(() => _isPressed = false),
         onTapCancel: () => setState(() => _isPressed = false),
         onTap: () async {
+          AudioService.instance.playImportantClickSfx();
           setState(() {
             _isPressed = true;
           });

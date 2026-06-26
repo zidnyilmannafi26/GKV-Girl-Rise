@@ -6,6 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import '../part_2/part_2_screen.dart';
 
+import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/story_controller.dart';
+
 class Part1Screen extends StatelessWidget {
   const Part1Screen({super.key});
 
@@ -22,13 +25,12 @@ class Part1Screen extends StatelessWidget {
     final double scaleY = screenHeight / designHeight;
     final double scale = min(scaleX, scaleY);
     final double activeCanvasWidth = designWidth * scale;
-    final double activeCanvasHeight = designHeight * scale;
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
-    final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 
     return Scaffold(
       body: GestureDetector(
         onTap: () {
+          if (StoryController.instance.interceptTap()) return;
           Navigator.of(context).push(
             FadePageRoute(page: const Part2Screen())
           );
@@ -49,7 +51,7 @@ class Part1Screen extends StatelessWidget {
               left: offsetX + 180.0 * scale,
               bottom: 55.0 * scale,
               height: 318.0 * scale,
-              child: Image.asset(
+              child: DynamicCharacter(
                 'assets/images/cewe.bingung.png',
                 fit: BoxFit.contain,
               ),
@@ -60,7 +62,7 @@ class Part1Screen extends StatelessWidget {
               left: offsetX + 430.0 * scale,
               bottom: 55.0 * scale,
               height: 318.0 * scale,
-              child: Image.asset(
+              child: DynamicCharacter(
                 'assets/images/cowo.senang.png',
                 fit: BoxFit.contain,
               ),

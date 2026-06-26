@@ -5,9 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../scenario_1/part_1_screen.dart';
 import '../scenario_2/intro/scenario_2_intro_screen.dart';
+import '../services/audio_service.dart';
 import '../services/game_state_manager.dart';
 import '../utils/fade_page_route.dart';
 import 'history_match_screen.dart';
+import 'home_screen.dart';
 
 class ScenarioSelectionScreen extends StatefulWidget {
   const ScenarioSelectionScreen({super.key});
@@ -29,14 +31,16 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
   Animation<double>? _historyRippleScaleAnim;
   Animation<double>? _historyRippleAlphaAnim;
 
+  AnimationController? _idleController;
+
   int? _selectedScenario; // 1 or 2
 
   void _ensureController() {
-    if (_transitionController != null && _historyBtnController != null) return;
+    if (_transitionController != null && _historyBtnController != null && _idleController != null) return;
 
     _transitionController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 650),
+      duration: const Duration(milliseconds: 450),
     );
 
     _selectedCardScaleAnim = Tween<double>(begin: 1.0, end: 1.55).animate(
@@ -73,6 +77,11 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
     _historyRippleAlphaAnim = Tween<double>(begin: 0.5, end: 0.0).animate(
       CurvedAnimation(parent: _historyBtnController!, curve: Curves.easeOutQuad),
     );
+
+    _idleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2500),
+    )..repeat();
   }
 
   @override
@@ -88,11 +97,13 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
   void dispose() {
     _transitionController?.dispose();
     _historyBtnController?.dispose();
+    _idleController?.dispose();
     super.dispose();
   }
 
   void _onHistoryTapped() async {
     _ensureController();
+    AudioService.instance.playImportantClickSfx();
     await _historyBtnController?.forward();
     if (!mounted) return;
     await Navigator.of(context).push(
@@ -103,57 +114,52 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
     }
   }
 
-  void _onSelectScenario(int scenarioId, Widget targetScreen) {
+  void _onSelectScenario(int scenarioId, Widget targetScreen) async {
     _ensureController();
     if (_selectedScenario != null) return;
+    AudioService.instance.playImportantClickSfx();
 
     setState(() {
       _selectedScenario = scenarioId;
     });
 
-    _transitionController!.forward();
+    // Jalankan animasi zoom kartu terlebih dahulu agar tidak patah berbarengan dengan build rute baru
+    await _transitionController!.forward();
 
-    Navigator.of(context)
-        .push(
+    if (!mounted) return;
+
+    await Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
-        transitionDuration: const Duration(milliseconds: 700),
-        reverseTransitionDuration: const Duration(milliseconds: 450),
+        transitionDuration: const Duration(milliseconds: 380),
+        reverseTransitionDuration: const Duration(milliseconds: 350),
         pageBuilder: (context, animation, secondaryAnimation) => targetScreen,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          final curvedAnim = CurvedAnimation(
-            parent: animation,
-            curve: Curves.easeOutCubic,
-          );
-          return FadeTransition(
-            opacity: curvedAnim,
-            child: ScaleTransition(
-              scale: Tween<double>(begin: 1.12, end: 1.0).animate(curvedAnim),
-              child: child,
-            ),
-          );
+          return FadeTransition(opacity: animation, child: child);
         },
       ),
-    )
-        .then((_) {
-      if (mounted) {
-        setState(() {
-          _selectedScenario = null;
-        });
-        _transitionController?.reset();
-        GameStateManager.instance.endScenario();
-      }
-    });
+    );
+
+    if (mounted) {
+      setState(() {
+        _selectedScenario = null;
+      });
+      _transitionController?.reset();
+      GameStateManager.instance.endScenario();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     _ensureController();
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double scale = min(screenWidth / 874.0, screenHeight / 402.0);
 
     return Scaffold(
       backgroundColor: const Color(0xFF1E1E1E),
       body: AnimatedBuilder(
-        animation: _transitionController!,
+        animation: Listenable.merge([_transitionController!, _idleController!]),
         builder: (context, _) {
           final bool isTransitioning = _selectedScenario != null;
           final double bgScale = isTransitioning ? _bgZoomAnim!.value : 1.0;
@@ -161,7 +167,7 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
 
           return Stack(
             children: [
-              // Background Image (overflowed by 30px, zooms smoothly during transition)
+              // Background Image
               Positioned(
                 top: -30,
                 bottom: -30,
@@ -185,12 +191,21 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
                   opacity: uiOpacity,
                   child: GestureDetector(
                     onTap: () {
-                      if (_selectedScenario == null) Navigator.of(context).pop();
+                      if (_selectedScenario == null) {
+                        AudioService.instance.playImportantClickSfx();
+                        if (Navigator.of(context).canPop()) {
+                          Navigator.of(context).pop();
+                        } else {
+                          Navigator.of(context).pushReplacement(
+                            FadePageRoute(page: const HomeScreen()),
+                          );
+                        }
+                      }
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFAF1E9), // Girl Rise Cream
+                        color: const Color(0xFFFAF1E9),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(color: const Color(0xFF9C6C69), width: 1.5),
                         boxShadow: [
@@ -204,7 +219,7 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
                       child: Text(
                         '← BACK',
                         style: GoogleFonts.lora(
-                          color: const Color(0xFF5A3831), // Deep brown
+                          color: const Color(0xFF5A3831),
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
                           letterSpacing: 1.0,
@@ -235,7 +250,6 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
                           Stack(
                             alignment: Alignment.center,
                             children: [
-                              // Expanding Ripple Ring
                               if (_historyBtnController!.isAnimating)
                                 Transform.scale(
                                   scale: rippleScale,
@@ -251,8 +265,6 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
                                     ),
                                   ),
                                 ),
-
-                              // Glass Medal Button
                               GestureDetector(
                                 onTap: _onHistoryTapped,
                                 child: Transform.scale(
@@ -296,7 +308,6 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
                             ],
                           ),
                           const SizedBox(height: 6),
-                          // Small Label Text [Riwayat]
                           Text(
                             'Riwayat',
                             style: GoogleFonts.poppins(
@@ -325,18 +336,18 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Scenario 1 Card
                     _buildAnimatedCard(
                       scenarioId: 1,
                       imagePath: 'assets/images/Scenario_1.png',
                       targetScreen: const Part1Screen(),
+                      scale: scale,
                     ),
-                    const SizedBox(width: 30),
-                    // Scenario 2 Card
+                    SizedBox(width: 32.0 * scale),
                     _buildAnimatedCard(
                       scenarioId: 2,
                       imagePath: 'assets/images/Scenario_2.png',
                       targetScreen: const Scenario2IntroScreen(),
+                      scale: scale,
                     ),
                   ],
                 ),
@@ -352,6 +363,7 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
     required int scenarioId,
     required String imagePath,
     required Widget targetScreen,
+    required double scale,
   }) {
     final bool isSelected = _selectedScenario == scenarioId;
     final bool isOtherSelected = _selectedScenario != null && !isSelected;
@@ -366,15 +378,25 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
       cardOpacity = _unselectedCardFadeAnim!.value;
     }
 
+    final double idleValue = _idleController?.value ?? 0.0;
+    final double floatPhase = scenarioId == 1 ? 0.0 : pi;
+    final double floatOffsetY = (_selectedScenario == null)
+        ? sin((idleValue * 2 * pi) + floatPhase) * (7.0 * scale)
+        : 0.0;
+
     return IgnorePointer(
       ignoring: _selectedScenario != null,
       child: Opacity(
         opacity: cardOpacity,
-        child: Transform.scale(
-          scale: cardScale,
-          child: InteractiveScenarioCard(
-            imagePath: imagePath,
-            onTap: () => _onSelectScenario(scenarioId, targetScreen),
+        child: Transform.translate(
+          offset: Offset(0, floatOffsetY),
+          child: Transform.scale(
+            scale: cardScale,
+            child: InteractiveScenarioCard(
+              imagePath: imagePath,
+              scale: scale,
+              onTap: () => _onSelectScenario(scenarioId, targetScreen),
+            ),
           ),
         ),
       ),
@@ -384,10 +406,12 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
 
 class InteractiveScenarioCard extends StatefulWidget {
   final String imagePath;
+  final double scale;
   final VoidCallback onTap;
 
   const InteractiveScenarioCard({
     required this.imagePath,
+    required this.scale,
     required this.onTap,
     super.key,
   });
@@ -406,7 +430,7 @@ class _InteractiveScenarioCardState extends State<InteractiveScenarioCard> {
     if (_isPressed) {
       scale = 0.95;
     } else if (_isHovered) {
-      scale = 1.05;
+      scale = 1.04;
     }
 
     final isSvg = widget.imagePath.toLowerCase().endsWith('.svg');
@@ -423,8 +447,21 @@ class _InteractiveScenarioCardState extends State<InteractiveScenarioCard> {
           scale: scale,
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeOutCubic,
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.72,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            height: 290.0 * widget.scale,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20 * widget.scale),
+              boxShadow: _isHovered
+                  ? [
+                      BoxShadow(
+                        color: const Color(0xFFFAF1E9).withValues(alpha: 0.22),
+                        blurRadius: 20 * widget.scale,
+                        spreadRadius: 2 * widget.scale,
+                      )
+                    ]
+                  : [],
+            ),
             child: isSvg
                 ? SvgPicture.asset(
                     widget.imagePath,

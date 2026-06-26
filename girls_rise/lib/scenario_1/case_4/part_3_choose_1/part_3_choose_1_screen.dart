@@ -2,10 +2,12 @@ import 'package:girls_rise/widgets/game_back_button.dart';
 import 'package:girls_rise/utils/fade_page_route.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/reflection_text_box.dart';
 import 'package:girls_rise/models/game_stats.dart';
 import '../../case_5/part_1/part_1_screen.dart';
+
+import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/story_controller.dart';
 
 class Part3Choose1Screen extends StatefulWidget {
   const Part3Choose1Screen({super.key});
@@ -16,6 +18,7 @@ class Part3Choose1Screen extends StatefulWidget {
 
 class _Part3Choose1ScreenState extends State<Part3Choose1Screen> {
   void _nextStep() {
+    if (StoryController.instance.interceptTap()) return;
     Navigator.of(context).push(
       FadePageRoute(page: const Part1Screen())
     );
@@ -57,7 +60,7 @@ class _Part3Choose1ScreenState extends State<Part3Choose1Screen> {
               left: offsetX + 530.0 * scale,
               bottom: -45.0 * scale,
               height: 360.0 * scale,
-              child: Image.asset(
+              child: DynamicCharacter(
                 'assets/images/cewe.nangis.png',
                 fit: BoxFit.contain,
               ),

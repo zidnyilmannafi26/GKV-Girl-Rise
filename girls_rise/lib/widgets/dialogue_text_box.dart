@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'typewriter_text.dart';
 
 class DialogueTextBox extends StatefulWidget {
   final double scale;
@@ -16,6 +16,7 @@ class DialogueTextBox extends StatefulWidget {
   final double headerTabTop;
   final String? bgSvgAsset;
   final bool showNextHint;
+  final bool autoAnimateStoryText;
 
   const DialogueTextBox({
     required this.scale,
@@ -30,6 +31,7 @@ class DialogueTextBox extends StatefulWidget {
     this.headerTabTop = -44.0,
     this.bgSvgAsset,
     this.showNextHint = true,
+    this.autoAnimateStoryText = true,
     super.key,
   });
 
@@ -76,22 +78,74 @@ class _DialogueTextBoxState extends State<DialogueTextBox> with SingleTickerProv
     return false;
   }
 
+  bool _isPercakapan(String text) {
+    final trimmed = text.trim();
+    return RegExp(r'^[A-Za-z0-9\s]{1,25}:').hasMatch(trimmed);
+  }
+
+  Widget _wrapWithTypewriter(Widget w) {
+    if (w is Text && w.data != null) {
+      if (_isPercakapan(w.data!)) return w;
+      return TypewriterText(
+        w.data!,
+        style: w.style,
+        textAlign: w.textAlign ?? TextAlign.justify,
+      );
+    } else if (w is RichText) {
+      final plain = w.text.toPlainText();
+      if (_isPercakapan(plain)) return w;
+      return TypewriterText.span(
+        w.text,
+        textAlign: w.textAlign,
+      );
+    } else if (w is Center && w.child != null) {
+      return Center(child: _wrapWithTypewriter(w.child!));
+    } else if (w is SingleChildScrollView && w.child != null) {
+      return SingleChildScrollView(
+        controller: w.controller,
+        physics: w.physics,
+        padding: w.padding,
+        child: _wrapWithTypewriter(w.child!),
+      );
+    } else if (w is Padding && w.child != null) {
+      return Padding(padding: w.padding, child: _wrapWithTypewriter(w.child!));
+    } else if (w is Align && w.child != null) {
+      return Align(alignment: w.alignment, child: _wrapWithTypewriter(w.child!));
+    } else if (w is AnimatedSwitcher && w.child != null) {
+      return AnimatedSwitcher(
+        duration: w.duration,
+        transitionBuilder: w.transitionBuilder,
+        layoutBuilder: w.layoutBuilder,
+        switchInCurve: w.switchInCurve,
+        switchOutCurve: w.switchOutCurve,
+        child: _wrapWithTypewriter(w.child!),
+      );
+    } else if (w is SizedBox && w.child != null) {
+      return SizedBox(
+        key: w.key,
+        width: w.width,
+        height: w.height,
+        child: _wrapWithTypewriter(w.child!),
+      );
+    } else if (w is Column) {
+      return Column(
+        key: w.key,
+        mainAxisAlignment: w.mainAxisAlignment,
+        mainAxisSize: w.mainAxisSize,
+        crossAxisAlignment: w.crossAxisAlignment,
+        textDirection: w.textDirection,
+        verticalDirection: w.verticalDirection,
+        textBaseline: w.textBaseline,
+        children: w.children.map((c) => _wrapWithTypewriter(c)).toList(),
+      );
+    }
+    return w;
+  }
+
   @override
   Widget build(BuildContext context) {
     final double boxWidth = widget.width * widget.scale;
     final double boxHeight = widget.height * widget.scale;
-
-    final String selectedBgSvg = widget.bgSvgAsset ??
-        ((widget.width / widget.height > 3.0)
-            ? 'assets/text_Box/form 5.svg'
-            : 'assets/text_Box/form 3.svg');
-
-    final bool isForm5 = selectedBgSvg == 'assets/text_Box/form 5.svg';
-
-    final double bgLeft = isForm5 ? 0.0 : -boxWidth * (99.25 / 478.40);
-    final double bgTop = isForm5 ? -boxHeight * (37.0 / 132.0) : -boxHeight * (103.62 / 229.59);
-    final double bgWidth = isForm5 ? boxWidth : boxWidth * (628.0 / 478.40);
-    final double bgHeight = isForm5 ? boxHeight * (169.0 / 132.0) : boxHeight * (372.0 / 229.59);
 
     return Stack(
       clipBehavior: Clip.none,
@@ -140,7 +194,7 @@ class _DialogueTextBoxState extends State<DialogueTextBox> with SingleTickerProv
                   _handleScrollNotification(notification.metrics);
                   return false;
                 },
-                child: widget.child,
+                child: widget.autoAnimateStoryText ? _wrapWithTypewriter(widget.child) : widget.child,
               ),
             ),
           ),

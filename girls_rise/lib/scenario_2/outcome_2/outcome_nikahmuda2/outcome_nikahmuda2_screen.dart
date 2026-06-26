@@ -8,6 +8,8 @@ import 'package:girls_rise/widgets/game_back_button.dart';
 import 'package:girls_rise/widgets/outcome_stat_panel.dart';
 import 'final_reflection_nikahmuda2_screen.dart';
 
+import 'package:girls_rise/widgets/dynamic_character.dart';
+
 class OutcomeNikahMuda2Screen extends StatefulWidget {
   const OutcomeNikahMuda2Screen({super.key});
 
@@ -176,7 +178,7 @@ class _OutcomeNikahMuda2ScreenState extends State<OutcomeNikahMuda2Screen>
                       position: _charSlideAnim,
                       child: IgnorePointer(
                         child: Center(
-                          child: Image.asset(
+                          child: DynamicCharacter(
                             'assets/images/cewe.nangis.mataterbuka.png',
                             fit: BoxFit.contain,
                           ),

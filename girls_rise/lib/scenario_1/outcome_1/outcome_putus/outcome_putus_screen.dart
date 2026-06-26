@@ -8,6 +8,8 @@ import 'package:girls_rise/widgets/game_back_button.dart';
 import 'package:girls_rise/widgets/outcome_stat_panel.dart';
 import 'final_reflection_putus_screen.dart';
 
+import 'package:girls_rise/widgets/dynamic_character.dart';
+
 class OutcomePutusScreen extends StatefulWidget {
   const OutcomePutusScreen({super.key});
 
@@ -176,7 +178,7 @@ class _OutcomePutusScreenState extends State<OutcomePutusScreen>
                       position: _charSlideAnim,
                       child: IgnorePointer(
                         child: Center(
-                          child: Image.asset(
+                          child: DynamicCharacter(
                             'assets/images/cewe.senang.png',
                             fit: BoxFit.contain,
                           ),

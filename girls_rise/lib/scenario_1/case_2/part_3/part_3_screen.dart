@@ -2,11 +2,12 @@ import 'package:girls_rise/widgets/game_back_button.dart';
 import 'package:girls_rise/utils/fade_page_route.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/choice_text_box.dart';
 import '../part_3_choose_1/part_3_choose_1_screen.dart';
 import '../part_3_choose_2/part_3_choose_2_screen.dart';
 import '../part_3_choose_3/part_3_choose_3_screen.dart';
+
+import 'package:girls_rise/widgets/dynamic_character.dart';
 
 class Part3Screen extends StatelessWidget {
   const Part3Screen({super.key});
@@ -25,9 +26,7 @@ class Part3Screen extends StatelessWidget {
     final double scale = min(scaleX, scaleY);
 
     final double activeCanvasWidth = designWidth * scale;
-    final double activeCanvasHeight = designHeight * scale;
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
-    final double offsetY = (screenHeight - activeCanvasHeight) / 2;
 
     return Scaffold(
       body: Stack(
@@ -46,7 +45,7 @@ class Part3Screen extends StatelessWidget {
             right: 0,
             bottom: 55.0 * scale,
             height: 318.0 * scale,
-            child: Image.asset(
+            child: DynamicCharacter(
               'assets/images/cewe.nangis.mataterbuka.png',
               fit: BoxFit.contain,
             ),

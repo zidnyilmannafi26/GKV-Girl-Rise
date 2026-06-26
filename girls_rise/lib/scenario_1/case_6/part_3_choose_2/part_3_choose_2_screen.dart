@@ -2,11 +2,13 @@ import 'package:girls_rise/widgets/game_back_button.dart';
 import 'package:girls_rise/utils/fade_page_route.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/reflection_text_box.dart';
 import 'package:girls_rise/models/game_stats.dart';
 import 'package:girls_rise/services/game_state_manager.dart';
 import '../../outcome_1/outcome_putus/outcome_putus_screen.dart';
+
+import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/story_controller.dart';
 
 class Part3Choose2Screen extends StatefulWidget {
   const Part3Choose2Screen({super.key});
@@ -17,6 +19,7 @@ class Part3Choose2Screen extends StatefulWidget {
 
 class _Part3Choose2ScreenState extends State<Part3Choose2Screen> {
   void _nextStep() {
+    if (StoryController.instance.interceptTap()) return;
     GameStateManager.instance.setEndingMode(true);
     Navigator.of(context).push(
       FadePageRoute(page: const OutcomePutusScreen()),
@@ -57,9 +60,9 @@ class _Part3Choose2ScreenState extends State<Part3Choose2Screen> {
             // Karakter 2 (cewe.senang) - di kiri menempel
             Positioned(
               left: offsetX + 415.0 * scale,
-              bottom: 0,
-              height: 318.0 * scale,
-              child: Image.asset(
+              bottom: -40.0 * scale,
+              height: 358.0 * scale,
+              child: DynamicCharacter(
                 'assets/images/cewe.senang.png',
                 fit: BoxFit.contain,
               ),
@@ -68,9 +71,9 @@ class _Part3Choose2ScreenState extends State<Part3Choose2Screen> {
             // Karakter 1 (cowo.marah) - di kanan
             Positioned(
               left: offsetX + 535.0 * scale,
-              bottom: 0,
-              height: 318.0 * scale,
-              child: Image.asset(
+              bottom: -40.0 * scale,
+              height: 358.0 * scale,
+              child: DynamicCharacter(
                 'assets/images/cowo.marah.png',
                 fit: BoxFit.contain,
               ),

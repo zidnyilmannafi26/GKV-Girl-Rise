@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import '../models/game_stats.dart';
 import '../services/game_state_manager.dart';
+import 'typewriter_text.dart';
 
 class ReflectionTextBox extends StatefulWidget {
   final double scale;
@@ -61,6 +62,7 @@ class _ReflectionTextBoxState extends State<ReflectionTextBox> {
     final double scale = widget.scale;
 
     return DialogueTextBox(
+      autoAnimateStoryText: false,
       scale: scale,
       width: 303.5,
       height: 225.9,
@@ -144,7 +146,7 @@ class _ReflectionTextBoxState extends State<ReflectionTextBox> {
               // Reflection Text
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 6.0 * scale),
-                child: Text(
+                child: TypewriterText(
                   widget.reflectionText,
                   style: GoogleFonts.lora(
                     fontSize: 13.0 * scale,

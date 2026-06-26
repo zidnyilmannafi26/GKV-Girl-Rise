@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/scenario_1/part_1_screen.dart';
 import 'package:girls_rise/screens/home_screen.dart';
+import 'package:girls_rise/services/audio_service.dart';
 import 'package:girls_rise/services/game_state_manager.dart';
 import 'package:girls_rise/utils/fade_page_route.dart';
 import 'package:girls_rise/widgets/game_back_button.dart';
@@ -54,6 +55,7 @@ class _FinalReflectionNikahMudaScreenState
   }
 
   void _restartScenario() {
+    AudioService.instance.playImportantClickSfx();
     GameStateManager.instance.startScenario(1);
     Navigator.of(context).pushAndRemoveUntil(
       FadePageRoute(page: const Part1Screen()),
@@ -62,6 +64,7 @@ class _FinalReflectionNikahMudaScreenState
   }
 
   void _gotoHome() {
+    AudioService.instance.playImportantClickSfx();
     GameStateManager.instance.resetScenario();
     Navigator.of(context).pushAndRemoveUntil(
       FadePageRoute(page: const HomeScreen()),
@@ -197,20 +200,13 @@ class _FinalReflectionNikahMudaScreenState
                             opacity: _step3Anim,
                             child: GameStateManager.instance.isPreviewingHistory
                                 ? Center(
-                                    child: ElevatedButton.icon(
+                                    child: ElevatedButton(
                                       onPressed: () {
+                                        AudioService.instance.playImportantClickSfx();
                                         GameStateManager.instance.endScenario();
                                         Navigator.of(context).pop();
                                         Navigator.of(context).pop();
                                       },
-                                      icon: Icon(Icons.arrow_back_rounded, size: 18 * scale),
-                                      label: Text(
-                                        '← Kembali ke Riwayat',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 13 * scale,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: const Color(0xFF765E54),
                                         foregroundColor: const Color(0xFFFDF7F0),
@@ -221,6 +217,13 @@ class _FinalReflectionNikahMudaScreenState
                                         elevation: 4,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(25 * scale),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        '← Kembali ke Riwayat',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 13 * scale,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
