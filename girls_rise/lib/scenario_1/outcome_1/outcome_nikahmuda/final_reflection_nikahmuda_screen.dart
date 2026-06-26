@@ -195,61 +195,91 @@ class _FinalReflectionNikahMudaScreenState
                           // Recommendation #1: Endgame Navigation Buttons
                           FadeTransition(
                             opacity: _step3Anim,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // Restart Button
-                                ElevatedButton.icon(
-                                  onPressed: _restartScenario,
-                                  icon: Icon(Icons.refresh_rounded, size: 18 * scale),
-                                  label: Text(
-                                    'Ulangi Skenario 1',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 13 * scale,
-                                      fontWeight: FontWeight.w600,
+                            child: GameStateManager.instance.isPreviewingHistory
+                                ? Center(
+                                    child: ElevatedButton.icon(
+                                      onPressed: () {
+                                        GameStateManager.instance.endScenario();
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).pop();
+                                      },
+                                      icon: Icon(Icons.arrow_back_rounded, size: 18 * scale),
+                                      label: Text(
+                                        '← Kembali ke Riwayat',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 13 * scale,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color(0xFF765E54),
+                                        foregroundColor: const Color(0xFFFDF7F0),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 24 * scale,
+                                          vertical: 12 * scale,
+                                        ),
+                                        elevation: 4,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(25 * scale),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF765E54),
-                                    foregroundColor: const Color(0xFFFDF7F0),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 20 * scale,
-                                      vertical: 12 * scale,
-                                    ),
-                                    elevation: 4,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25 * scale),
-                                    ),
-                                  ),
-                                ),
+                                  )
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      // Restart Button
+                                      ElevatedButton.icon(
+                                        onPressed: _restartScenario,
+                                        icon: Icon(Icons.refresh_rounded, size: 18 * scale),
+                                        label: Text(
+                                          'Ulangi Skenario 1',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13 * scale,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: const Color(0xFF765E54),
+                                          foregroundColor: const Color(0xFFFDF7F0),
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 20 * scale,
+                                            vertical: 12 * scale,
+                                          ),
+                                          elevation: 4,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(25 * scale),
+                                          ),
+                                        ),
+                                      ),
 
-                                SizedBox(width: 20.0 * scale),
+                                      SizedBox(width: 20.0 * scale),
 
-                                // Main Menu Button
-                                OutlinedButton.icon(
-                                  onPressed: _gotoHome,
-                                  icon: Icon(Icons.home_rounded, size: 18 * scale),
-                                  label: Text(
-                                    'Menu Utama',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 13 * scale,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                      // Main Menu Button
+                                      OutlinedButton.icon(
+                                        onPressed: _gotoHome,
+                                        icon: Icon(Icons.home_rounded, size: 18 * scale),
+                                        label: Text(
+                                          'Menu Utama',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 13 * scale,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        style: OutlinedButton.styleFrom(
+                                          foregroundColor: const Color(0xFF765E54),
+                                          side: const BorderSide(color: Color(0xFF765E54), width: 1.5),
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 20 * scale,
+                                            vertical: 12 * scale,
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(25 * scale),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  style: OutlinedButton.styleFrom(
-                                    foregroundColor: const Color(0xFF765E54),
-                                    side: const BorderSide(color: Color(0xFF765E54), width: 1.5),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 20 * scale,
-                                      vertical: 12 * scale,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25 * scale),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         ],
                       ),

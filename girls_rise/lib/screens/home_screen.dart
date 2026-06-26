@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../utils/fade_page_route.dart';
+import 'history_match_screen.dart';
 import 'scenario_selection_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -43,11 +45,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     _buttonTapScaleAnim = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween(begin: 1.0, end: 0.92).chain(CurveTween(curve: Curves.easeOut)),
+        tween: Tween(
+          begin: 1.0,
+          end: 0.92,
+        ).chain(CurveTween(curve: Curves.easeOut)),
         weight: 30,
       ),
       TweenSequenceItem(
-        tween: Tween(begin: 0.92, end: 1.3).chain(CurveTween(curve: Curves.easeInQuad)),
+        tween: Tween(
+          begin: 0.92,
+          end: 1.3,
+        ).chain(CurveTween(curve: Curves.easeInQuad)),
         weight: 70,
       ),
     ]).animate(_startController!);
@@ -78,33 +86,34 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _startController!.forward().then((_) {
       Navigator.of(context)
           .push(
-        PageRouteBuilder(
-          settings: const RouteSettings(name: '/selection'),
-          transitionDuration: const Duration(milliseconds: 650),
-          reverseTransitionDuration: const Duration(milliseconds: 450),
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const ScenarioSelectionScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            final curvedAnim = CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeOutExpo,
-            );
-            return ScaleTransition(
-              scale: Tween<double>(begin: 1.18, end: 1.0).animate(curvedAnim),
-              child: FadeTransition(
-                opacity: curvedAnim,
-                child: child,
-              ),
-            );
-          },
-        ),
-      )
+            PageRouteBuilder(
+              settings: const RouteSettings(name: '/selection'),
+              transitionDuration: const Duration(milliseconds: 650),
+              reverseTransitionDuration: const Duration(milliseconds: 450),
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const ScenarioSelectionScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                    final curvedAnim = CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeOutExpo,
+                    );
+                    return ScaleTransition(
+                      scale: Tween<double>(
+                        begin: 1.18,
+                        end: 1.0,
+                      ).animate(curvedAnim),
+                      child: FadeTransition(opacity: curvedAnim, child: child),
+                    );
+                  },
+            ),
+          )
           .then((_) {
-        if (mounted) {
-          setState(() => _isStarting = false);
-          _startController?.reset();
-        }
-      });
+            if (mounted) {
+              setState(() => _isStarting = false);
+              _startController?.reset();
+            }
+          });
     });
   }
 
@@ -174,12 +183,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 decoration: BoxDecoration(
                   color: const Color(0xFFFAF1E9).withValues(alpha: 0.85),
                   shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFF9C6C69), width: 1.5),
+                  border: Border.all(
+                    color: const Color(0xFF9C6C69),
+                    width: 1.5,
+                  ),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.history, color: Color(0xFF5A3831), size: 28),
+                  icon: const Icon(
+                    Icons.history,
+                    color: Color(0xFF5A3831),
+                    size: 28,
+                  ),
                   onPressed: () {
-                    // TODO: Navigate to history screen
+                    Navigator.of(context).push(
+                      FadePageRoute(page: const HistoryMatchScreen()),
+                    );
                   },
                 ),
               ),
@@ -203,7 +221,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   GestureDetector(
                     onTap: _onStartTapped,
                     child: AnimatedBuilder(
-                      animation: Listenable.merge([_idleController!, _startController!]),
+                      animation: Listenable.merge([
+                        _idleController!,
+                        _startController!,
+                      ]),
                       builder: (context, _) {
                         final double buttonScale = _isStarting
                             ? _buttonTapScaleAnim!.value
@@ -218,16 +239,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               vertical: 18,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFAF1E9), // Girl Rise Signature Cream
+                              color: const Color(
+                                0xFFFAF1E9,
+                              ), // Girl Rise Signature Cream
                               borderRadius: BorderRadius.circular(50),
                               border: Border.all(
-                                color: const Color(0xFF9C6C69), // Girl Rise Mauve Brown
+                                color: const Color(
+                                  0xFF9C6C69,
+                                ), // Girl Rise Mauve Brown
                                 width: 2.2,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF9C6C69)
-                                      .withValues(alpha: _isStarting ? 0.75 : glowVal),
+                                  color: const Color(0xFF9C6C69).withValues(
+                                    alpha: _isStarting ? 0.75 : glowVal,
+                                  ),
                                   blurRadius: _isStarting ? 28 : 18,
                                   spreadRadius: _isStarting ? 5 : 1,
                                 ),
@@ -243,16 +269,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               children: [
                                 const Icon(
                                   Icons.auto_awesome,
-                                  color: Color(0xFFB59D93), // Soft Mauve Gold accent
+                                  color: Color(
+                                    0xFFB59D93,
+                                  ), // Soft Mauve Gold accent
                                   size: 24,
                                 ),
                                 const SizedBox(width: 14),
                                 Text(
-                                  'TAP TO START',
+                                  'Tap to Start',
                                   style: GoogleFonts.lora(
                                     fontSize: 21,
                                     fontWeight: FontWeight.w700,
-                                    color: const Color(0xFF5A3831), // Deep Maroon Brown
+                                    color: const Color.fromARGB(
+                                      156,
+                                      108,
+                                      105,
+                                      100,
+                                    ), // Deep Maroon Brown
                                     letterSpacing: 3.5,
                                   ),
                                 ),

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:girls_rise/services/game_state_manager.dart';
+import 'package:girls_rise/services/history_service.dart';
 import 'package:girls_rise/utils/fade_page_route.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import 'package:girls_rise/widgets/game_back_button.dart';
@@ -30,6 +31,14 @@ class _OutcomeTidakNikahScreenState extends State<OutcomeTidakNikahScreen>
   @override
   void initState() {
     super.initState();
+    if (!GameStateManager.instance.isPreviewingHistory) {
+      HistoryService.instance.recordMatch(
+        scenarioId: 2,
+        outcomeId: 'outcome_tidaknikah',
+        stats: GameStateManager.instance.stats,
+      );
+    }
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 3600),
@@ -52,45 +61,39 @@ class _OutcomeTidakNikahScreenState extends State<OutcomeTidakNikahScreen>
       parent: _controller,
       curve: const Interval(0.15, 0.55, curve: Curves.easeOut),
     );
-    _charSlideAnim = Tween<Offset>(
-      begin: const Offset(0, 0.08),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.15, 0.55, curve: Curves.easeOutQuart),
-      ),
-    );
+    _charSlideAnim =
+        Tween<Offset>(begin: const Offset(0, 0.08), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: const Interval(0.15, 0.55, curve: Curves.easeOutQuart),
+          ),
+        );
 
     // 3. Right Stat Panel Slide-In (0.25 .. 0.65)
     _panelFadeAnim = CurvedAnimation(
       parent: _controller,
       curve: const Interval(0.25, 0.65, curve: Curves.easeOut),
     );
-    _panelSlideAnim = Tween<Offset>(
-      begin: const Offset(0.08, 0),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.25, 0.65, curve: Curves.easeOutQuart),
-      ),
-    );
+    _panelSlideAnim =
+        Tween<Offset>(begin: const Offset(0.08, 0), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: const Interval(0.25, 0.65, curve: Curves.easeOutQuart),
+          ),
+        );
 
     // 4. Dialogue Box Spring-Up (0.35 .. 0.75)
     _boxFadeAnim = CurvedAnimation(
       parent: _controller,
       curve: const Interval(0.35, 0.75, curve: Curves.easeOut),
     );
-    _boxSlideAnim = Tween<Offset>(
-      begin: const Offset(0, 0.12),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.35, 0.75, curve: Curves.easeOutBack),
-      ),
-    );
+    _boxSlideAnim =
+        Tween<Offset>(begin: const Offset(0, 0.12), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: const Interval(0.35, 0.75, curve: Curves.easeOutBack),
+          ),
+        );
 
     // 5. Narrative Text Soft Fade (0.50 .. 1.0)
     _textFadeAnim = CurvedAnimation(
@@ -108,9 +111,9 @@ class _OutcomeTidakNikahScreenState extends State<OutcomeTidakNikahScreen>
   }
 
   void _nextStep(BuildContext context) {
-    Navigator.of(context).push(
-      FadePageRoute(page: const FinalReflectionTidakNikahScreen()),
-    );
+    Navigator.of(
+      context,
+    ).push(FadePageRoute(page: const FinalReflectionTidakNikahScreen()));
   }
 
   @override
@@ -168,7 +171,7 @@ class _OutcomeTidakNikahScreenState extends State<OutcomeTidakNikahScreen>
                       child: IgnorePointer(
                         child: Center(
                           child: Image.asset(
-                            'assets/images/cewe.nangis.mataterbuka.png',
+                            'assets/images/cewe.senang.png',
                             fit: BoxFit.contain,
                           ),
                         ),

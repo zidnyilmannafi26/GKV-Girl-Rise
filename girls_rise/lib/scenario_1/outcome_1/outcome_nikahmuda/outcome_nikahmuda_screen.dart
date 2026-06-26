@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:girls_rise/services/game_state_manager.dart';
+import 'package:girls_rise/services/history_service.dart';
 import 'package:girls_rise/utils/fade_page_route.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import 'package:girls_rise/widgets/game_back_button.dart';
@@ -30,6 +31,14 @@ class _OutcomeNikahMudaScreenState extends State<OutcomeNikahMudaScreen>
   @override
   void initState() {
     super.initState();
+    if (!GameStateManager.instance.isPreviewingHistory) {
+      HistoryService.instance.recordMatch(
+        scenarioId: 1,
+        outcomeId: 'outcome_nikahmuda',
+        stats: GameStateManager.instance.stats,
+      );
+    }
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 3600),

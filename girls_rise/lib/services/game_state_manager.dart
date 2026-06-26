@@ -17,9 +17,17 @@ class GameStateManager extends ChangeNotifier {
 
   bool get isScenarioActive => activeScenarioId != null;
   bool isEndingMode = false;
+  bool isPreviewingHistory = false;
 
   void setEndingMode(bool val) {
     isEndingMode = val;
+    notifyListeners();
+  }
+
+  void startHistoryPreview(List<StatItem> previewStats) {
+    isPreviewingHistory = true;
+    isEndingMode = true;
+    _stats = List.from(previewStats);
     notifyListeners();
   }
 
@@ -30,6 +38,7 @@ class GameStateManager extends ChangeNotifier {
 
   void endScenario() {
     activeScenarioId = null;
+    isPreviewingHistory = false;
     notifyListeners();
   }
 
@@ -39,6 +48,7 @@ class GameStateManager extends ChangeNotifier {
   }
 
   void reset() {
+    isPreviewingHistory = false;
     isEndingMode = false;
     _stats = [
       const StatItem(type: StatType.pendidikan, value: 50, initialRank: 0),
