@@ -1,9 +1,13 @@
+import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../scenario_1/part_1_screen.dart';
 import '../scenario_2/intro/scenario_2_intro_screen.dart';
 import '../services/game_state_manager.dart';
+import '../utils/fade_page_route.dart';
+import 'history_match_screen.dart';
 
 class ScenarioSelectionScreen extends StatefulWidget {
   const ScenarioSelectionScreen({super.key});
@@ -13,16 +17,22 @@ class ScenarioSelectionScreen extends StatefulWidget {
 }
 
 class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   AnimationController? _transitionController;
   Animation<double>? _selectedCardScaleAnim;
   Animation<double>? _unselectedCardFadeAnim;
   Animation<double>? _bgZoomAnim;
 
+  AnimationController? _historyBtnController;
+  Animation<double>? _historyScaleAnim;
+  Animation<double>? _historyRotateAnim;
+  Animation<double>? _historyRippleScaleAnim;
+  Animation<double>? _historyRippleAlphaAnim;
+
   int? _selectedScenario; // 1 or 2
 
   void _ensureController() {
-    if (_transitionController != null) return;
+    if (_transitionController != null && _historyBtnController != null) return;
 
     _transitionController = AnimationController(
       vsync: this,
@@ -43,6 +53,26 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
     _bgZoomAnim = Tween<double>(begin: 1.0, end: 1.12).animate(
       CurvedAnimation(parent: _transitionController!, curve: Curves.easeInOutCubic),
     );
+
+    _historyBtnController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 350),
+    );
+    _historyScaleAnim = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 1.0, end: 0.85).chain(CurveTween(curve: Curves.easeOut)), weight: 40),
+      TweenSequenceItem(tween: Tween(begin: 0.85, end: 1.05).chain(CurveTween(curve: Curves.easeOutBack)), weight: 60),
+    ]).animate(_historyBtnController!);
+
+    _historyRotateAnim = Tween<double>(begin: 0.0, end: pi).animate(
+      CurvedAnimation(parent: _historyBtnController!, curve: Curves.easeInOutBack),
+    );
+
+    _historyRippleScaleAnim = Tween<double>(begin: 1.0, end: 2.2).animate(
+      CurvedAnimation(parent: _historyBtnController!, curve: Curves.easeOutQuad),
+    );
+    _historyRippleAlphaAnim = Tween<double>(begin: 0.5, end: 0.0).animate(
+      CurvedAnimation(parent: _historyBtnController!, curve: Curves.easeOutQuad),
+    );
   }
 
   @override
@@ -57,7 +87,20 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
   @override
   void dispose() {
     _transitionController?.dispose();
+    _historyBtnController?.dispose();
     super.dispose();
+  }
+
+  void _onHistoryTapped() async {
+    _ensureController();
+    await _historyBtnController?.forward();
+    if (!mounted) return;
+    await Navigator.of(context).push(
+      FadePageRoute(page: const HistoryMatchScreen()),
+    );
+    if (mounted) {
+      _historyBtnController?.reset();
+    }
   }
 
   void _onSelectScenario(int scenarioId, Widget targetScreen) {
@@ -172,44 +215,107 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
                 ),
               ),
 
-              // Gift & Log Icons (top right)
+              // History Medal Button & Label (top right)
               Positioned(
                 top: 25,
                 right: 25,
                 child: Opacity(
                   opacity: uiOpacity,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.card_giftcard_outlined,
-                          color: Colors.white70,
-                          size: 32,
-                        ),
-                        onPressed: () {},
-                      ),
-                      const SizedBox(width: 16),
-                      Column(
+                  child: AnimatedBuilder(
+                    animation: _historyBtnController!,
+                    builder: (context, child) {
+                      final double btnScale = _historyScaleAnim?.value ?? 1.0;
+                      final double btnRotate = _historyRotateAnim?.value ?? 0.0;
+                      final double rippleScale = _historyRippleScaleAnim?.value ?? 1.0;
+                      final double rippleAlpha = _historyRippleAlphaAnim?.value ?? 0.0;
+
+                      return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(
-                            Icons.description_outlined,
-                            color: Colors.white70,
-                            size: 30,
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Expanding Ripple Ring
+                              if (_historyBtnController!.isAnimating)
+                                Transform.scale(
+                                  scale: rippleScale,
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: const Color(0xFF9C6C69).withValues(alpha: rippleAlpha),
+                                        width: 2.5,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                              // Glass Medal Button
+                              GestureDetector(
+                                onTap: _onHistoryTapped,
+                                child: Transform.scale(
+                                  scale: btnScale,
+                                  child: Transform.rotate(
+                                    angle: btnRotate,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(25),
+                                      child: BackdropFilter(
+                                        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                                        child: Container(
+                                          width: 50,
+                                          height: 50,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFFAF1E9).withValues(alpha: 0.82),
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                              color: const Color(0xFF9C6C69),
+                                              width: 2.0,
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black.withValues(alpha: 0.2),
+                                                blurRadius: 8,
+                                                offset: const Offset(0, 3),
+                                              ),
+                                            ],
+                                          ),
+                                          child: const Icon(
+                                            Icons.history_rounded,
+                                            color: Color(0xFF5A3831),
+                                            size: 26,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 2),
+                          const SizedBox(height: 6),
+                          // Small Label Text [Riwayat]
                           Text(
-                            '.LOG',
+                            'Riwayat',
                             style: GoogleFonts.poppins(
-                              color: Colors.white70,
-                              fontSize: 10,
+                              color: const Color(0xFFFAF1E9),
+                              fontSize: 11.5,
                               fontWeight: FontWeight.bold,
+                              letterSpacing: 0.8,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black.withValues(alpha: 0.6),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 1),
+                                ),
+                              ],
                             ),
                           ),
                         ],
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
               ),
