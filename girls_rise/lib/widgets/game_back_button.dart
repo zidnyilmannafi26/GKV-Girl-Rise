@@ -148,23 +148,27 @@ class GameBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (type == BackButtonType.hidden) {
-      return PopScope(
-        canPop: false,
-        onPopInvokedWithResult: (didPop, result) {},
-        child: const SizedBox.shrink(),
+      return Positioned(
+        top: 0,
+        left: 0,
+        child: PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, result) {},
+          child: const SizedBox.shrink(),
+        ),
       );
     }
 
     if (type == BackButtonType.scenarioRoot) {
-      return PopScope(
-        canPop: false,
-        onPopInvokedWithResult: (didPop, result) {
-          if (didPop) return;
-          _showExitConfirmDialog(context);
-        },
-        child: Positioned(
-          top: 25,
-          left: 25,
+      return Positioned(
+        top: 25,
+        left: 25,
+        child: PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, result) {
+            if (didPop) return;
+            _showExitConfirmDialog(context);
+          },
           child: GestureDetector(
             onTap: () => _showExitConfirmDialog(context),
             child: Container(
@@ -195,11 +199,11 @@ class GameBackButton extends StatelessWidget {
     }
 
     // normalBack
-    return PopScope(
-      canPop: true,
-      child: Positioned(
-        top: 25,
-        left: 25,
+    return Positioned(
+      top: 25,
+      left: 25,
+      child: PopScope(
+        canPop: true,
         child: GestureDetector(
           onTap: customOnBack ?? () => Navigator.of(context).pop(),
           child: Container(
