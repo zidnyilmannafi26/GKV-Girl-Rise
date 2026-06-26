@@ -27,6 +27,11 @@ class GameStateManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetScenario() {
+    endScenario();
+    reset();
+  }
+
   void reset() {
     _stats = [
       const StatItem(type: StatType.pendidikan, value: 50, initialRank: 0),

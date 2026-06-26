@@ -1,3 +1,4 @@
+import 'package:girls_rise/widgets/game_back_button.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -84,31 +85,7 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
               ),
             ),
 
-            // Pill-shaped Back Button (top left)
-            Positioned(
-              top: 25,
-              left: 25,
-              child: GestureDetector(
-                onTap: () => Navigator.of(context).pop(),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFDF7F0),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: const Color(0xFFB59D93), width: 1.5),
-                  ),
-                  child: Text(
-                    '← BACK',
-                    style: GoogleFonts.poppins(
-                      color: const Color(0xFF765E54),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            const GameBackButton(type: BackButtonType.hidden),
           ],
         ),
       ),
