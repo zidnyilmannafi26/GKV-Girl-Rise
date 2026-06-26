@@ -7,12 +7,14 @@ class OutcomeStatPanel extends StatefulWidget {
   final bool isNikahMuda;
   final List<StatItem> stats;
   final double scale;
+  final int scenarioNumber;
 
   const OutcomeStatPanel({
     super.key,
     required this.isNikahMuda,
     required this.stats,
     required this.scale,
+    this.scenarioNumber = 1,
   });
 
   @override
@@ -82,20 +84,36 @@ class _OutcomeStatPanelState extends State<OutcomeStatPanel>
     return capitalize ? _cap(str) : str;
   }
 
-  static String _getRelationText(int val, bool capitalize) {
+  static String _getRelationText(int val, bool capitalize, int scenarioNumber) {
     String str;
-    if (val <= 0) {
-      str = "hubungan mu dan Arga sudah berakhir";
-    } else if (val <= 25) {
-      str = "hubungan mu dan Arga semakin menjauh";
-    } else if (val <= 50) {
-      str = "Arga masih terus menghubungimu dan berharap kau kembali kepadanya";
-    } else if (val <= 75) {
-      str = "kamu dan Arga masih terus menjalin hubungan";
-    } else if (val <= 100) {
-      str = "hubungan dengan Arga sangat baik";
+    if (scenarioNumber == 2) {
+      if (val <= 0) {
+        str = "hubunganmu dengan keluarga dipenuhi konflik dan sulit saling memahami";
+      } else if (val <= 25) {
+        str = "komunikasi dengan keluargamu mulai renggang";
+      } else if (val <= 50) {
+        str = "hubungan dengan keluarga masih berjalan, tetapi belum saling mendukung";
+      } else if (val <= 75) {
+        str = "hubungan keluargamu cukup harmonis";
+      } else if (val <= 100) {
+        str = "kamu dan keluargamu mampu saling mendukung serta berkomunikasi dengan baik";
+      } else {
+        str = "relasimu sangat luas dan positif";
+      }
     } else {
-      str = "hubunganmu dengan Arga tetap berlanjut selamanya";
+      if (val <= 0) {
+        str = "hubungan mu dan Arga sudah berakhir";
+      } else if (val <= 25) {
+        str = "hubungan mu dan Arga semakin menjauh";
+      } else if (val <= 50) {
+        str = "Arga masih terus menghubungimu dan berharap kau kembali kepadanya";
+      } else if (val <= 75) {
+        str = "kamu dan Arga masih terus menjalin hubungan";
+      } else if (val <= 100) {
+        str = "hubungan dengan Arga sangat baik";
+      } else {
+        str = "hubunganmu dengan Arga tetap berlanjut selamanya";
+      }
     }
     return capitalize ? _cap(str) : str;
   }
@@ -135,7 +153,7 @@ class _OutcomeStatPanelState extends State<OutcomeStatPanel>
     final sentence1 = "$s1Part1, $conj1 $s1Part2.";
 
     const trans = "Di sisi lain, ";
-    final s2Part1 = _getRelationText(rel, false);
+    final s2Part1 = _getRelationText(rel, false, widget.scenarioNumber);
     final conj2 = men <= 50 ? "padahal" : "serta";
     final s2Part2 = _getMentalText(men, false);
     final sentence2 = "$trans$s2Part1, $conj2 $s2Part2.";

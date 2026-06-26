@@ -1,0 +1,124 @@
+import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
+import 'package:girls_rise/utils/fade_page_route.dart';
+import 'package:girls_rise/widgets/dialogue_text_box.dart';
+import 'package:girls_rise/widgets/game_back_button.dart';
+import 'package:girls_rise/widgets/outcome_stat_panel.dart';
+import 'final_reflection_tidaknikah_screen.dart';
+
+class OutcomeTidakNikahScreen extends StatelessWidget {
+  const OutcomeTidakNikahScreen({super.key});
+
+  void _nextStep(BuildContext context) {
+    Navigator.of(context).push(
+      FadePageRoute(page: const FinalReflectionTidakNikahScreen()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final scale = min(
+            constraints.maxWidth / 874.0,
+            constraints.maxHeight / 402.0,
+          );
+          final offsetX = (constraints.maxWidth - 874.0 * scale) / 2;
+          final offsetY = (constraints.maxHeight - 402.0 * scale) / 2;
+
+          final double leftSectionWidth = 582.66 * scale;
+          final double rightSectionWidth = 291.34 * scale;
+
+          return GestureDetector(
+            onTap: () => _nextStep(context),
+            behavior: HitTestBehavior.translucent,
+            child: Stack(
+              children: [
+                // === LEFT SECTION (2/3 WIDTH) ===
+                // Background
+                Positioned(
+                  left: offsetX,
+                  top: offsetY,
+                  width: leftSectionWidth,
+                  height: 402.0 * scale,
+                  child: ClipRect(
+                    child: Image.asset(
+                      'assets/images/bg.sc2.ot2.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+
+                // Character (Lifted slightly for better split-screen proportion)
+                Positioned(
+                  left: offsetX,
+                  bottom: offsetY - 10.0 * scale,
+                  width: leftSectionWidth,
+                  height: 360.0 * scale,
+                  child: IgnorePointer(
+                    child: Center(
+                      child: Image.asset(
+                        'assets/images/cewe.nangis.mataterbuka.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Dialogue Text Box (bottom of left section - scrollable text)
+                Positioned(
+                  left: offsetX + 21.33 * scale,
+                  bottom: offsetY,
+                  width: 540.0 * scale,
+                  height: 141.0 * scale,
+                  child: DialogueTextBox(
+                    scale: scale,
+                    width: 540.0,
+                    height: 141.0,
+                    headerTabAsset: 'assets/text_Box/OUTCOME.svg',
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: GestureDetector(
+                        onTap: () => _nextStep(context),
+                        behavior: HitTestBehavior.translucent,
+                        child: Text(
+                          'Kamu berhasil mempertahankan pendidikan dan membangun karier impianmu. Kamu mendapat beasiswa untuk melanjutkan pendidikan tinggi di kampus yang sedari dulu kamu inginkan. Kini, adik-adikmu juga dapat bersekolah dengan lebih baik karena ekonomi keluarga perlahan mulai stabil. Kamu sangat bersyukur atas apa yang kamu pilih, meskipun perjuangannya sangat berat, kamu dapat melewati semuanya dengan baik.',
+                          style: TextStyle(
+                            fontFamily: 'Lora',
+                            color: const Color(0xFF765E54),
+                            fontSize: 13.5 * scale,
+                            height: 1.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                // === RIGHT SECTION (1/3 WIDTH) ===
+                Positioned(
+                  left: offsetX + leftSectionWidth,
+                  top: offsetY,
+                  width: rightSectionWidth,
+                  height: 402.0 * scale,
+                  child: OutcomeStatPanel(
+                    isNikahMuda: false,
+                    stats: GameStateManager.instance.stats,
+                    scale: scale,
+                    scenarioNumber: 2,
+                  ),
+                ),
+
+                // Hidden Back Button to enforce forward-only story progression
+                const GameBackButton(type: BackButtonType.hidden),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

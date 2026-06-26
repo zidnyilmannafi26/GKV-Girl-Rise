@@ -2,10 +2,10 @@ import 'package:girls_rise/utils/fade_page_route.dart';
 import 'package:girls_rise/widgets/game_back_button.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/reflection_text_box.dart';
 import 'package:girls_rise/models/game_stats.dart';
-import 'package:girls_rise/screens/home_screen.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
+import 'package:girls_rise/scenario_2/outcome_2/outcome_nikahmuda2/outcome_nikahmuda2_screen.dart';
 
 class Part4Choose1Screen extends StatefulWidget {
   const Part4Choose1Screen({super.key});
@@ -16,44 +16,9 @@ class Part4Choose1Screen extends StatefulWidget {
 
 class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
   void _nextStep() {
-    _showCompletionDialog();
-  }
-
-  void _showCompletionDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFFFDF7F0),
-        title: Text(
-          'Skenario 2 Selesai',
-          style: GoogleFonts.playfairDisplay(
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF765E54),
-          ),
-        ),
-        content: Text(
-          'Cerita Skenario 2 bagian ini telah selesai. Pilihlah skenario lain untuk melihat akhir cerita yang berbeda!',
-          style: GoogleFonts.poppins(color: const Color(0xFF765E54)),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(
-                FadePageRoute(page: const HomeScreen()),
-                (route) => false,
-              );
-            },
-            child: Text(
-              'OK',
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFFB59D93),
-              ),
-            ),
-          ),
-        ],
-      ),
+    GameStateManager.instance.setEndingMode(true);
+    Navigator.of(context).push(
+      FadePageRoute(page: const OutcomeNikahMuda2Screen()),
     );
   }
 
