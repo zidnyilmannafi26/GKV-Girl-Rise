@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/reflection_text_box.dart';
 import 'package:girls_rise/models/game_stats.dart';
-import '../../../screens/home_screen.dart';
+import '../../outcome_1/outcome_putus/outcome_putus_screen.dart';
 
 class Part3Choose2Screen extends StatefulWidget {
   const Part3Choose2Screen({super.key});
@@ -16,9 +16,8 @@ class Part3Choose2Screen extends StatefulWidget {
 
 class _Part3Choose2ScreenState extends State<Part3Choose2Screen> {
   void _nextStep() {
-    Navigator.of(context).pushAndRemoveUntil(
-      FadePageRoute(page: const HomeScreen()),
-      (route) => false,
+    Navigator.of(context).push(
+      FadePageRoute(page: const OutcomePutusScreen()),
     );
   }
 
