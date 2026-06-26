@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/game_stats.dart';
+import 'game_parameter_bar.dart';
 
 class OutcomeStatPanel extends StatefulWidget {
   final bool isNikahMuda;
@@ -143,105 +143,6 @@ class _OutcomeStatPanelState extends State<OutcomeStatPanel>
     return "$prefix$sentence1 $sentence2";
   }
 
-  Color _getBarColor(int val) {
-    if (val > 75) return const Color(0xFF4CAF50); // Green
-    if (val >= 26) return const Color(0xFFFFA726); // Orange/Yellow
-    return const Color(0xFFE53935); // Red
-  }
-
-  Widget _buildStatBar(StatItem item) {
-    final double s = widget.scale;
-    final double normalized = ((item.value + 50) / 200).clamp(0.0, 1.0);
-    final Color barColor = _getBarColor(item.value);
-
-    // Zoom into authentic game SVG icon coordinate area (approx 7,4 18x18)
-    final String iconOnlySvg = item.type.iconSvg.replaceFirst(
-      'width="141" height="26" viewBox="0 0 141 26"',
-      'width="20" height="20" viewBox="7 4 18 18"',
-    );
-
-    return Padding(
-      padding: EdgeInsets.only(bottom: 12.0 * s),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  SvgPicture.string(
-                    iconOnlySvg,
-                    width: 17.0 * s,
-                    height: 17.0 * s,
-                    colorFilter: const ColorFilter.mode(
-                      Color(0xFF765E54),
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  SizedBox(width: 8.0 * s),
-                  Text(
-                    item.type.title,
-                    style: GoogleFonts.poppins(
-                      fontSize: 13.0 * s,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF765E54),
-                    ),
-                  ),
-                ],
-              ),
-              AnimatedBuilder(
-                animation: _animation,
-                builder: (context, _) {
-                  final int displayVal = (item.value * _animation.value).round();
-                  return Text(
-                    '$displayVal%',
-                    style: GoogleFonts.poppins(
-                      fontSize: 12.0 * s,
-                      fontWeight: FontWeight.bold,
-                      color: barColor,
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-          SizedBox(height: 5.0 * s),
-          Container(
-            height: 10.0 * s,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: const Color(0xFF765E54).withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(5.0 * s),
-            ),
-            child: AnimatedBuilder(
-              animation: _animation,
-              builder: (context, _) {
-                return FractionallySizedBox(
-                  alignment: Alignment.centerLeft,
-                  widthFactor: normalized * _animation.value,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: barColor,
-                      borderRadius: BorderRadius.circular(5.0 * s),
-                      boxShadow: [
-                        BoxShadow(
-                          color: barColor.withValues(alpha: 0.3),
-                          blurRadius: 4.0,
-                          offset: const Offset(0, 2),
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final double s = widget.scale;
@@ -265,7 +166,8 @@ class _OutcomeStatPanelState extends State<OutcomeStatPanel>
       width: double.infinity,
       height: double.infinity,
       color: bgColor,
-      padding: EdgeInsets.symmetric(horizontal: 24.0 * s, vertical: 32.0 * s),
+      // Extra safe padding on the right (48.0) to avoid phone notch or curved corner
+      padding: EdgeInsets.only(left: 20.0 * s, top: 32.0 * s, right: 48.0 * s, bottom: 32.0 * s),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -279,10 +181,17 @@ class _OutcomeStatPanelState extends State<OutcomeStatPanel>
             ),
           ),
           SizedBox(height: 16.0 * s),
-          ...orderedStats.map((item) => _buildStatBar(item)),
-          SizedBox(height: 16.0 * s),
-          Divider(color: const Color(0xFFB59D93).withValues(alpha: 0.5), thickness: 1),
-          SizedBox(height: 16.0 * s),
+          for (var item in orderedStats)
+            Padding(
+              padding: EdgeInsets.only(bottom: 8.0 * s),
+              child: GameParameterBar(item: item, scale: s),
+            ),
+          SizedBox(height: 12.0 * s),
+          Divider(
+            color: const Color(0xFFB59D93).withValues(alpha: 0.5),
+            thickness: 1,
+          ),
+          SizedBox(height: 14.0 * s),
           Expanded(
             child: SingleChildScrollView(
               child: FadeTransition(
