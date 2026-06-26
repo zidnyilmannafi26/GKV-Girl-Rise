@@ -73,6 +73,7 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
     Navigator.of(context)
         .push(
       PageRouteBuilder(
+        opaque: false,
         transitionDuration: const Duration(milliseconds: 700),
         reverseTransitionDuration: const Duration(milliseconds: 450),
         pageBuilder: (context, animation, secondaryAnimation) => targetScreen,

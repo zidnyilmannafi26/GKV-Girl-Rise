@@ -5,6 +5,7 @@ class FadePageRoute<T> extends PageRouteBuilder<T> {
 
   FadePageRoute({required this.page})
       : super(
+          opaque: false,
           pageBuilder: (context, animation, secondaryAnimation) => page,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
