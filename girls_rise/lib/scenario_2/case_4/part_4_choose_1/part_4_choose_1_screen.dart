@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/reflection_text_box.dart';
+import 'package:girls_rise/models/game_stats.dart';
 import '../../case_5/part_1/part_1_screen.dart';
 
 class Part4Choose1Screen extends StatefulWidget {
@@ -55,8 +56,8 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
             // Character (Right side - Enlarged and anchored to bottom edge)
             Positioned(
               right: offsetX + 75.0 * scale,
-              bottom: -40.0 * scale,
-              height: 380.0 * scale,
+              bottom: 0,
+              height: 318.0 * scale,
               child: Image.asset(
                 'assets/images/cewe.nangis.mataterbuka.png',
                 fit: BoxFit.contain,
@@ -74,6 +75,12 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
                 headerTabAsset: 'assets/text_Box/REFLECTION.svg',
                 quoteText: 'Mulai bercerita kepada teman tentang keadaan di rumah.',
                 reflectionText: 'Kamu akhirnya menceritakan sebagian kecil dari apa yang selama ini kamu pendam. Meski belum ada solusi yang pasti, setidaknya beban pikiranmu jadi sedikit lebih ringan.',
+                statChanges: const [
+                  StatDelta(StatType.pendidikan, 10),
+                  StatDelta(StatType.mental, 20),
+                  StatDelta(StatType.relasi, 10),
+                  StatDelta(StatType.ekonomi, 0),
+                ],
               ),
             ),
 

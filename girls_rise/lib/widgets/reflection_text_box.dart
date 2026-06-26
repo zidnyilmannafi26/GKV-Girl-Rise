@@ -1,80 +1,154 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
+import '../models/game_stats.dart';
+import '../services/game_state_manager.dart';
 
-class ReflectionTextBox extends StatelessWidget {
+class ReflectionTextBox extends StatefulWidget {
   final double scale;
   final String headerTabAsset;
   final String quoteText;
   final String reflectionText;
+  final List<StatDelta>? statChanges;
 
   const ReflectionTextBox({
     required this.scale,
     required this.headerTabAsset,
     required this.quoteText,
     required this.reflectionText,
+    this.statChanges,
     super.key,
   });
 
   @override
+  State<ReflectionTextBox> createState() => _ReflectionTextBoxState();
+}
+
+class _ReflectionTextBoxState extends State<ReflectionTextBox> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.statChanges != null && widget.statChanges!.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          GameStateManager.instance.applyDeltas(widget.statChanges!);
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    if (widget.statChanges != null && widget.statChanges!.isNotEmpty) {
+      GameStateManager.instance.undo();
+    }
+    super.dispose();
+  }
+
+  String _formatDelta(StatDelta d) {
+    final prefix = d.delta > 0 ? '+' : '';
+    return '${d.type.title} ($prefix${d.delta})';
+  }
+
+  Color _getDeltaColor(int delta) {
+    if (delta < 0) return const Color(0xFFDB2B2C); // Merah
+    if (delta > 0) return const Color(0xFF43A047); // Hijau
+    return const Color(0xFF765E54); // Coklat netral
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final double scale = widget.scale;
+
     return DialogueTextBox(
       scale: scale,
       width: 303.5,
       height: 225.9,
-      headerTabAsset: headerTabAsset,
+      headerTabAsset: widget.headerTabAsset,
       headerTabWidth: 255.0,
       headerTabHeight: 52.0,
       headerTabLeft: 18.0,
       headerTabTop: -47.0,
       contentPadding: EdgeInsets.fromLTRB(
-        15.0 * scale,
-        22.0 * scale,
-        15.0 * scale,
-        20.0 * scale,
+        12.0 * scale,
+        18.0 * scale,
+        12.0 * scale,
+        16.0 * scale,
       ),
-      child: SingleChildScrollView(
-        child: SizedBox(
-          width: double.infinity,
+      child: Center(
+        child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Small Dialogue Quote Box (form 4.svg)
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  SvgPicture.asset(
-                    'assets/text_Box/form 4.svg',
-                    width: 273.0 * scale,
-                    height: 61.0 * scale,
-                    fit: BoxFit.fill,
+              // Small Dialogue Quote Box
+              Container(
+                width: 273.0 * scale,
+                constraints: BoxConstraints(minHeight: 50.0 * scale),
+                padding: EdgeInsets.symmetric(horizontal: 14.0 * scale, vertical: 8.0 * scale),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFDF7F0).withValues(alpha: 0.8),
+                  borderRadius: BorderRadius.circular(12.0 * scale),
+                  border: Border.all(
+                    color: const Color(0xFF765E54).withValues(alpha: 0.3),
+                    width: 1.5 * scale,
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0 * scale, vertical: 8.0 * scale),
-                    child: Text(
-                      quoteText,
-                      style: GoogleFonts.lora(
-                        fontSize: 13.5 * scale,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF765E54),
-                      ),
-                      textAlign: TextAlign.center,
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  widget.quoteText,
+                  style: GoogleFonts.lora(
+                    fontSize: 12.0 * scale,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF765E54),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+
+              // Parameter Impact Summary Badge
+              if (widget.statChanges != null && widget.statChanges!.isNotEmpty) ...[
+                SizedBox(height: 7.0 * scale),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.0 * scale, vertical: 4.0 * scale),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFAF1E9),
+                    borderRadius: BorderRadius.circular(8.0 * scale),
+                    border: Border.all(
+                      color: const Color(0xFF9C6C69).withValues(alpha: 0.4),
+                      width: 1.0 * scale,
                     ),
                   ),
-                ],
-              ),
-              SizedBox(height: 12.0 * scale),
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 8.0 * scale,
+                    runSpacing: 2.0 * scale,
+                    children: [
+                      for (final d in widget.statChanges!)
+                        Text(
+                          _formatDelta(d),
+                          style: GoogleFonts.lora(
+                            fontSize: 10.5 * scale,
+                            fontWeight: FontWeight.w700,
+                            color: _getDeltaColor(d.delta),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+
+              SizedBox(height: 7.0 * scale),
+
               // Reflection Text
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0 * scale),
+                padding: EdgeInsets.symmetric(horizontal: 6.0 * scale),
                 child: Text(
-                  reflectionText,
+                  widget.reflectionText,
                   style: GoogleFonts.lora(
-                    fontSize: 14.5 * scale,
-                    height: 1.45,
+                    fontSize: 13.0 * scale,
+                    height: 1.35,
                     color: const Color(0xFF765E54),
                   ),
                   textAlign: TextAlign.center,

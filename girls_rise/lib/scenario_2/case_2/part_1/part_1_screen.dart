@@ -69,8 +69,8 @@ class _Part1ScreenState extends State<Part1Screen> {
             Positioned(
               left: 0,
               right: 0,
-              bottom: offsetY + 40.0 * scale,
-              height: 380.0 * scale,
+              bottom: 55.0 * scale,
+              height: 318.0 * scale,
               child: Image.asset(
                 'assets/images/cewe.senang.png',
                 fit: BoxFit.contain,
@@ -80,7 +80,7 @@ class _Part1ScreenState extends State<Part1Screen> {
             // Dialogue Text Box (includes background framing and header tab overlay)
             Positioned(
               left: offsetX + 87.0 * scale,
-              top: offsetY + 261.0 * scale,
+              bottom: 0,
               width: 700.0 * scale,
               height: 141.0 * scale,
               child: DialogueTextBox(

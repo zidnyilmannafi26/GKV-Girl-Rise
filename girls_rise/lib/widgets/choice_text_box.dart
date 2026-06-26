@@ -30,22 +30,26 @@ class ChoiceTextBox extends StatelessWidget {
     final showChoice2 = choice2Text != null && onChoice2Tap != null && choice2Text!.isNotEmpty;
     final showChoice3 = choice3Text != null && onChoice3Tap != null && choice3Text!.isNotEmpty;
 
-    return DialogueTextBox(
-      scale: scale,
-      width: 700.0,
-      height: 141.0,
-      headerTabAsset: headerTabAsset,
-      headerTabWidth: 184.0,
-      headerTabHeight: 49.0,
-      headerTabLeft: 24.0,
-      headerTabTop: -44.0,
-      contentPadding: EdgeInsets.fromLTRB(
-        15.0 * scale,
-        4.0 * scale,
-        15.0 * scale,
-        4.0 * scale,
-      ),
-      child: Column(
+    Widget content;
+    if (showChoice2 && !showChoice3) {
+      content = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ChoiceButton(
+            text: choice1Text,
+            scale: scale,
+            onTap: onChoice1Tap,
+          ),
+          SizedBox(width: 24.0 * scale),
+          ChoiceButton(
+            text: choice2Text!,
+            scale: scale,
+            onTap: onChoice2Tap!,
+          ),
+        ],
+      );
+    } else {
+      content = Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
@@ -75,7 +79,25 @@ class ChoiceTextBox extends StatelessWidget {
             ),
           ],
         ],
+      );
+    }
+
+    return DialogueTextBox(
+      scale: scale,
+      width: 700.0,
+      height: 141.0,
+      headerTabAsset: headerTabAsset,
+      headerTabWidth: 184.0,
+      headerTabHeight: 49.0,
+      headerTabLeft: 24.0,
+      headerTabTop: -44.0,
+      contentPadding: EdgeInsets.fromLTRB(
+        15.0 * scale,
+        4.0 * scale,
+        15.0 * scale,
+        4.0 * scale,
       ),
+      child: content,
     );
   }
 }
@@ -135,11 +157,17 @@ class _ChoiceButtonState extends State<ChoiceButton> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              SvgPicture.asset(
-                'assets/text_Box/form 4.svg',
+              Container(
                 width: 273.0 * widget.scale,
                 height: 61.0 * widget.scale,
-                fit: BoxFit.fill,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFDF7F0).withValues(alpha: 0.8),
+                  borderRadius: BorderRadius.circular(12.0 * widget.scale),
+                  border: Border.all(
+                    color: const Color(0xFF765E54).withValues(alpha: 0.3),
+                    width: 1.5 * widget.scale,
+                  ),
+                ),
               ),
               SizedBox(
                 width: 273.0 * widget.scale,

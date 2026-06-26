@@ -94,16 +94,27 @@ class _DialogueTextBoxState extends State<DialogueTextBox> with SingleTickerProv
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        // Background Framing SVG
+        // Background Native Box (Replaces heavy SVG)
         Positioned(
-          left: bgLeft,
-          top: bgTop,
-          width: bgWidth,
-          height: bgHeight,
-          child: IgnorePointer(
-            child: SvgPicture.asset(
-              selectedBgSvg,
-              fit: BoxFit.fill,
+          left: 0,
+          top: 0,
+          width: boxWidth,
+          height: boxHeight,
+          child: Container(
+            decoration: BoxDecoration(
+              color: const Color(0xFFFDF7F0).withValues(alpha: 0.95),
+              borderRadius: BorderRadius.circular(16.0 * widget.scale),
+              border: Border.all(
+                color: const Color(0xFF765E54).withValues(alpha: 0.5),
+                width: 2.0 * widget.scale,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.2),
+                  blurRadius: 8.0,
+                  offset: const Offset(2.0, 4.0),
+                )
+              ],
             ),
           ),
         ),
@@ -155,17 +166,35 @@ class _DialogueTextBoxState extends State<DialogueTextBox> with SingleTickerProv
             ),
           ),
 
-        // Optional Dialogue Header Tab SVG
+        // Optional Dialogue Header Tab (Native text instead of SVG)
         if (widget.headerTabAsset != null)
           Positioned(
             left: widget.headerTabLeft * widget.scale,
             top: widget.headerTabTop * widget.scale,
             width: widget.headerTabWidth * widget.scale,
             height: widget.headerTabHeight * widget.scale,
-            child: IgnorePointer(
-              child: SvgPicture.asset(
-                widget.headerTabAsset!,
-                fit: BoxFit.contain,
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: const Color(0xFF765E54),
+                borderRadius: BorderRadius.circular(12.0 * widget.scale),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    blurRadius: 4.0,
+                    offset: const Offset(0, 2.0),
+                  )
+                ],
+              ),
+              child: Text(
+                widget.headerTabAsset!.split('/').last.replaceAll('.svg', '').toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.0 * widget.scale,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFFFDF7F0),
+                  letterSpacing: 1.2,
+                ),
               ),
             ),
           ),

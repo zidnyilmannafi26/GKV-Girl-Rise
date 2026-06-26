@@ -69,8 +69,8 @@ class _Part22ScreenState extends State<Part22Screen> {
             Positioned(
               left: 0,
               right: 0,
-              bottom: offsetY + 45.0 * scale,
-              height: 330.0 * scale,
+              bottom: 55.0 * scale,
+              height: 318.0 * scale,
               child: Image.asset(
                 'assets/images/cewe.nangis.png',
                 fit: BoxFit.contain,
@@ -80,7 +80,7 @@ class _Part22ScreenState extends State<Part22Screen> {
             // Dialogue Text Box
             Positioned(
               left: offsetX + 87.0 * scale,
-              top: offsetY + 261.0 * scale,
+              bottom: 0,
               width: 700.0 * scale,
               height: 141.0 * scale,
               child: DialogueTextBox(

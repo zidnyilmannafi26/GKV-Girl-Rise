@@ -99,7 +99,7 @@ class _Part1ScreenState extends State<Part1Screen> {
             // Bapak (Father)
             Positioned(
               left: offsetX + 293.0 * scale,
-              bottom: offsetY + 59.0 * scale,
+              bottom: 55.0 * scale,
               height: 318.0 * scale,
               child: Image.asset(
                 'assets/images/bapak.png',
@@ -110,7 +110,7 @@ class _Part1ScreenState extends State<Part1Screen> {
             // Ibu (Mother)
             Positioned(
               left: offsetX + 438.99 * scale,
-              bottom: offsetY + 59.0 * scale,
+              bottom: 55.0 * scale,
               height: 318.0 * scale,
               child: Image.asset(
                 'assets/images/ibu.png',
@@ -121,7 +121,7 @@ class _Part1ScreenState extends State<Part1Screen> {
             // Dialogue Text Box (includes background framing and header tab overlay)
             Positioned(
               left: offsetX + 87.0 * scale,
-              top: offsetY + 261.0 * scale,
+              bottom: 0,
               width: 700.0 * scale,
               height: 141.0 * scale,
               child: DialogueTextBox(

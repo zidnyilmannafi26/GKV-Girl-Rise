@@ -94,7 +94,7 @@ class _Part2ScreenState extends State<Part2Screen> {
             // Bapak Marah
             Positioned(
               left: offsetX + 284.0 * scale,
-              bottom: offsetY + 59.0 * scale,
+              bottom: 55.0 * scale,
               height: 318.0 * scale,
               child: Image.asset(
                 'assets/images/bapak.marah.png',
@@ -105,7 +105,7 @@ class _Part2ScreenState extends State<Part2Screen> {
             // Ibu Marah Bawah
             Positioned(
               left: offsetX + 425.662 * scale,
-              bottom: offsetY + 59.0 * scale,
+              bottom: 55.0 * scale,
               height: 318.0 * scale,
               child: Image.asset(
                 'assets/images/ibu.marah.bawah.png',
@@ -116,7 +116,7 @@ class _Part2ScreenState extends State<Part2Screen> {
             // Dialogue Text Box
             Positioned(
               left: offsetX + 87.0 * scale,
-              top: offsetY + 261.0 * scale,
+              bottom: 0,
               width: 700.0 * scale,
               height: 141.0 * scale,
               child: DialogueTextBox(

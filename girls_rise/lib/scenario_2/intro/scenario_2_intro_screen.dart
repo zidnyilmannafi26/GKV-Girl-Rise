@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../services/game_state_manager.dart';
 import '../case_1/part_1/part_1_screen.dart';
 
 class Scenario2IntroScreen extends StatefulWidget {
@@ -13,13 +14,21 @@ class Scenario2IntroScreen extends StatefulWidget {
 class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
   int _currentStep = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      GameStateManager.instance.startScenario(2);
+    });
+  }
+
   void _nextStep() {
     if (_currentStep < 2) {
       setState(() {
         _currentStep++;
       });
     } else {
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const Part1Screen(),
         ),
@@ -109,7 +118,7 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
               left: _currentStep == 0
                   ? offsetX + 40.0 * scale
                   : (_currentStep == 1 ? offsetX + 15.0 * scale : -350.0 * scale),
-              bottom: -50.0 * scale,
+              bottom: 55.0 * scale,
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 500),
                 opacity: _currentStep == 2 ? 0.0 : 1.0,
@@ -136,7 +145,7 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
               left: _currentStep == 0
                   ? offsetX + 130.0 * scale
                   : (_currentStep == 1 ? offsetX + (designWidth - 200.0) * scale : screenWidth + 100.0 * scale),
-              bottom: -50.0 * scale,
+              bottom: 55.0 * scale,
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 500),
                 opacity: _currentStep == 2 ? 0.0 : 1.0,
@@ -161,7 +170,7 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
               duration: const Duration(milliseconds: 600),
               curve: Curves.easeInOutCubic,
               left: _currentStep == 2 ? offsetX + 96.0 * scale : -350.0 * scale,
-              bottom: offsetY,
+              bottom: 55.0 * scale,
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 500),
                 opacity: _currentStep == 2 ? 1.0 : 0.0,
@@ -186,16 +195,27 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  // Background SVG Text Box Design (accurately scaled to frame bounds)
+                  // Background Native Box (Replaces heavy SVG)
                   Positioned(
-                    left: -boxWidth * (99.25 / 478.40),
-                    top: -boxHeight * (103.62 / 229.59),
-                    width: boxWidth * (628.0 / 478.40),
-                    height: boxHeight * (372.0 / 229.59),
-                    child: IgnorePointer(
-                      child: SvgPicture.asset(
-                        'assets/text_Box/form 3.svg',
-                        fit: BoxFit.fill,
+                    left: 0,
+                    top: 0,
+                    width: boxWidth,
+                    height: boxHeight,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFDF7F0).withValues(alpha: 0.95),
+                        borderRadius: BorderRadius.circular(16.0 * scale),
+                        border: Border.all(
+                          color: const Color(0xFF765E54).withValues(alpha: 0.5),
+                          width: 2.0 * scale,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2),
+                            blurRadius: 8.0,
+                            offset: const Offset(2.0, 4.0),
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -229,7 +249,7 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
               ),
             ),
 
-            // Overlapping "STORY" Header Tab SVG
+            // Overlapping "STORY" Header Tab (Native text instead of SVG)
             AnimatedPositioned(
               duration: const Duration(milliseconds: 600),
               curve: Curves.easeInOutCubic,
@@ -237,10 +257,28 @@ class _Scenario2IntroScreenState extends State<Scenario2IntroScreen> {
               top: tabTop,
               width: tabWidth,
               height: tabHeight,
-              child: IgnorePointer(
-                child: SvgPicture.asset(
-                  'assets/text_Box/STORY.svg',
-                  fit: BoxFit.contain,
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF765E54),
+                  borderRadius: BorderRadius.circular(12.0 * scale),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.2),
+                      blurRadius: 4.0,
+                      offset: const Offset(0, 2.0),
+                    )
+                  ],
+                ),
+                child: Text(
+                  'STORY',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14.0 * scale,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFFFDF7F0),
+                    letterSpacing: 1.2,
+                  ),
                 ),
               ),
             ),

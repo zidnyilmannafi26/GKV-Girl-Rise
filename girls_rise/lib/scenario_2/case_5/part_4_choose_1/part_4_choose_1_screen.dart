@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/reflection_text_box.dart';
+import 'package:girls_rise/models/game_stats.dart';
+import 'package:girls_rise/screens/home_screen.dart';
 
 class Part4Choose1Screen extends StatefulWidget {
   const Part4Choose1Screen({super.key});
@@ -35,7 +37,10 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).popUntil((route) => route.settings.name == '/selection');
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const HomeScreen()),
+                (route) => false,
+              );
             },
             child: Text(
               'OK',
@@ -85,8 +90,8 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
             // Character (Right side)
             Positioned(
               right: offsetX + 75.0 * scale,
-              bottom: -40.0 * scale,
-              height: 380.0 * scale,
+              bottom: 0,
+              height: 318.0 * scale,
               child: Image.asset(
                 'assets/images/cewe.nangis.mataterbuka.png',
                 fit: BoxFit.contain,
@@ -104,6 +109,12 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
                 headerTabAsset: 'assets/text_Box/REFLECTION.svg',
                 quoteText: 'Mengiyakan keputusan keluarga.',
                 reflectionText: 'Dengan berat hati, kamu menerima keputusan orang tuamu demi meringankan beban mereka. Langkah ini terasa sangat berat, karena kamu sadar bahwa impianmu untuk bersekolah harus dikesampingkan demi kelangsungan hidup keluarga.',
+                statChanges: const [
+                  StatDelta(StatType.pendidikan, -50),
+                  StatDelta(StatType.mental, -50),
+                  StatDelta(StatType.relasi, 50),
+                  StatDelta(StatType.ekonomi, 30),
+                ],
               ),
             ),
 
