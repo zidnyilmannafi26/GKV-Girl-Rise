@@ -77,9 +77,18 @@ class OutcomePutusScreen extends StatelessWidget {
                   child: IgnorePointer(
                     child: DialogueTextBox(
                       scale: scale,
+                      width: 540.0,
+                      height: 141.0,
                       headerTabAsset: 'assets/text_Box/OUTCOME.svg',
-                      dialogueText:
-                          'Hubungan 4 tahun kalian berakhir dengan sangat menyakitkan malam itu juga. Namun, kamu sadar bahwa ini adalah hubungan yang toxic, keberanianmu menolak berhasil menyelamatkan masa depanmu. Lima tahun kemudian, kamu sukses menyelesaikan pendidikan tinggi di universitas terbaik dengan predikat Cum Laude. Kamu menjelma menjadi wanita karir mandiri yang sukses dan berdaya penuh atas kehidupannya sendiri.',
+                      child: Text(
+                        'Hubungan 4 tahun kalian berakhir dengan sangat menyakitkan malam itu juga. Namun, kamu sadar bahwa ini adalah hubungan yang toxic, keberanianmu menolak berhasil menyelamatkan masa depanmu. Lima tahun kemudian, kamu sukses menyelesaikan pendidikan tinggi di universitas terbaik dengan predikat Cum Laude. Kamu menjelma menjadi wanita karir mandiri yang sukses dan berdaya penuh atas kehidupannya sendiri.',
+                        style: TextStyle(
+                          fontFamily: 'Lora',
+                          color: const Color(0xFF765E54),
+                          fontSize: 13.5 * scale,
+                          height: 1.5,
+                        ),
+                      ),
                     ),
                   ),
                 ),

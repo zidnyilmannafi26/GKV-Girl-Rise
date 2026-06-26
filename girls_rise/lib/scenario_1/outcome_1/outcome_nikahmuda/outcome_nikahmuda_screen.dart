@@ -77,9 +77,18 @@ class OutcomeNikahMudaScreen extends StatelessWidget {
                   child: IgnorePointer(
                     child: DialogueTextBox(
                       scale: scale,
+                      width: 540.0,
+                      height: 141.0,
                       headerTabAsset: 'assets/text_Box/OUTCOME.svg',
-                      dialogueText:
-                          'Beberapa minggu kemudian, kamu terlambat datang bulan dan dinyatakan positif hamil. Impian besarmu terhenti seketika. Kamu harus keluar dari sekolah akibat sanksi, menahan cemoohan lingkungan, dan terjebak dalam lingkaran pernikahan dini tanpa kesiapan mental serta ekonomi yang matang.',
+                      child: Text(
+                        'Beberapa minggu kemudian, kamu terlambat datang bulan dan dinyatakan positif hamil. Impian besarmu terhenti seketika. Kamu harus keluar dari sekolah akibat sanksi, menahan cemoohan lingkungan, dan terjebak dalam lingkaran pernikahan dini tanpa kesiapan mental serta ekonomi yang matang.',
+                        style: TextStyle(
+                          fontFamily: 'Lora',
+                          color: const Color(0xFF765E54),
+                          fontSize: 13.5 * scale,
+                          height: 1.5,
+                        ),
+                      ),
                     ),
                   ),
                 ),
