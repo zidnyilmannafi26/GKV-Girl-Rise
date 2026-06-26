@@ -1,3 +1,4 @@
+import 'package:girls_rise/utils/fade_page_route.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -73,23 +74,17 @@ class Part2Screen extends StatelessWidget {
               choice3Text: 'Berbohong',
               onChoice1Tap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const Part2Choose1Screen(),
-                  ),
+                  FadePageRoute(page: const Part2Choose1Screen())
                 );
               },
               onChoice2Tap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const Part2Choose2Screen(),
-                  ),
+                  FadePageRoute(page: const Part2Choose2Screen())
                 );
               },
               onChoice3Tap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const Part2Choose3Screen(),
-                  ),
+                  FadePageRoute(page: const Part2Choose3Screen())
                 );
               },
             ),

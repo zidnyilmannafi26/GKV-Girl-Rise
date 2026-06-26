@@ -15,6 +15,7 @@ class DialogueTextBox extends StatefulWidget {
   final double headerTabLeft;
   final double headerTabTop;
   final String? bgSvgAsset;
+  final bool showNextHint;
 
   const DialogueTextBox({
     required this.scale,
@@ -28,6 +29,7 @@ class DialogueTextBox extends StatefulWidget {
     this.headerTabLeft = 24.0,
     this.headerTabTop = -44.0,
     this.bgSvgAsset,
+    this.showNextHint = true,
     super.key,
   });
 
@@ -144,8 +146,43 @@ class _DialogueTextBoxState extends State<DialogueTextBox> with SingleTickerProv
           ),
         ),
 
-        // Scroll/Continue Indicator (Bouncing Triangle)
-        if (_canScroll)
+        // Next / Continue Hint Indicator
+        if (widget.showNextHint && !_canScroll)
+          Positioned(
+            bottom: 10.0 * widget.scale,
+            right: 25.0 * widget.scale,
+            child: IgnorePointer(
+              child: AnimatedBuilder(
+                animation: _bounceAnim,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(_bounceAnim.value - 2.0, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Next',
+                          style: TextStyle(
+                            fontSize: 12.0 * widget.scale,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF765E54).withValues(alpha: 0.6),
+                            letterSpacing: 0.6,
+                          ),
+                        ),
+                        SizedBox(width: 4.0 * widget.scale),
+                        Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 10.0 * widget.scale,
+                          color: const Color(0xFF765E54).withValues(alpha: 0.6),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          )
+        else if (_canScroll)
           Positioned(
             bottom: 10.0 * widget.scale,
             right: 35.0 * widget.scale,

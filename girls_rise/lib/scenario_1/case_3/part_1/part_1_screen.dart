@@ -1,3 +1,4 @@
+import 'package:girls_rise/utils/fade_page_route.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,9 +15,7 @@ class Part1Screen extends StatefulWidget {
 class _Part1ScreenState extends State<Part1Screen> {
   void _nextStep() {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const Part2Screen(),
-      ),
+      FadePageRoute(page: const Part2Screen())
     );
   }
 

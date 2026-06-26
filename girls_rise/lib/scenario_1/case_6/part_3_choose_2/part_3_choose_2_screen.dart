@@ -1,3 +1,4 @@
+import 'package:girls_rise/utils/fade_page_route.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +16,7 @@ class Part3Choose2Screen extends StatefulWidget {
 class _Part3Choose2ScreenState extends State<Part3Choose2Screen> {
   void _nextStep() {
     Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const HomeScreen()),
+      FadePageRoute(page: const HomeScreen()),
       (route) => false,
     );
   }
@@ -53,7 +54,7 @@ class _Part3Choose2ScreenState extends State<Part3Choose2Screen> {
 
             // Karakter 2 (cewe.senang) - di kiri menempel
             Positioned(
-              left: offsetX + 480.0 * scale,
+              left: offsetX + 415.0 * scale,
               bottom: 0,
               height: 318.0 * scale,
               child: Image.asset(
@@ -64,7 +65,7 @@ class _Part3Choose2ScreenState extends State<Part3Choose2Screen> {
 
             // Karakter 1 (cowo.marah) - di kanan
             Positioned(
-              left: offsetX + 600.0 * scale,
+              left: offsetX + 535.0 * scale,
               bottom: 0,
               height: 318.0 * scale,
               child: Image.asset(

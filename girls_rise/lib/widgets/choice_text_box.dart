@@ -86,6 +86,7 @@ class ChoiceTextBox extends StatelessWidget {
       scale: scale,
       width: 700.0,
       height: 141.0,
+      showNextHint: false,
       headerTabAsset: headerTabAsset,
       headerTabWidth: 184.0,
       headerTabHeight: 49.0,

@@ -56,8 +56,8 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
             // Character (Right side - Enlarged and anchored to bottom edge)
             Positioned(
               right: offsetX + 80.0 * scale,
-              bottom: 0,
-              height: 318.0 * scale,
+              bottom: -45.0 * scale,
+              height: 360.0 * scale,
               child: Image.asset(
                 'assets/images/cewe.marah.png',
                 fit: BoxFit.contain,
