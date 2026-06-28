@@ -177,8 +177,8 @@ class _HistoryMatchScreenState extends State<HistoryMatchScreen> {
 
               // Main Window Canvas
               Positioned(
-                left: offsetX + 40 * scale,
-                right: offsetX + 40 * scale,
+                left: offsetX + 85 * scale,
+                right: offsetX + 85 * scale,
                 top: offsetY + 25 * scale,
                 bottom: offsetY,
                 child: Column(

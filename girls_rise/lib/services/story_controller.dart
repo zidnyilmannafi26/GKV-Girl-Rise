@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
+import 'audio_service.dart';
 
 class StoryController {
   static final StoryController instance = StoryController._internal();
@@ -21,9 +22,11 @@ class StoryController {
 
   bool interceptTap() {
     if (_isTyping && _skipCallback != null) {
+      HapticFeedback.selectionClick();
       _skipCallback!();
       return true;
     }
+    AudioService.instance.playTransitionSfx();
     return false;
   }
 }

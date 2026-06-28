@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AudioService extends ChangeNotifier {
@@ -50,6 +51,9 @@ class AudioService extends ChangeNotifier {
   }
 
   Future<void> playTransitionSfx() async {
+    if (!_suppressTransition) {
+      HapticFeedback.lightImpact();
+    }
     if (_suppressTransition || _isMuted || _sfxPlayer == null) return;
     try {
       await _sfxPlayer!.stop();
@@ -60,6 +64,7 @@ class AudioService extends ChangeNotifier {
   }
 
   Future<void> playImportantClickSfx() async {
+    HapticFeedback.mediumImpact();
     _suppressTransition = true;
     Future.delayed(const Duration(milliseconds: 450), () {
       _suppressTransition = false;
@@ -74,6 +79,7 @@ class AudioService extends ChangeNotifier {
   }
 
   Future<void> playOutcomeChimeSfx() async {
+    HapticFeedback.heavyImpact();
     if (_isMuted || _sfxPlayer == null) return;
     try {
       await _sfxPlayer!.stop();

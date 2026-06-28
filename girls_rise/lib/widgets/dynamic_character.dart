@@ -57,19 +57,17 @@ class _DynamicCharacterState extends State<DynamicCharacter>
       builder: (context, child) {
         final double t = (_controller.value * 2 * pi) + _phaseOffset;
 
-        // 1. Pure Grounded Inhalation (Strictly Upward Expansion):
+        // 1. Enhanced Grounded Inhalation (Live2D style Breathing):
         // (sin(t) + 1.0) goes from 0.0 to 2.0.
-        // Vertical scale goes strictly from 1.000 (at rest) to 1.008 (peak breath).
-        // At bottom boundary (y=0), displacement is EXACTLY 0.0px. Zero foot lift!
-        final double breatheScaleY = 1.0 + ((sin(t) + 1.0) * 0.004);
+        // Vertical scale smoothly expands up to 2.4% (1.024) while grounded at bottomCenter.
+        final double breatheScaleY = 1.0 + ((sin(t) + 1.0) * 0.012);
 
-        // 2. Pure Floor-Parallel Glide:
-        // Gentle horizontal glide (+/- 0.6 px) parallel to the floor line.
-        // Eliminates tilt rotation so corners NEVER lift off the floor plane.
-        final double offsetX = cos(t * 0.8) * 0.6;
+        // 2. Smooth Floor-Parallel Glide:
+        // Gentle horizontal glide (+/- 1.5 px) parallel to the floor line.
+        final double offsetX = cos(t * 0.8) * 1.5;
 
         return Transform.translate(
-          offset: Offset(offsetX, 0), // Vertical translation is strictly 0!
+          offset: Offset(offsetX, 0),
           child: Transform(
             alignment: Alignment.bottomCenter,
             transform: Matrix4.diagonal3Values(1.0, breatheScaleY, 1.0),

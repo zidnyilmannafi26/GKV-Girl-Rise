@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/game_state_manager.dart';
 import 'typewriter_text.dart';
 
 class DialogueTextBox extends StatefulWidget {
@@ -85,6 +86,7 @@ class _DialogueTextBoxState extends State<DialogueTextBox> with SingleTickerProv
 
   Widget _wrapWithTypewriter(Widget w) {
     if (w is Text && w.data != null) {
+      GameStateManager.instance.addDialogueLog(w.data!);
       if (_isPercakapan(w.data!)) return w;
       return TypewriterText(
         w.data!,
@@ -93,6 +95,7 @@ class _DialogueTextBoxState extends State<DialogueTextBox> with SingleTickerProv
       );
     } else if (w is RichText) {
       final plain = w.text.toPlainText();
+      GameStateManager.instance.addDialogueLog(plain);
       if (_isPercakapan(plain)) return w;
       return TypewriterText.span(
         w.text,
@@ -209,27 +212,31 @@ class _DialogueTextBoxState extends State<DialogueTextBox> with SingleTickerProv
               child: AnimatedBuilder(
                 animation: _bounceAnim,
                 builder: (context, child) {
+                  final double pulseAlpha = (0.35 + 0.65 * (_bounceAnim.value / 4.0)).clamp(0.0, 1.0);
                   return Transform.translate(
                     offset: Offset(_bounceAnim.value - 2.0, 0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Next',
-                          style: TextStyle(
-                            fontSize: 12.0 * widget.scale,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF765E54).withValues(alpha: 0.6),
-                            letterSpacing: 0.6,
+                    child: Opacity(
+                      opacity: pulseAlpha,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Next',
+                            style: TextStyle(
+                              fontSize: 12.0 * widget.scale,
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xFF765E54),
+                              letterSpacing: 0.8,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 4.0 * widget.scale),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 10.0 * widget.scale,
-                          color: const Color(0xFF765E54).withValues(alpha: 0.6),
-                        ),
-                      ],
+                          SizedBox(width: 4.0 * widget.scale),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 11.0 * widget.scale,
+                            color: const Color(0xFF765E54),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

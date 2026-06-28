@@ -8,6 +8,7 @@ import '../scenario_2/intro/scenario_2_intro_screen.dart';
 import '../services/audio_service.dart';
 import '../services/game_state_manager.dart';
 import '../utils/fade_page_route.dart';
+import 'edukasi_compendium_screen.dart';
 import 'history_match_screen.dart';
 import 'home_screen.dart';
 
@@ -185,11 +186,12 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
 
               // Pill-shaped Back Button (top left)
               Positioned(
-                top: 25,
-                left: 25,
+                top: 13,
+                left: 13,
                 child: Opacity(
                   opacity: uiOpacity,
                   child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: () {
                       if (_selectedScenario == null) {
                         AudioService.instance.playImportantClickSfx();
@@ -202,8 +204,59 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
                         }
                       }
                     },
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Container(
+                        width: 42,
+                        height: 42,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFAF1E9),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: const Color(0xFF9C6C69), width: 1.5),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.12),
+                              blurRadius: 6,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                          color: Color(0xFF5A3831),
+                          size: 22,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Pojok Edukasi Quick Button (top left next to Back button)
+              Positioned(
+                top: 25,
+                left: 88,
+                child: Opacity(
+                  opacity: uiOpacity,
+                  child: GestureDetector(
+                    onTap: () {
+                      if (_selectedScenario == null) {
+                        AudioService.instance.playImportantClickSfx();
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            transitionDuration: const Duration(milliseconds: 500),
+                            pageBuilder: (context, animation, secondaryAnimation) =>
+                                const EdukasiCompendiumScreen(),
+                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                              return FadeTransition(opacity: animation, child: child);
+                            },
+                          ),
+                        );
+                      }
+                    },
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                       decoration: BoxDecoration(
                         color: const Color(0xFFFAF1E9),
                         borderRadius: BorderRadius.circular(20),
@@ -216,14 +269,21 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
                           ),
                         ],
                       ),
-                      child: Text(
-                        '← BACK',
-                        style: GoogleFonts.lora(
-                          color: const Color(0xFF5A3831),
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14,
-                          letterSpacing: 1.0,
-                        ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.auto_stories_rounded, color: Color(0xFF5A3831), size: 16),
+                          const SizedBox(width: 6),
+                          Text(
+                            'EDUKASI',
+                            style: GoogleFonts.lora(
+                              color: const Color(0xFF5A3831),
+                              fontWeight: FontWeight.w700,
+                              fontSize: 13,
+                              letterSpacing: 1.0,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -333,23 +393,26 @@ class _ScenarioSelectionScreenState extends State<ScenarioSelectionScreen>
 
               // Center Cards
               Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildAnimatedCard(
-                      scenarioId: 1,
-                      imagePath: 'assets/images/Scenario_1.png',
-                      targetScreen: const Part1Screen(),
-                      scale: scale,
-                    ),
-                    SizedBox(width: 32.0 * scale),
-                    _buildAnimatedCard(
-                      scenarioId: 2,
-                      imagePath: 'assets/images/Scenario_2.png',
-                      targetScreen: const Scenario2IntroScreen(),
-                      scale: scale,
-                    ),
-                  ],
+                child: Padding(
+                  padding: EdgeInsets.only(top: 28.0 * scale),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildAnimatedCard(
+                        scenarioId: 1,
+                        imagePath: 'assets/images/Scenario_1.png',
+                        targetScreen: const Part1Screen(),
+                        scale: scale,
+                      ),
+                      SizedBox(width: 32.0 * scale),
+                      _buildAnimatedCard(
+                        scenarioId: 2,
+                        imagePath: 'assets/images/Scenario_2.png',
+                        targetScreen: const Scenario2IntroScreen(),
+                        scale: scale,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

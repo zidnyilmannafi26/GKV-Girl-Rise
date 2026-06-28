@@ -119,18 +119,87 @@ class ChoiceButton extends StatefulWidget {
   State<ChoiceButton> createState() => _ChoiceButtonState();
 }
 
-class _ChoiceButtonState extends State<ChoiceButton> {
+class _ChoiceButtonState extends State<ChoiceButton>
+    with SingleTickerProviderStateMixin {
   bool _isHovered = false;
   bool _isPressed = false;
+  late AnimationController _shimmerController;
+
+  @override
+  void initState() {
+    super.initState();
+    _shimmerController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 3200),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _shimmerController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     double buttonScale = 1.0;
+    Color bgColor = const Color(0xFFFDF7F0).withValues(alpha: 0.85);
+    Color borderColor = const Color(0xFF765E54).withValues(alpha: 0.3);
+
     if (_isPressed) {
-      buttonScale = 0.98;
+      buttonScale = 0.94;
+      bgColor = const Color(0xFFFFE8C5);
+      borderColor = const Color(0xFF765E54);
     } else if (_isHovered) {
-      buttonScale = 1.02;
+      buttonScale = 1.03;
+      bgColor = const Color(0xFFFFF4E0);
+      borderColor = const Color(0xFFB8860B);
     }
+
+    final buttonContent = AnimatedContainer(
+      duration: const Duration(milliseconds: 150),
+      width: 273.0 * widget.scale,
+      height: 61.0 * widget.scale,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(14.0 * widget.scale),
+        border: Border.all(
+          color: borderColor,
+          width: (_isHovered || _isPressed ? 2.0 : 1.5) * widget.scale,
+        ),
+        boxShadow: [
+          if (_isHovered || _isPressed)
+            BoxShadow(
+              color: const Color(0xFFB8860B).withValues(alpha: 0.25),
+              blurRadius: 12.0 * widget.scale,
+              offset: Offset(0, 4.0 * widget.scale),
+            )
+          else
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.08),
+              blurRadius: 6.0 * widget.scale,
+              offset: Offset(0, 2.0 * widget.scale),
+            ),
+        ],
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 12.0 * widget.scale,
+          vertical: 6.0 * widget.scale,
+        ),
+        child: Text(
+          widget.text,
+          style: GoogleFonts.lora(
+            fontSize: 10.8 * widget.scale,
+            color: const Color(0xFF5A433B),
+            fontWeight: _isHovered || _isPressed ? FontWeight.w700 : FontWeight.w600,
+            height: 1.3,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
 
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
@@ -154,43 +223,48 @@ class _ChoiceButtonState extends State<ChoiceButton> {
         },
         child: AnimatedScale(
           scale: buttonScale,
-          duration: const Duration(milliseconds: 100),
-          curve: Curves.easeInOut,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                width: 273.0 * widget.scale,
-                height: 61.0 * widget.scale,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFDF7F0).withValues(alpha: 0.8),
-                  borderRadius: BorderRadius.circular(12.0 * widget.scale),
-                  border: Border.all(
-                    color: const Color(0xFF765E54).withValues(alpha: 0.3),
-                    width: 1.5 * widget.scale,
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 273.0 * widget.scale,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.0 * widget.scale,
-                    vertical: 6.0 * widget.scale,
-                  ),
-                  child: Text(
-                    widget.text,
-                    style: GoogleFonts.lora(
-                      fontSize: 10.5 * widget.scale,
-                      color: const Color(0xFF765E54),
-                      fontWeight: FontWeight.w500,
-                      height: 1.3,
+          duration: const Duration(milliseconds: 110),
+          curve: Curves.easeOutBack,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(14.0 * widget.scale),
+            child: AnimatedBuilder(
+              animation: _shimmerController,
+              builder: (context, child) {
+                final double progress = _shimmerController.value;
+                if (progress > 0.3) return child!;
+                final double sweepAlign = -1.5 + (progress / 0.3) * 3.0;
+
+                return Stack(
+                  children: [
+                    child!,
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: Align(
+                          alignment: Alignment(sweepAlign, 0),
+                          child: Transform.rotate(
+                            angle: 0.45,
+                            child: Container(
+                              width: 35.0 * widget.scale,
+                              height: 120.0 * widget.scale,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.white.withValues(alpha: 0.0),
+                                    Colors.white.withValues(alpha: 0.38),
+                                    Colors.white.withValues(alpha: 0.0),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ],
+                  ],
+                );
+              },
+              child: buttonContent,
+            ),
           ),
         ),
       ),

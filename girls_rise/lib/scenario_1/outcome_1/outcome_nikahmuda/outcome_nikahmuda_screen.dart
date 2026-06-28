@@ -46,67 +46,66 @@ class _OutcomeNikahMudaScreenState extends State<OutcomeNikahMudaScreen>
       duration: const Duration(milliseconds: 3600),
     );
 
-    // 1. Background Cinematic Zoom (0.0 .. 0.35)
+    // 1. Background & Right Stat Panel appear immediately together (0.0 .. 0.35)
     _bgFadeAnim = CurvedAnimation(
       parent: _controller,
-      curve: const Interval(0.0, 0.35, curve: Curves.easeOut),
+      curve: const Interval(0.0, 0.35, curve: Curves.easeOutCubic),
     );
-    _bgScaleAnim = Tween<double>(begin: 1.08, end: 1.0).animate(
+    _bgScaleAnim = Tween<double>(begin: 1.05, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
         curve: const Interval(0.0, 0.45, curve: Curves.easeOutCubic),
       ),
     );
 
-    // 2. Character Rise (0.15 .. 0.55)
-    _charFadeAnim = CurvedAnimation(
+    _panelFadeAnim = CurvedAnimation(
       parent: _controller,
-      curve: const Interval(0.15, 0.55, curve: Curves.easeOut),
+      curve: const Interval(0.0, 0.35, curve: Curves.easeOutCubic),
     );
-    _charSlideAnim = Tween<Offset>(
+    _panelSlideAnim = Tween<Offset>(
+      begin: const Offset(0.05, 0),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 0.45, curve: Curves.easeOutCubic),
+      ),
+    );
+
+    // 2. Dialogue Box anchors first to cover bottom space (0.15 .. 0.50)
+    _boxFadeAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.15, 0.50, curve: Curves.easeOutCubic),
+    );
+    _boxSlideAnim = Tween<Offset>(
       begin: const Offset(0, 0.08),
       end: Offset.zero,
     ).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.15, 0.55, curve: Curves.easeOutQuart),
+        curve: const Interval(0.15, 0.50, curve: Curves.easeOutCubic),
       ),
     );
 
-    // 3. Right Stat Panel Slide-In (0.25 .. 0.65)
-    _panelFadeAnim = CurvedAnimation(
+    // 3. Character emerges smoothly behind the already-forming box (0.30 .. 0.65)
+    _charFadeAnim = CurvedAnimation(
       parent: _controller,
-      curve: const Interval(0.25, 0.65, curve: Curves.easeOut),
+      curve: const Interval(0.30, 0.65, curve: Curves.easeOutCubic),
     );
-    _panelSlideAnim = Tween<Offset>(
-      begin: const Offset(0.08, 0),
+    _charSlideAnim = Tween<Offset>(
+      begin: const Offset(0, 0.05),
       end: Offset.zero,
     ).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: const Interval(0.25, 0.65, curve: Curves.easeOutQuart),
+        curve: const Interval(0.30, 0.65, curve: Curves.easeOutCubic),
       ),
     );
 
-    // 4. Dialogue Box Spring-Up (0.35 .. 0.75)
-    _boxFadeAnim = CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.35, 0.75, curve: Curves.easeOut),
-    );
-    _boxSlideAnim = Tween<Offset>(
-      begin: const Offset(0, 0.12),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.35, 0.75, curve: Curves.easeOutBack),
-      ),
-    );
-
-    // 5. Narrative Text Soft Fade (0.50 .. 1.0)
+    // 4. Narrative Text Soft Fade inside the box (0.45 .. 0.85)
     _textFadeAnim = CurvedAnimation(
       parent: _controller,
-      curve: const Interval(0.50, 1.0, curve: Curves.easeOutQuart),
+      curve: const Interval(0.45, 0.85, curve: Curves.easeOutCubic),
     );
 
     _controller.forward();

@@ -14,6 +14,15 @@ class GameStateManager extends ChangeNotifier {
 
   // History stack for undoing when pressing BACK (Navigator.pop)
   final List<List<StatItem>> _historyStack = [];
+  final List<String> dialogueHistory = [];
+
+  void addDialogueLog(String text) {
+    final cleanText = text.trim();
+    if (cleanText.isEmpty) return;
+    if (dialogueHistory.isEmpty || dialogueHistory.last != cleanText) {
+      dialogueHistory.add(cleanText);
+    }
+  }
 
   bool get isScenarioActive => activeScenarioId != null;
   bool isEndingMode = false;
@@ -53,6 +62,7 @@ class GameStateManager extends ChangeNotifier {
       const StatItem(type: StatType.mental, value: 50, initialRank: 3),
     ];
     _historyStack.clear();
+    dialogueHistory.clear();
     notifyListeners();
   }
 
@@ -66,6 +76,7 @@ class GameStateManager extends ChangeNotifier {
       const StatItem(type: StatType.mental, value: 50, initialRank: 3),
     ];
     _historyStack.clear();
+    dialogueHistory.clear();
     notifyListeners();
   }
 

@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/scenario_1/part_1_screen.dart';
-import 'package:girls_rise/screens/home_screen.dart';
+import 'package:girls_rise/screens/scenario_selection_screen.dart';
 import 'package:girls_rise/services/audio_service.dart';
 import 'package:girls_rise/services/game_state_manager.dart';
 import 'package:girls_rise/utils/fade_page_route.dart';
@@ -29,20 +29,20 @@ class _FinalReflectionPutusScreenState extends State<FinalReflectionPutusScreen>
     super.initState();
     _mainController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 6500),
+      duration: const Duration(seconds: 4),
     );
 
     _step1Anim = CurvedAnimation(
       parent: _mainController,
-      curve: const Interval(0.0, 0.25, curve: Curves.easeOutQuart),
+      curve: const Interval(0.0, 0.45, curve: Curves.easeOutCubic),
     );
     _step2Anim = CurvedAnimation(
       parent: _mainController,
-      curve: const Interval(0.40, 0.65, curve: Curves.easeOutQuart),
+      curve: const Interval(0.30, 0.75, curve: Curves.easeOutCubic),
     );
     _step3Anim = CurvedAnimation(
       parent: _mainController,
-      curve: const Interval(0.80, 1.0, curve: Curves.easeOutQuart),
+      curve: const Interval(0.60, 1.0, curve: Curves.easeOutCubic),
     );
 
     _mainController.forward();
@@ -63,11 +63,11 @@ class _FinalReflectionPutusScreenState extends State<FinalReflectionPutusScreen>
     );
   }
 
-  void _gotoHome() {
+  void _gotoScenarioSelection() {
     AudioService.instance.playImportantClickSfx();
     GameStateManager.instance.resetScenario();
     Navigator.of(context).pushAndRemoveUntil(
-      FadePageRoute(page: const HomeScreen()),
+      FadePageRoute(page: const ScenarioSelectionScreen()),
       (route) => false,
     );
   }
@@ -258,12 +258,12 @@ class _FinalReflectionPutusScreenState extends State<FinalReflectionPutusScreen>
 
                                       SizedBox(width: 20.0 * scale),
 
-                                      // Main Menu Button
+                                      // Scenario Selection Button
                                       OutlinedButton.icon(
-                                        onPressed: _gotoHome,
-                                        icon: Icon(Icons.home_rounded, size: 18 * scale),
+                                        onPressed: _gotoScenarioSelection,
+                                        icon: Icon(Icons.check_circle_outline_rounded, size: 18 * scale),
                                         label: Text(
-                                          'Menu Utama',
+                                          'Selesai',
                                           style: GoogleFonts.poppins(
                                             fontSize: 13 * scale,
                                             fontWeight: FontWeight.w600,

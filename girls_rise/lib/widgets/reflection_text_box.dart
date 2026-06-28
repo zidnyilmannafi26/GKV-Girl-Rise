@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import '../models/game_stats.dart';
+import '../services/audio_service.dart';
 import '../services/game_state_manager.dart';
 import 'typewriter_text.dart';
 
@@ -29,6 +30,7 @@ class _ReflectionTextBoxState extends State<ReflectionTextBox> {
   @override
   void initState() {
     super.initState();
+    AudioService.instance.playOutcomeChimeSfx();
     if (widget.statChanges != null && widget.statChanges!.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
