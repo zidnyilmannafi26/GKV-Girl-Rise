@@ -12,6 +12,8 @@ class ReflectionTextBox extends StatefulWidget {
   final String quoteText;
   final String reflectionText;
   final List<StatDelta>? statChanges;
+  final String? caseId;
+  final int? choiceIndex;
 
   const ReflectionTextBox({
     required this.scale,
@@ -19,6 +21,8 @@ class ReflectionTextBox extends StatefulWidget {
     required this.quoteText,
     required this.reflectionText,
     this.statChanges,
+    this.caseId,
+    this.choiceIndex,
     super.key,
   });
 
@@ -31,10 +35,14 @@ class _ReflectionTextBoxState extends State<ReflectionTextBox> {
   void initState() {
     super.initState();
     AudioService.instance.playOutcomeChimeSfx();
-    if (widget.statChanges != null && widget.statChanges!.isNotEmpty) {
+    if ((widget.statChanges != null && widget.statChanges!.isNotEmpty) || (widget.caseId != null && widget.choiceIndex != null)) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
-          GameStateManager.instance.applyDeltas(widget.statChanges!);
+          GameStateManager.instance.applyDeltas(
+            widget.statChanges ?? [],
+            caseId: widget.caseId,
+            choiceIndex: widget.choiceIndex,
+          );
         }
       });
     }
@@ -42,7 +50,7 @@ class _ReflectionTextBoxState extends State<ReflectionTextBox> {
 
   @override
   void dispose() {
-    if (widget.statChanges != null && widget.statChanges!.isNotEmpty) {
+    if ((widget.statChanges != null && widget.statChanges!.isNotEmpty) || (widget.caseId != null && widget.choiceIndex != null)) {
       GameStateManager.instance.undo();
     }
     super.dispose();

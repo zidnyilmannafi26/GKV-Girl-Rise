@@ -15,6 +15,15 @@ class GameStateManager extends ChangeNotifier {
   // History stack for undoing when pressing BACK (Navigator.pop)
   final List<List<StatItem>> _historyStack = [];
   final List<String> dialogueHistory = [];
+  final Map<String, int> _choiceHistory = {};
+  final List<Map<String, int>> _choiceHistoryStack = [];
+
+  void recordChoice(String caseId, int chosenIndex) {
+    _choiceHistory[caseId] = chosenIndex;
+    notifyListeners();
+  }
+
+  int? getChoice(String caseId) => _choiceHistory[caseId];
 
   void addDialogueLog(String text) {
     final cleanText = text.trim();
@@ -63,6 +72,8 @@ class GameStateManager extends ChangeNotifier {
     ];
     _historyStack.clear();
     dialogueHistory.clear();
+    _choiceHistory.clear();
+    _choiceHistoryStack.clear();
     notifyListeners();
   }
 
@@ -77,12 +88,19 @@ class GameStateManager extends ChangeNotifier {
     ];
     _historyStack.clear();
     dialogueHistory.clear();
+    _choiceHistory.clear();
+    _choiceHistoryStack.clear();
     notifyListeners();
   }
 
-  void applyDeltas(List<StatDelta> deltas) {
+  void applyDeltas(List<StatDelta> deltas, {String? caseId, int? choiceIndex}) {
     // Push current snapshot to history
     _historyStack.add(List.from(_stats));
+    _choiceHistoryStack.add(Map.from(_choiceHistory));
+
+    if (caseId != null && choiceIndex != null) {
+      _choiceHistory[caseId] = choiceIndex;
+    }
 
     // Calculate new values
     final Map<StatType, StatItem> currentMap = {
@@ -92,7 +110,8 @@ class GameStateManager extends ChangeNotifier {
     for (var d in deltas) {
       if (currentMap.containsKey(d.type)) {
         final oldItem = currentMap[d.type]!;
-        currentMap[d.type] = oldItem.copyWith(value: oldItem.value + d.delta);
+        final int newVal = (oldItem.value + d.delta).clamp(0, 100);
+        currentMap[d.type] = oldItem.copyWith(value: newVal);
       }
     }
 
@@ -117,6 +136,10 @@ class GameStateManager extends ChangeNotifier {
   void undo() {
     if (_historyStack.isNotEmpty) {
       _stats = _historyStack.removeLast();
+      if (_choiceHistoryStack.isNotEmpty) {
+        _choiceHistory.clear();
+        _choiceHistory.addAll(_choiceHistoryStack.removeLast());
+      }
       notifyListeners();
     }
   }

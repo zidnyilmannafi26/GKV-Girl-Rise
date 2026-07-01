@@ -9,9 +9,24 @@ import '../part_4_choose_2/part_4_choose_2_screen.dart';
 import '../part_4_choose_3/part_4_choose_3_screen.dart';
 
 import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
 
 class Part3Screen extends StatelessWidget {
   const Part3Screen({super.key});
+
+  String _getChoice1Text() {
+    final prev = GameStateManager.instance.getChoice('s2_case1');
+    if (prev == 1) return 'Mengambil brosur beasiswa dengan antusias demi mengejar mimpimu';
+    if (prev == 2) return 'Mengambil brosur beasiswa agar kamu tidak perlu bekerja paruh waktu';
+    return 'Mengambil brosur beasiswa dan bertanya lebih lanjut.';
+  }
+
+  String _getChoice2Text() {
+    final prev = GameStateManager.instance.getChoice('s2_case1');
+    if (prev == 1) return 'Hanya melihat brosur dari jauh karena masih cemas akan biaya';
+    if (prev == 2) return 'Hanya melihat brosur dari jauh karena merasa harus tetap bekerja';
+    return 'Hanya melihat brosur dari jauh tanpa mengambilnya.';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +76,8 @@ class Part3Screen extends StatelessWidget {
             child: ChoiceTextBox(
               scale: scale,
               headerTabAsset: 'assets/text_Box/OUTCOME.svg',
-              choice1Text: 'Mengambil brosur beasiswa dan bertanya lebih lanjut.',
-              choice2Text: 'Hanya melihat brosur dari jauh tanpa mengambilnya.',
+              choice1Text: _getChoice1Text(),
+              choice2Text: _getChoice2Text(),
               choice3Text: 'Keluar kelas sebelum sosialisasi selesai.',
               onChoice1Tap: () {
                 Navigator.of(context).push(

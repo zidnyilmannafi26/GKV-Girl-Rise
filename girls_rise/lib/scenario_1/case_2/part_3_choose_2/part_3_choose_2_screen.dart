@@ -78,11 +78,13 @@ class _Part3Choose2ScreenState extends State<Part3Choose2Screen> {
                 quoteText: 'Diam dan menghindari konflik',
                 reflectionText: 'Kamu mengiyakan teleponnya tapi sengaja mengulur waktu di rumah tanpa kejelasan. Masalah tidak selesai, melainkan justru membuat Arga makin menginterogasimu.',
                 statChanges: const [
-                  StatDelta(StatType.mental, 10),
-                  StatDelta(StatType.relasi, -10),
-                  StatDelta(StatType.pendidikan, 10),
+                  StatDelta(StatType.mental, 6),
+                  StatDelta(StatType.relasi, -3),
+                  StatDelta(StatType.pendidikan, 6),
                   StatDelta(StatType.ekonomi, 0),
                 ],
+                caseId: 's1_case2',
+                choiceIndex: 2,
               ),
             ),
 

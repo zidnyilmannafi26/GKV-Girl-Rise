@@ -79,11 +79,13 @@ class _Part4Choose3ScreenState extends State<Part4Choose3Screen> {
                 quoteText: 'Keluar kelas sebelum sosialisasi selesai.',
                 reflectionText: 'Kamu memilih meninggalkan kelas karena semakin banyak membicarakan masa depan, justru membuatmu merasa semakin takut kehilangan semuanya.',
                 statChanges: const [
-                  StatDelta(StatType.pendidikan, -10),
-                  StatDelta(StatType.mental, -10),
+                  StatDelta(StatType.pendidikan, -7),
+                  StatDelta(StatType.mental, -7),
                   StatDelta(StatType.relasi, 0),
                   StatDelta(StatType.ekonomi, 0),
                 ],
+                caseId: 's2_case2',
+                choiceIndex: 3,
               ),
             ),
 

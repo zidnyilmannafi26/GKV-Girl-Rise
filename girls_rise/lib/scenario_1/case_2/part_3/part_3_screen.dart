@@ -8,9 +8,22 @@ import '../part_3_choose_2/part_3_choose_2_screen.dart';
 import '../part_3_choose_3/part_3_choose_3_screen.dart';
 
 import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
 
 class Part3Screen extends StatelessWidget {
   const Part3Screen({super.key});
+
+  String _getChoice1Text() {
+    final prev = GameStateManager.instance.getChoice('s1_case1');
+    if (prev == 1) return 'Meninggalkan tugas demi Arga agar ia tidak semakin marah';
+    return 'Meninggalkan tugas demi Arga';
+  }
+
+  String _getChoice2Text() {
+    final prev = GameStateManager.instance.getChoice('s1_case1');
+    if (prev == 2) return 'Diam mengulur waktu demi menghindari perdebatan lagi';
+    return 'Diam dan menghindari konflik';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +73,8 @@ class Part3Screen extends StatelessWidget {
             child: ChoiceTextBox(
               scale: scale,
               headerTabAsset: 'assets/text_Box/DECISION.svg',
-              choice1Text: 'Meninggalkan tugas demi Arga',
-              choice2Text: 'Diam dan menghindari konflik',
+              choice1Text: _getChoice1Text(),
+              choice2Text: _getChoice2Text(),
               choice3Text: 'Menjelaskan kalau sekolah juga penting',
               onChoice1Tap: () {
                 Navigator.of(context).push(

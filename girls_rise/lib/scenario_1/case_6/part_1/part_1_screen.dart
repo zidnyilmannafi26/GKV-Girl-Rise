@@ -8,9 +8,20 @@ import '../part_2/part_2_screen.dart';
 
 import 'package:girls_rise/widgets/dynamic_character.dart';
 import 'package:girls_rise/services/story_controller.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
 
 class Part1Screen extends StatelessWidget {
   const Part1Screen({super.key});
+
+  String _getDynamicText() {
+    final prev = GameStateManager.instance.getChoice('s1_case5');
+    if (prev == 1) {
+      return 'Setelah ikut merayakan kesuksesannya di club malam yang melelahkan, hari ini adalah hari ulang tahunmu. Arga mengajakmu makan malam romantis lalu memberikan kado mewah smartphone impianmu. Sambil menggenggam tanganmu di tempat sepi, ia berbisik..';
+    } else if (prev == 2) {
+      return 'Walaupun sebelumnya sempat pertengkaran karena kamu menolak ajakan club malam, hari ini saat ulang tahunmu Arga berusaha mengambil hatimu kembali. Ia memberikan kado mewah smartphone impianmu dan di tempat sepi, ia berbisik..';
+    }
+    return 'Hari ini adalah hari ulang tahunmu. Arga mengajakmu makan malam romantis, menjemputmu dengan mobil mewah nya lalu memberikan kotak kado berisi barang mewah berupa smartphone impian yang selama ini sangat kamu inginkan. Sambil menggenggam tanganmu di tempat sepi, ia berbisik..';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +103,7 @@ class Part1Screen extends StatelessWidget {
                 child: Center(
                   child: SingleChildScrollView(
                     child: Text(
-                      'Hari ini adalah hari ulang tahunmu. Arga mengajakmu makan malam romantis, menjemputmu dengan mobil mewah nya lalu memberikan kotak kado berisi barang mewah berupa smartphone impian yang selama ini sangat kamu inginkan. Sambil menggenggam tanganmu di tempat sepi, ia berbisik..',
+                      _getDynamicText(),
                       style: GoogleFonts.lora(
                         fontSize: 14.5 * scale,
                         height: 1.5,

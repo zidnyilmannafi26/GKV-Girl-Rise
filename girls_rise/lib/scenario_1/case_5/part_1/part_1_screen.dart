@@ -8,9 +8,20 @@ import '../part_2/part_2_screen.dart';
 
 import 'package:girls_rise/widgets/dynamic_character.dart';
 import 'package:girls_rise/services/story_controller.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
 
 class Part1Screen extends StatelessWidget {
   const Part1Screen({super.key});
+
+  String _getDynamicText() {
+    final prev = GameStateManager.instance.getChoice('s1_case4');
+    if (prev == 1) {
+      return 'Setelah sempat memblokir nomor teman sekelasmu demi menenangkan pacar, hubungan kalian kembali manis. Hari ini Arga berhasil diterima magang di perusahaan impiannya dan mengajakmu party di club malam. Di sisi lain, kamu harus mempersiapkan presentasi penting besok pagi.';
+    } else if (prev == 2) {
+      return 'Setelah kamu meminta maaf dan menyembunyikan urusan tugas dari Arga, ia kini sangat gembira karena diterima magang di perusahaan impiannya dan mengajakmu party di club malam. Di sisi lain, kamu harus mempersiapkan materi presentasi penting besok pagi.';
+    }
+    return 'Arga berhasil diterima magang di perusahaan terbaik yang sejak lama ia impikan. Malam ini, ia mengajakmu dan teman-teman kuliahnya untuk party dan merayakan keberhasilannya di sebuah club malam. Di sisi lain, kamu harus mempersiapkan materi belajar untuk membawakan presentasi penting besok pagi di kelasmu.';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +103,7 @@ class Part1Screen extends StatelessWidget {
                 child: Center(
                   child: SingleChildScrollView(
                     child: Text(
-                      'Arga berhasil diterima magang di perusahaan terbaik yang sejak lama ia impikan. Malam ini, ia mengajakmu dan teman-teman kuliahnya untuk party dan merayakan keberhasilannya di sebuah club malam. Di sisi lain, kamu harus mempersiapkan materi belajar untuk membawakan presentasi penting besok pagi di kelasmu.',
+                      _getDynamicText(),
                       style: GoogleFonts.lora(
                         fontSize: 14.5 * scale,
                         height: 1.5,

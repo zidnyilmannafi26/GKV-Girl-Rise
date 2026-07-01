@@ -89,11 +89,13 @@ class _Part2Choose3ScreenState extends State<Part2Choose3Screen> {
                 quoteText: 'Datang sebentar untuk merayakan lalu pulang cepat untuk belajar',
                 reflectionText: 'Kamu datang ke lokasi untuk menjaga perasaannya, namun hanya bertahan satu jam lalu pamit pulang. Arga agak cemberut, dan waktu belajarmu di rumah tetap terpotong.',
                 statChanges: const [
-                  StatDelta(StatType.mental, 10),
-                  StatDelta(StatType.pendidikan, 10),
-                  StatDelta(StatType.relasi, 10),
-                  StatDelta(StatType.ekonomi, -10),
+                  StatDelta(StatType.mental, 6),
+                  StatDelta(StatType.pendidikan, 6),
+                  StatDelta(StatType.relasi, 6),
+                  StatDelta(StatType.ekonomi, -3),
                 ],
+                caseId: 's1_case5',
+                choiceIndex: 3,
               ),
             ),
 

@@ -78,11 +78,13 @@ class _Part3Choose3ScreenState extends State<Part3Choose3Screen> {
                 quoteText: 'Menjelaskan kalau sekolah juga penting.',
                 reflectionText: 'Arga langsung mematikan telepon sepihak. Kamu berhasil menyelesaikan tugas, namun kamu merasa cemas karena merasa hubungan kalian akan hancur.',
                 statChanges: const [
-                  StatDelta(StatType.mental, 20),
-                  StatDelta(StatType.pendidikan, 20),
-                  StatDelta(StatType.relasi, -10),
+                  StatDelta(StatType.mental, 6),
+                  StatDelta(StatType.pendidikan, 6),
+                  StatDelta(StatType.relasi, -6),
                   StatDelta(StatType.ekonomi, 0),
                 ],
+                caseId: 's1_case2',
+                choiceIndex: 3,
               ),
             ),
 

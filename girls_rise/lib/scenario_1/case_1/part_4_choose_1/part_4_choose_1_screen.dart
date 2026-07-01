@@ -89,11 +89,13 @@ class _Part4Choose1ScreenState extends State<Part4Choose1Screen> {
                 quoteText: 'Apa Bisa ditunda dulu? Aku masih pengen lulus SMA dan kuliah',
                 reflectionText: 'Wajah Arga langsung berubah muram. Ia melepaskan genggaman tangannya dan merasa kecewa. Kamu mulai merasa hubungan ini tidak seimbang.',
                 statChanges: const [
-                  StatDelta(StatType.relasi, -10),
-                  StatDelta(StatType.mental, 10),
-                  StatDelta(StatType.pendidikan, 20),
+                  StatDelta(StatType.relasi, -6),
+                  StatDelta(StatType.mental, 6),
+                  StatDelta(StatType.pendidikan, 6),
                   StatDelta(StatType.ekonomi, 0),
                 ],
+                caseId: 's1_case1',
+                choiceIndex: 1,
               ),
             ),
 

@@ -92,11 +92,13 @@ class _Part2Choose2ScreenState extends State<Part2Choose2Screen> {
                 quoteText: 'Diam dan Curhat ke teman saja',
                 reflectionText: 'Kamu hanya tersenyum pada Ibu lalu mengetik pesan panjang ke sahabatmu. Temanmu mendengarkan, tapi dia sendiri bingung harus memberi solusi apa.',
                 statChanges: const [
-                  StatDelta(StatType.mental, 10),
-                  StatDelta(StatType.relasi, 10),
+                  StatDelta(StatType.mental, 3),
+                  StatDelta(StatType.relasi, 6),
                   StatDelta(StatType.pendidikan, 0),
                   StatDelta(StatType.ekonomi, 0),
                 ],
+                caseId: 's1_case3',
+                choiceIndex: 2,
               ),
             ),
 

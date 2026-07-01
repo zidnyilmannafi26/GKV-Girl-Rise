@@ -7,8 +7,22 @@ import 'package:girls_rise/widgets/choice_text_box.dart';
 import '../part_4_choose_1/part_4_choose_1_screen.dart';
 import '../part_4_choose_2/part_4_choose_2_screen.dart';
 
+import 'package:girls_rise/services/game_state_manager.dart';
+
 class Part3Screen extends StatelessWidget {
   const Part3Screen({super.key});
+
+  String _getChoice1Text() {
+    final prev = GameStateManager.instance.getChoice('s2_case4');
+    if (prev == 1) return 'Mengiyakan keputusan keluarga meski sebelumnya sudah bercerita ke teman';
+    return 'Mengiyakan keputusan keluarga';
+  }
+
+  String _getChoice2Text() {
+    final prev = GameStateManager.instance.getChoice('s2_case4');
+    if (prev == 3) return 'Menolak dan memilih memperjuangkan pendidikanmu dengan bantuan guru BK';
+    return 'Menolak dan memilih memperjuangkan pendidikanmu';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +72,8 @@ class Part3Screen extends StatelessWidget {
             child: ChoiceTextBox(
               scale: scale,
               headerTabAsset: 'assets/text_Box/OUTCOME.svg',
-              choice1Text: 'Mengiyakan keputusan keluarga.',
-              choice3Text: 'Menolak dan memilih memperjuangkan pendidikanmu.',
+              choice1Text: _getChoice1Text(),
+              choice3Text: _getChoice2Text(),
               onChoice1Tap: () {
                 Navigator.of(context).push(
                   FadePageRoute(page: const Part4Choose1Screen()),

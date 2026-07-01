@@ -8,6 +8,7 @@ import '../part_2/part_2_screen.dart';
 
 import 'package:girls_rise/widgets/dynamic_character.dart';
 import 'package:girls_rise/services/story_controller.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
 
 class Part1Screen extends StatefulWidget {
   const Part1Screen({super.key});
@@ -25,6 +26,13 @@ class _Part1ScreenState extends State<Part1Screen> {
   }
 
   Widget _buildDialogueContent(double scale) {
+    final prev = GameStateManager.instance.getChoice('s2_case4');
+    String text = 'Dua bulan berlalu, keadaan di rumah semakin sulit. Ayahmu mulai jarang bekerja sejak kondisi kesehatannya menurun. Sementara itu, biaya hidup terus berjalan, dan adikmu akan segera masuk sekolah dalam waktu dekat. Malam itu, setelah makan malam selesai, ayah memanggilmu untuk duduk di ruang tengah. Wajah kedua orang tuamu terlihat lebih lelah dari biasanya.';
+    if (prev == 1) {
+      text = 'Setelah kamu bercerita kepada teman tentang keadaan di rumah, dua bulan berlalu dan situasi justru semakin sulit. Ayahmu mulai jarang bekerja karena kesehatannya menurun. Malam itu, ayah memanggilmu untuk duduk di ruang tengah. Wajah kedua orang tuamu terlihat lebih lelah dari biasanya.';
+    } else if (prev == 3) {
+      text = 'Setelah kamu menceritakan semuanya kepada guru BK, dua bulan berlalu dan keadaan rumah tetap sulit. Ayahmu jarang bekerja karena sakit, biaya hidup terus berjalan. Malam itu, ayah memanggilmu. Wajah kedua orang tuamu terlihat sangat lelah.';
+    }
     return RichText(
       text: TextSpan(
         style: GoogleFonts.lora(
@@ -32,7 +40,7 @@ class _Part1ScreenState extends State<Part1Screen> {
           height: 1.5,
           color: const Color(0xFF765E54),
         ),
-        text: 'Dua bulan berlalu, keadaan di rumah semakin sulit. Ayahmu mulai jarang bekerja sejak kondisi kesehatannya menurun. Sementara itu, biaya hidup terus berjalan, dan adikmu akan segera masuk sekolah dalam waktu dekat. Malam itu, setelah makan malam selesai, ayah memanggilmu untuk duduk di ruang tengah. Wajah kedua orang tuamu terlihat lebih lelah dari biasanya.',
+        text: text,
       ),
     );
   }

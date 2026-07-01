@@ -8,6 +8,7 @@ import '../part_2/part_2_screen.dart';
 
 import 'package:girls_rise/widgets/dynamic_character.dart';
 import 'package:girls_rise/services/story_controller.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
 
 class Part1Screen extends StatefulWidget {
   const Part1Screen({super.key});
@@ -22,6 +23,18 @@ class _Part1ScreenState extends State<Part1Screen> {
     Navigator.of(context).push(
       FadePageRoute(page: const Part2Screen())
     );
+  }
+
+  String _getDynamicText() {
+    final prev = GameStateManager.instance.getChoice('s1_case2');
+    if (prev == 1) {
+      return 'Setelah kamu meninggalkan tugas demi menemani Arga malam itu, nilaimu mulai anjlok dan kamu terlihat sering melamun karena lelah. Malam hari, Ibumu masuk ke kamar dan bertanya lembut: Akhir-akhir ini kamu sering melamun, Nak. Nilai sekolahmu juga turun. Ada sesuatu yang mengganggu pikiran kamu?';
+    } else if (prev == 2) {
+      return 'Setelah sempat diam mengulur waktu saat ditelepon Arga, hubungan kalian malah dipenuhi ketegangan yang membuatmu stres. Malam hari, Ibumu masuk ke kamar dan bertanya lembut: Akhir-akhir ini kamu sering melamun, Nak. Nilai sekolahmu juga turun. Ada sesuatu yang mengganggu pikiran kamu?';
+    } else if (prev == 3) {
+      return 'Setelah kamu bersikap tegas bahwa tugas sekolah itu penting, Arga merajuk berkepanjangan dan membebanimu secara emosional. Malam hari, Ibumu masuk ke kamar dan melihatmu murung: Akhir-akhir ini kamu sering melamun, Nak. Ada sesuatu yang mengganggu pikiran kamu?';
+    }
+    return 'Akibat tekanan hubungan yang makin intens, nilaimu di sekolah mulai menurun dan kamu sering terlihat melamun di rumah. Malam hari, Ibumu masuk ke kamar dan bertanya lembut: Akhir-akhir ini kamu sering melamun, Nak. Nilai sekolahmu juga turun. Ada sesuatu yang mengganggu pikiran kamu?';
   }
 
   @override
@@ -99,7 +112,7 @@ class _Part1ScreenState extends State<Part1Screen> {
                 child: Center(
                   child: SingleChildScrollView(
                     child: Text(
-                      'Akibat tekanan hubungan yang makin intens, nilaimu di sekolah mulai menurun dan kamu sering terlihat melamun di rumah. Malam hari, Ibumu masuk ke kamar dan bertanya lembut: Akhir-akhir ini kamu sering melamun, Nak. Nilai sekolahmu juga turun. Ada sesuatu yang mengganggu pikiran kamu?',
+                      _getDynamicText(),
                       style: GoogleFonts.lora(
                         fontSize: 14.5 * scale,
                         height: 1.5,

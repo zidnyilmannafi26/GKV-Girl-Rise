@@ -78,11 +78,13 @@ class _Part2Choose1ScreenState extends State<Part2Choose1Screen> {
                 quoteText: 'Jujur Kepada Orang Tua',
                 reflectionText: 'Ibu kaget dan kecewa mengetahui hubunganmu yang mengganggu belajar, namun beliau menghargai kejujuranmu dan bersedia membantu mengatur waktumu kembali.',
                 statChanges: const [
-                  StatDelta(StatType.mental, 20),
-                  StatDelta(StatType.pendidikan, 10),
-                  StatDelta(StatType.relasi, -10),
+                  StatDelta(StatType.mental, 6),
+                  StatDelta(StatType.pendidikan, 6),
+                  StatDelta(StatType.relasi, -6),
                   StatDelta(StatType.ekonomi, 0),
                 ],
+                caseId: 's1_case3',
+                choiceIndex: 1,
               ),
             ),
 

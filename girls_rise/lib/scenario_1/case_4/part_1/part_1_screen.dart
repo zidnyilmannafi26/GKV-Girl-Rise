@@ -8,9 +8,20 @@ import '../part_2/part_2_screen.dart';
 
 import 'package:girls_rise/widgets/dynamic_character.dart';
 import 'package:girls_rise/services/story_controller.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
 
 class Part1Screen extends StatelessWidget {
   const Part1Screen({super.key});
+
+  String _getDynamicText() {
+    final prev = GameStateManager.instance.getChoice('s1_case3');
+    if (prev == 1) {
+      return 'Keesokan harinya setelah jujur pada Ibu dan merasa sedikit lega, suasanamu mendadak hancur berantakan. Saat sampai di rumah, ponselmu bergetar hebat dari Arga. Ternyata itu adalah tangkapan layar Instagram Story teman sekelasmu saat kerja kelompok, di mana kamu duduk bersebelahan dengan seorang teman cowok.';
+    } else if (prev == 2) {
+      return 'Keesokan harinya setelah memendam masalah dan curhat ke teman, pikiranmu masih kacau. Saat sampai di rumah, ponselmu bergetar hebat dari Arga. Ternyata itu adalah tangkapan layar Instagram Story teman sekelasmu saat kerja kelompok, di mana kamu duduk bersebelahan dengan seorang teman cowok.';
+    }
+    return 'Keesokan harinya, suasana hatimu yang sempat tenang mendadak hancur berantakan. Saat baru saja sampai di rumah, ponselmu bergetar hebat menampilkan rentetan panggilan tak terjawab dan sebuah pesan gambar dari Arga. Ternyata itu adalah tangkapan layar (screenshot) dari Instagram Story teman sekelasmu yang memperlihatkan momen kalian sedang fokus berdiskusi, di mana kamu duduk bersebelahan dengan seorang teman cowok untuk menyelesaikan proyek kelompok.';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +35,7 @@ class Part1Screen extends StatelessWidget {
     final double scaleX = screenWidth / designWidth;
     final double scaleY = screenHeight / designHeight;
     final double scale = min(scaleX, scaleY);
+
     final double activeCanvasWidth = designWidth * scale;
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
 
@@ -31,9 +43,7 @@ class Part1Screen extends StatelessWidget {
       body: GestureDetector(
         onTap: () {
           if (StoryController.instance.interceptTap()) return;
-          Navigator.of(context).push(
-            FadePageRoute(page: const Part2Screen())
-          );
+          Navigator.of(context).push(FadePageRoute(page: const Part2Screen()));
         },
         behavior: HitTestBehavior.translucent,
         child: Stack(
@@ -82,7 +92,7 @@ class Part1Screen extends StatelessWidget {
                 child: Center(
                   child: SingleChildScrollView(
                     child: Text(
-                      'Keesokan harinya, suasana hatimu yang sempat tenang mendadak hancur berantakan. Saat baru saja sampai di rumah, ponselmu bergetar hebat menampilkan rentetan panggilan tak terjawab dan sebuah pesan gambar dari Arga. Ternyata itu adalah tangkapan layar (screenshot) dari Instagram Story teman sekelasmu yang memperlihatkan momen kalian sedang fokus berdiskusi, di mana kamu duduk bersebelahan dengan seorang teman cowok untuk menyelesaikan proyek kelompok.',
+                      _getDynamicText(),
                       style: GoogleFonts.lora(
                         fontSize: 14.5 * scale,
                         height: 1.5,

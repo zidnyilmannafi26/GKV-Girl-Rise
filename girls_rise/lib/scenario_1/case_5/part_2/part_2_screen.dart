@@ -8,9 +8,22 @@ import '../part_2_choose_2/part_2_choose_2_screen.dart';
 import '../part_2_choose_3/part_2_choose_3_screen.dart';
 
 import 'package:girls_rise/widgets/dynamic_character.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
 
 class Part2Screen extends StatelessWidget {
   const Part2Screen({super.key});
+
+  String _getChoice1Text() {
+    final prev = GameStateManager.instance.getChoice('s1_case4');
+    if (prev == 1) return 'Ikut Arga ke club malam demi menjaga perasaan dan merayakannya';
+    return 'Ikut Arga ke club malam demi merayakan momen keberhasilannya';
+  }
+
+  String _getChoice2Text() {
+    final prev = GameStateManager.instance.getChoice('s1_case4');
+    if (prev == 2) return 'Menolak ajakan club malam dan jujur untuk fokus belajar presentasi';
+    return 'Menolak dan tetap di rumah untuk belajar presentasi';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +37,7 @@ class Part2Screen extends StatelessWidget {
     final double scaleX = screenWidth / designWidth;
     final double scaleY = screenHeight / designHeight;
     final double scale = min(scaleX, scaleY);
+
     final double activeCanvasWidth = designWidth * scale;
     final double offsetX = (screenWidth - activeCanvasWidth) / 2;
 
@@ -69,8 +83,8 @@ class Part2Screen extends StatelessWidget {
             child: ChoiceTextBox(
               scale: scale,
               headerTabAsset: 'assets/text_Box/DECISION.svg',
-              choice1Text: 'Ikut Arga ke club malam demi merayakan momen keberhasilannya',
-              choice2Text: 'Menolak dan tetap di rumah untuk belajar presentasi',
+              choice1Text: _getChoice1Text(),
+              choice2Text: _getChoice2Text(),
               choice3Text: 'Datang sebentar untuk merayakan lalu pulang cepat untuk belajar',
               onChoice1Tap: () {
                 Navigator.of(context).push(

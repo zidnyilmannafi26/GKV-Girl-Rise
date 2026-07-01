@@ -79,11 +79,13 @@ class _Part4Choose2ScreenState extends State<Part4Choose2Screen> {
                 quoteText: 'Memilih diam dan mendengarkan saja.',
                 reflectionText: 'Kamu hanya menunduk dan mengehela napas gusar. Semakin lama kamu diam, semakin sulit rasanya untuk menyampaikan apa yang sebenarnya kamu inginkan.',
                 statChanges: const [
-                  StatDelta(StatType.pendidikan, -10),
-                  StatDelta(StatType.mental, -10),
-                  StatDelta(StatType.relasi, 10),
+                  StatDelta(StatType.pendidikan, -8),
+                  StatDelta(StatType.mental, -8),
+                  StatDelta(StatType.relasi, 8),
                   StatDelta(StatType.ekonomi, 0),
                 ],
+                caseId: 's2_case3',
+                choiceIndex: 2,
               ),
             ),
 

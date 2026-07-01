@@ -89,11 +89,13 @@ class _Part3Choose1ScreenState extends State<Part3Choose1Screen> {
                 quoteText: 'Meninggalkan Tugas Demi Arga',
                 reflectionText: 'Arga senang kamu datang, tapi sepanjang malam kamu gelisah memikirkan tugasmu terbengkalai dan khawatir tidak ada waktu untuk menyelesaikan.',
                 statChanges: const [
-                  StatDelta(StatType.relasi, 20),
-                  StatDelta(StatType.pendidikan, -20),
-                  StatDelta(StatType.mental, -20),
+                  StatDelta(StatType.relasi, 6),
+                  StatDelta(StatType.pendidikan, -6),
+                  StatDelta(StatType.mental, -6),
                   StatDelta(StatType.ekonomi, 0),
                 ],
+                caseId: 's1_case2',
+                choiceIndex: 1,
               ),
             ),
 

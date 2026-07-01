@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:girls_rise/widgets/dialogue_text_box.dart';
 import '../part_2/part_2_screen.dart';
 import 'package:girls_rise/services/story_controller.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
 
 class Part1Screen extends StatefulWidget {
   const Part1Screen({super.key});
@@ -23,6 +24,13 @@ class _Part1ScreenState extends State<Part1Screen> {
   }
 
   Widget _buildDialogueContent(double scale) {
+    final prev = GameStateManager.instance.getChoice('s2_case3');
+    String text = 'Beberapa minggu berlalu, tetapi tekanan di rumah tidak benar-benar hilang. Di sekolah, pikiranmu mulai sulit fokus. Penjelasan guru terasa samar, sementara tugas dan ujian terus berdatangan. Di sela jam istirahat, kamu melihat beberapa temanmu sibuk membahas kelas bimbingan belajar dan target kampus impian mereka.';
+    if (prev == 1) {
+      text = 'Setelah kamu mencoba menceritakan program beasiswa kepada keluarga, beberapa minggu berlalu dengan suasana yang masih berat. Di sekolah, pikiranmu mulai sulit fokus. Di sela jam istirahat, kamu melihat beberapa temanmu sibuk membahas kelas bimbingan belajar dan target kampus impian mereka.';
+    } else if (prev == 3) {
+      text = 'Setelah insiden membantah ucapan tantemu di rumah, suasana keluarga menjadi ketat dan dingin. Di sekolah, beban emosional membuatmu sulit fokus. Di sela jam istirahat, kamu melihat beberapa temanmu sibuk membahas kelas bimbingan belajar dan target kampus impian mereka.';
+    }
     return RichText(
       text: TextSpan(
         style: GoogleFonts.lora(
@@ -30,7 +38,7 @@ class _Part1ScreenState extends State<Part1Screen> {
           height: 1.5,
           color: const Color(0xFF765E54),
         ),
-        text: 'Beberapa minggu berlalu, tetapi tekanan di rumah tidak benar-benar hilang. Di sekolah, pikiranmu mulai sulit fokus. Penjelasan guru terasa samar, sementara tugas dan ujian terus berdatangan. Di sela jam istirahat, kamu melihat beberapa temanmu sibuk membahas kelas bimbingan belajar dan target kampus impian mereka.',
+        text: text,
       ),
     );
   }

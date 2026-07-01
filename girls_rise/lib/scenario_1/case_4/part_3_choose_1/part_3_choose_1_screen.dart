@@ -78,11 +78,13 @@ class _Part3Choose1ScreenState extends State<Part3Choose1Screen> {
                 quoteText: 'Memblokir nomor teman cowokmu demi menenangkan pacar',
                 reflectionText: 'Hubunganmu dan Arga aman kembali, namun kamu mulai dikucilkan dari kelompok belajar di kelas karena dinilai tidak profesional.',
                 statChanges: const [
-                  StatDelta(StatType.relasi, 20),
-                  StatDelta(StatType.mental, -20),
-                  StatDelta(StatType.pendidikan, -20),
+                  StatDelta(StatType.relasi, 6),
+                  StatDelta(StatType.mental, -6),
+                  StatDelta(StatType.pendidikan, -6),
                   StatDelta(StatType.ekonomi, 0),
                 ],
+                caseId: 's1_case4',
+                choiceIndex: 1,
               ),
             ),
 

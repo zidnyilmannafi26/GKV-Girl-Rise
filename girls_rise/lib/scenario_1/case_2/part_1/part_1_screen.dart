@@ -8,9 +8,20 @@ import '../part_2/part_2_screen.dart';
 
 import 'package:girls_rise/widgets/dynamic_character.dart';
 import 'package:girls_rise/services/story_controller.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
 
 class Part1Screen extends StatelessWidget {
   const Part1Screen({super.key});
+
+  String _getDynamicText() {
+    final prevChoice = GameStateManager.instance.getChoice('s1_case1');
+    if (prevChoice == 1) {
+      return 'Beberapa minggu berlalu sejak kamu menyatakan ingin kuliah dulu. Arga masih tampak agak kecewa dan menjadi lebih posesif. Suatu malam, saat kamu sedang fokus mengerjakan tugas sekolah, ponselmu terus bergetar memunculkan rentetan pesan darinya.';
+    } else if (prevChoice == 2) {
+      return 'Beberapa minggu berlalu setelah perdebatan kecil tentang kesiapan menikah itu. Suasana di antara kalian masih sedikit canggung. Suatu malam, saat kamu sedang mengejar deadline tugas sekolah, ponselmu bergetar memunculkan rentetan pesan dari Arga.';
+    }
+    return 'Beberapa minggu berlalu sejak pembicaraan tentang nikah muda itu, dan Arga mulai semakin sering meminta ditemani. Suatu malam, saat kamu sedang fokus belajar dan mengerjakan tugas sekolah, ponselmu terus bergetar memunculkan rentetan pesan dari Arga.';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,19 +43,14 @@ class Part1Screen extends StatelessWidget {
       body: GestureDetector(
         onTap: () {
           if (StoryController.instance.interceptTap()) return;
-          Navigator.of(context).push(
-            FadePageRoute(page: const Part2Screen())
-          );
+          Navigator.of(context).push(FadePageRoute(page: const Part2Screen()));
         },
         behavior: HitTestBehavior.translucent,
         child: Stack(
           children: [
             // Background image
             Positioned.fill(
-              child: Image.asset(
-                'assets/images/bg1.2.png',
-                fit: BoxFit.cover,
-              ),
+              child: Image.asset('assets/images/bg1.2.png', fit: BoxFit.cover),
             ),
 
             // Karakter di tengah
@@ -83,7 +89,7 @@ class Part1Screen extends StatelessWidget {
                 child: Center(
                   child: SingleChildScrollView(
                     child: Text(
-                      'Beberapa minggu berlalu sejak pembicaraan tentang nikah muda itu, dan Arga mulai semakin sering meminta ditemani. Suatu malam, saat kamu sedang fokus belajar dan mengerjakan tugas sekolah, ponselmu terus bergetar memunculkan rentetan pesan dari Arga.',
+                      _getDynamicText(),
                       style: GoogleFonts.lora(
                         fontSize: 14.5 * scale,
                         height: 1.5,

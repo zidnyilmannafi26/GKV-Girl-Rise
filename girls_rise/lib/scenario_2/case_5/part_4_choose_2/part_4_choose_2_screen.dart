@@ -81,11 +81,13 @@ class _Part4Choose2ScreenState extends State<Part4Choose2Screen> {
                 quoteText: 'Menolak dan memilih memperjuangkan pendidikanmu.',
                 reflectionText: 'Kamu memberanikan diri untuk mengutarakan keinginanmu mempertahankan sekolah. Meski tahu perjuangan ke depan tidak akan mudah bagi keluarga, secercah keyakinan muncul bahwa selalu ada jalan lain untuk mengejar cita-citamu.',
                 statChanges: const [
-                  StatDelta(StatType.pendidikan, 50),
-                  StatDelta(StatType.mental, 50),
-                  StatDelta(StatType.relasi, -50),
-                  StatDelta(StatType.ekonomi, -50),
+                  StatDelta(StatType.pendidikan, 20),
+                  StatDelta(StatType.mental, 20),
+                  StatDelta(StatType.relasi, -20),
+                  StatDelta(StatType.ekonomi, -20),
                 ],
+                caseId: 's2_case5',
+                choiceIndex: 2,
               ),
             ),
 

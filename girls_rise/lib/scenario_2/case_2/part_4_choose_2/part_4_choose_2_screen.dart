@@ -78,10 +78,12 @@ class _Part4Choose2ScreenState extends State<Part4Choose2Screen> {
                 reflectionText: 'Kamu tetap duduk di kursi sambil memperhatikan teman-teman lain maju ke depan. Dalam hati, kamu ingin mencoba… tetapi keraguan membuat langkahmu terasa berat.',
                 statChanges: const [
                   StatDelta(StatType.pendidikan, 0),
-                  StatDelta(StatType.mental, -10),
+                  StatDelta(StatType.mental, -7),
                   StatDelta(StatType.relasi, 0),
                   StatDelta(StatType.ekonomi, 0),
                 ],
+                caseId: 's2_case2',
+                choiceIndex: 2,
               ),
             ),
 

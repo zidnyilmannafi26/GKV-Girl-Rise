@@ -8,6 +8,7 @@ import '../part_2/part_2_screen.dart';
 
 import 'package:girls_rise/widgets/dynamic_character.dart';
 import 'package:girls_rise/services/story_controller.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
 
 class Part1Screen extends StatefulWidget {
   const Part1Screen({super.key});
@@ -25,6 +26,13 @@ class _Part1ScreenState extends State<Part1Screen> {
   }
 
   Widget _buildDialogueContent(double scale) {
+    final prev = GameStateManager.instance.getChoice('s2_case2');
+    String text = 'Sepulang sekolah, kamu melihat sandal tamu tergeletak di depan rumah. Dari ruang tengah terdengar suara tantemu yang sedang berbicara dengan ibumu. Meski berat, kamu tetap melangkah masuk ke dalam rumah dan tante menoleh ke arahmu.';
+    if (prev == 1) {
+      text = 'Sepulang sekolah setelah membawa brosur beasiswa dengan penuh harapan, kamu melihat sandal tamu di depan rumah. Terdengar suara tantemu sedang berbicara dengan ibumu mengenai masa depanmu. Kamu melangkah masuk dan tante menoleh ke arahmu.';
+    } else if (prev == 3) {
+      text = 'Sepulang sekolah setelah meninggalkan sosialisasi beasiswa karena takut, kamu melihat sandal tamu di depan rumah. Terdengar suara tantemu yang sedang membicarakan nasibmu dengan ibumu. Kamu melangkah masuk dengan ragu.';
+    }
     return RichText(
       text: TextSpan(
         style: GoogleFonts.lora(
@@ -32,7 +40,7 @@ class _Part1ScreenState extends State<Part1Screen> {
           height: 1.5,
           color: const Color(0xFF765E54),
         ),
-        text: 'Sepulang sekolah, kamu melihat sandal tamu tergeletak di depan rumah. Dari ruang tengah terdengar suara tantemu yang sedang berbicara dengan ibumu. Meski berat, kamu tetap melangkah masuk ke dalam rumah dan tante menoleh ke arahmu.',
+        text: text,
       ),
     );
   }

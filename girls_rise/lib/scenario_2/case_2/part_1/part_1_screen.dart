@@ -8,6 +8,7 @@ import '../part_2/part_2_screen.dart';
 
 import 'package:girls_rise/widgets/dynamic_character.dart';
 import 'package:girls_rise/services/story_controller.dart';
+import 'package:girls_rise/services/game_state_manager.dart';
 
 class Part1Screen extends StatefulWidget {
   const Part1Screen({super.key});
@@ -25,6 +26,13 @@ class _Part1ScreenState extends State<Part1Screen> {
   }
 
   Widget _buildDialogueContent(double scale) {
+    final prevChoice = GameStateManager.instance.getChoice('s2_case1');
+    String text = 'Beberapa hari setelah percakapan itu, sekolahmu mengadakan sosialisasi program beasiswa untuk siswa kelas 11. Banyak siswa terlihat antusias mengambil brosur dan bertanya tentang syarat pendaftaran. Di depan kelas, guru BK menjelaskan bahwa beasiswa tersebut bisa membantu biaya pendidikan hingga lulus kuliah.';
+    if (prevChoice == 1) {
+      text = 'Beberapa hari setelah kamu menegaskan keinginan untuk tetap sekolah, sekolahmu mengadakan sosialisasi program beasiswa kelas 11. Kamu melihat ini sebagai secercah harapan agar tidak membebani orang tuamu. Di depan kelas, guru BK menjelaskan bahwa beasiswa tersebut bisa membantu biaya pendidikan hingga lulus kuliah.';
+    } else if (prevChoice == 2) {
+      text = 'Beberapa hari setelah kamu menawarkan diri untuk bekerja sambilan, sekolahmu mengadakan sosialisasi program beasiswa kelas 11. Di depan kelas, guru BK menjelaskan bahwa beasiswa tersebut bisa membantu biaya pendidikan hingga lulus kuliah tanpa harus bekerja paruh waktu.';
+    }
     return RichText(
       text: TextSpan(
         style: GoogleFonts.lora(
@@ -32,7 +40,7 @@ class _Part1ScreenState extends State<Part1Screen> {
           height: 1.5,
           color: const Color(0xFF765E54),
         ),
-        text: 'Beberapa hari setelah percakapan itu, sekolahmu mengadakan sosialisasi program beasiswa untuk siswa kelas 11. Banyak siswa terlihat antusias mengambil brosur dan bertanya tentang syarat pendaftaran. Di depan kelas, guru BK menjelaskan bahwa beasiswa tersebut bisa membantu biaya pendidikan hingga lulus kuliah.',
+        text: text,
       ),
     );
   }

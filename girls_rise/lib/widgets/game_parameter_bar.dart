@@ -59,14 +59,14 @@ class _GameParameterBarState extends State<GameParameterBar>
   }
 
   Color _getActiveColor(int value) {
-    if (value < 25) return const Color(0xFFDB2B2C); // Merah (<25 & minus)
+    if (value < 25) return const Color(0xFFDB2B2C); // Merah (<25)
     if (value <= 50) return const Color(0xFFF6B717); // Kuning (25-50)
-    if (value <= 100) return const Color(0xFF43A047); // Hijau (51-100)
-    return const Color(0xFF1E88E5); // Biru (>100 fallback color)
+    if (value < 100) return const Color(0xFF43A047); // Hijau (51-99)
+    return const Color(0xFF1E88E5); // Biru (mencapai 100)
   }
 
   LinearGradient _getFillGradient(int value, Color baseColor) {
-    if (value > 100) {
+    if (value >= 100) {
       return const LinearGradient(
         colors: [Color(0xFF43A047), Color(0xFF1E88E5)], // Hijau ke Biru
       );
